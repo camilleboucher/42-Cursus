@@ -12,5 +12,10 @@
 
 void	*memcpy(void *dest, const void *src, size_t n)
 {
-	// strcopy ???
+	while(n)
+	{
+		n--;
+		(unsigned const char) dest[n] = (unsigned const char) src[n];
+	}
+	return (dest);
 }

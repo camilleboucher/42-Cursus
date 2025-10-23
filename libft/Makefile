@@ -14,38 +14,26 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra
 
-BUILD_DIR = build/
-
 SRCS = 	\
-		ft_isalpha.c \
-		ft_isdigit.c \
-		ft_isalnum.c \
+	ft_isalpha.c \
+	ft_isdigit.c \
+	ft_isalnum.c \
 
-OBJS = $(subst src,$(BUILD_DIR),$(SRCS:.c=.o))
-
-INCLUDE = -I include
+OBJS = $(SRCS:.c=.o)
 
 NAME = libft.a
 
+$(NAME): $(OBJS)
+	@$(CC) $(OBJS) -o $(NAME)
+
 all: $(NAME)
 
-$(BUILD_DIR):
-		@mkdir -p $@
-
-$(NAME): $(BUILD_DIR) $(OBJS)
-		@$(CC) $(OBJS) -o $(NAME)
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)%.c
-		@$(CC) $(CFLAGS) $(INCLUDE) -c -o $@ $< 
-
 clean:
-		rm -f $(OBJS)
-		rm -rf $(BUILD_DIR)
+	rm -f $(OBJS)
 
 fclean:
-		rm -f $(OBJS)
-		rm -rf $(BUILD_DIR)
-		rm -f $(NAME)
+	rm -f $(NAME)
+	rm -f $(OBJS)
 
 re: fclean $(NAME)
 
