@@ -10,31 +10,30 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC = cc
+CC := cc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra
 
-SRCS = 	\
-	ft_isalpha.c \
-	ft_isdigit.c \
-	ft_isalnum.c \
+SRCS := ft_isalpha.c ft_isdigit.c ft_isalnum.c
 
-OBJS = $(SRCS:.c=.o)
+OBJS := $(SRCS:.c=.o)
 
-NAME = libft.a
-
-$(NAME): $(OBJS)
-	@$(CC) $(OBJS) -o $(NAME)
+NAME := libft.a
+HEADER := libft.h
 
 all: $(NAME)
 
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS)
+
+%.o: %.c $(HEADER)
+	$(CC) $(CFLAGS) -c $< -o $@
 clean:
 	rm -f $(OBJS)
 
-fclean:
+fclean: clean
 	rm -f $(NAME)
-	rm -f $(OBJS)
 
-re: fclean $(NAME)
+re: fclean all
 
 .PHONY: all clean fclean re
