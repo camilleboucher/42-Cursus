@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 18:48:57 by Camille           #+#    #+#             */
-/*   Updated: 2025/10/22 18:55:19 by Camille          ###   ########.fr       */
+/*   Created: 2025/10/24 15:22:51 by Camille           #+#    #+#             */
+/*   Updated: 2025/10/24 15:28:12 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	while (n > 0)
+	size_t	i;
+
+	if (!dest && !src)
+		return (NULL);
+	if (dest >= src)
+		dest = ft_memcpy(dest, src, n);
+	else
 	{
-		((char *)s)[n - 1] = c;
-		n--;
+		i = 0;
+		while (i < n)
+		{
+			((char *)dest)[i] = ((char *)src)[i];
+			i++;
+		}
 	}
-	return (s);
+	return (dest);
 }
