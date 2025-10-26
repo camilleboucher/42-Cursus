@@ -14,5 +14,5 @@
 
 int	ft_isascii(int c)
 {
-	return ((c & 0xFFFFFF80) == 0);
+	return ((c & ~127) == 0);
 }
