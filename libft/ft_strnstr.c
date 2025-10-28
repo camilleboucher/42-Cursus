@@ -16,36 +16,33 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;
 	size_t	j;
-	size_t	size;
 	
+	if (!little[0])
+		return ((char *)big);
 	i = 0;
 	j = 0;
-	size = ft_strlen(little) - 1;
-	if (!little)
-		return ((char *)big);
-	if (size > len)
-		size = len;
-	while (big[i])
+	while (i < len && big[i] && little[j])
 	{
 		if (big[i] == little[j])
-		{
-			if (j == size)
-				return (&((char *)big)[i-j]);
 			j++;
-		}
 		else
 			j = 0;
 		i++;
 	}
+	if (!little[j])
+		return ((char *)big + i - j);
 	return (NULL);
 }
 /*#include <stdio.h>
+#include <bsd/bsd.h>
 int	main(void)
 {
-	char * big = "TRUC";
-	char * little = "RU";
+	char *s1 = "see FF your FF return FF now FF";
+ 	char *s2 = "FF";
+ 	size_t max = -1;
+	//size_t max = ft_strlen(s1);
 
-	printf("%s", ft_strnstr(big, little, ft_strlen(little)));
+	printf("strnstr:%s\nft:%s", strnstr(s1, s2, max), ft_strnstr(s1, s2, max));
 
 	return (0);
 }*/
