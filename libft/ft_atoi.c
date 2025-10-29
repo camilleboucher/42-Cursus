@@ -1,27 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/27 11:34:51 by Camille           #+#    #+#             */
-/*   Updated: 2025/10/29 10:32:59 by Camille          ###   ########.fr       */
+/*   Created: 2025/10/29 09:57:44 by Camille           #+#    #+#             */
+/*   Updated: 2025/10/29 10:48:22 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+static int	ft_isspace(char c)
 {
-	while (*s)
+	return (c == ' ' || (c >= '\t' && c <= '\r'));
+}
+
+int	ft_atoi(const char *nptr)
+{
+	int	nbr;
+	int	sign;
+
+	nbr = 0;
+	sign = 1;
+	while (ft_isspace(*nptr))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
 	{
-		if (*s == (char)c)
-			return ((char *)s);
-		else
-			s++;
+		if (*nptr == '-')
+			sign = -1;
+		nptr++;
 	}
-	if ((*s | (char)c) == '\0')
-		return ((char *)s);
-	return (NULL);
+	while (ft_isdigit(*nptr))
+	{
+		nbr *= 10;
+		nbr += *nptr - '0';
+		nptr++;
+	}
+	return (nbr * sign);
 }
