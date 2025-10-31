@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:14:22 by Camille           #+#    #+#             */
-/*   Updated: 2025/10/29 17:27:28 by Camille          ###   ########.fr       */
+/*   Updated: 2025/10/30 15:47:01 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,10 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strtrim(char const *s1, char const *set);
+char	**ft_split(char const *s, char c);
+char	*ft_itoa(int n);
 
 #endif

@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/29 11:19:19 by Camille           #+#    #+#             */
-/*   Updated: 2025/10/29 11:24:14 by Camille          ###   ########.fr       */
+/*   Created: 2025/10/30 10:54:33 by Camille           #+#    #+#             */
+/*   Updated: 2025/10/30 11:22:54 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	void	*memory;
+	size_t	size;
+	char	*sub_s;
 
-	if (size && nmemb * size / size != nmemb)
+	if (!s)
 		return (NULL);
-	memory = malloc(nmemb * size);
-	if (!memory)
+	size = ft_strlen(s);
+	if (start > size)
+		return (ft_calloc(1, 1));
+	size -= start;
+	if (len < size)
+		size = len;
+	sub_s = malloc(sizeof(char) * (size + 1));
+	if (!sub_s)
 		return (NULL);
-	ft_bzero(memory, nmemb * size);
-	return (memory);
+	sub_s = ft_memcpy(sub_s, s + start, size);
+	sub_s[size] = '\0';
+	return (sub_s);
 }
