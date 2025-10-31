@@ -11,38 +11,50 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-/*
-void	putchar(char c)
-{
-	write(1, &c, 1);
-}
 
-void	ft_putnbr(int nb)
+static size_t	find_size_nbr(int n)
 {
-	if (nb == -2147483648)
+	size_t	size;
+
+	if (!n)
+		return (1);
+	size = 0;
+	if (n < 0)
+		size++;
+	while (n)
 	{
-		write(1, "-214748364", 10);
-		ft_putnbr(8);
-		return ;
+		n /= 10;
+		size++;
 	}
-	else if (nb < 0)
-	{
-		write(1, "-", 1);
-		ft_putnbr(-nb);
-		return ;
-	}
-	else if (nb >= 10)
-		ft_putnbr(nb / 10);
-	putchar((nb % 10) + '0');
-}*/
+	return (size);
+}
 
 char	*ft_itoa(int n)
 {
-	char	*s;
-	int		i;
-	
+	char	*nbr;
+	size_t	size;
+	size_t	i;
+
+	size = find_size_nbr(n);
+	nbr = malloc(sizeof(char) * (size + 1));
+	if (!nbr)
+		return (NULL);
+	nbr[size] = '\0';
 	if (!n)
-		return
-	i = 0;
-	while (i )
+		nbr[0] = '0';
+	else
+	{
+		if (n < 0)
+		{
+			nbr[0] = '-';
+			n *= -1;
+		}
+		i = 0;
+		while (n)
+		{
+			nbr[size - i++ - 1] = n % 10 + '0';
+			n /= 10;
+		}
+	}
+	return (nbr);
 }
