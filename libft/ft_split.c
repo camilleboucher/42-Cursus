@@ -14,7 +14,8 @@
 
 static size_t	strs_counter(char *str, char c);
 static size_t	strlen_until_sep(char *str, char c);
-static void		fill_strs(char *str, char c, char **strs);
+static int		fill_strs(char *str, char c, char **strs);
+static void		free_strs(char **strs);
 
 char	**ft_split(char const *s, char c)
 {
@@ -28,7 +29,11 @@ char	**ft_split(char const *s, char c)
 	if (!strs)
 		return (NULL);
 	strs[nb_strs] = NULL;
-	fill_strs((char *)s, c, strs);
+	if (!fill_strs((char *)s, c, strs))
+	{
+		free_strs(strs);
+		return (NULL);
+	}
 	return (strs);
 }
 
@@ -69,30 +74,41 @@ static size_t	strlen_until_sep(char *str, char c)
 	return (i);
 }
 
-static void	fill_strs(char *str, char c, char **strs)
+static int	fill_strs(char *str, char c, char **strs)
 {
 	size_t	i;
 	size_t	j;
-	size_t	k;
 	size_t	len;
 
 	i = 0;
 	j = 0;
-	k = 0;
 	while (str[i])
 	{
 		len = strlen_until_sep(&str[i], c);
 		if (len)
 		{
-			i += len;
 			strs[j] = malloc(sizeof(char) * (len + 1));
-			k = 0;
-			strs[j][len] = '\0';
-			while (len)
-				strs[j][k++] = str[i - len--];
+			if (!strs[j])
+				return (0);
+			ft_strlcpy(strs[j], str + i, len + 1);
+			i += len;
 			j++;
 		}
 		else
 			i++;
 	}
+	return (1);
+}
+
+static void	free_strs(char **strs)
+{
+	size_t	i;
+
+	i = 0;
+	while (strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(strs);
 }

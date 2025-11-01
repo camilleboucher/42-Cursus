@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 10:54:33 by Camille           #+#    #+#             */
-/*   Updated: 2025/10/30 11:22:54 by Camille          ###   ########.fr       */
+/*   Created: 2025/11/01 13:47:37 by Camille           #+#    #+#             */
+/*   Updated: 2025/11/01 14:18:57 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	size_t	size;
-	char	*sub_s;
+	size_t	i;
 
-	if (!s)
-		return (NULL);
-	size = ft_strlen(s);
-	if (start > size)
+	if (!s || !f)
+		return ;
+	i = 0;
+	while (s[i])
 	{
-		sub_s = ft_calloc(1, 1);
-		return (sub_s);
+		f(i, s + i);
+		i++;
 	}
-	size -= start;
-	if (len < size)
-		size = len;
-	sub_s = malloc(sizeof(char) * (size + 1));
-	if (!sub_s)
-		return (NULL);
-	sub_s = ft_memcpy(sub_s, s + start, size);
-	sub_s[size] = '\0';
-	return (sub_s);
 }

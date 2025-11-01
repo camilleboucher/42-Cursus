@@ -12,6 +12,32 @@
 
 #include "libft.h"
 
+static char	*n_to_string(char *nbr, int n, size_t size)
+{
+	size_t	i;
+
+	if (!n)
+		nbr[0] = '0';
+	else
+	{
+		i = 0;
+		if (n < 0)
+		{
+			nbr[0] = '-';
+			nbr[size - i - 1] = (n % -10 * -1) + '0';
+			i++;
+			n = n / 10 * -1;
+		}
+		while (n)
+		{
+			nbr[size - i - 1] = n % 10 + '0';
+			i++;
+			n /= 10;
+		}
+	}
+	return (nbr);
+}
+
 static size_t	find_size_nbr(int n)
 {
 	size_t	size;
@@ -33,28 +59,12 @@ char	*ft_itoa(int n)
 {
 	char	*nbr;
 	size_t	size;
-	size_t	i;
 
 	size = find_size_nbr(n);
 	nbr = malloc(sizeof(char) * (size + 1));
 	if (!nbr)
 		return (NULL);
 	nbr[size] = '\0';
-	if (!n)
-		nbr[0] = '0';
-	else
-	{
-		if (n < 0)
-		{
-			nbr[0] = '-';
-			n *= -1;
-		}
-		i = 0;
-		while (n)
-		{
-			nbr[size - i++ - 1] = n % 10 + '0';
-			n /= 10;
-		}
-	}
+	nbr = n_to_string(nbr, n, size);
 	return (nbr);
 }
