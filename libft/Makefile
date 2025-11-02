@@ -24,7 +24,12 @@ SRCS := ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 
 OBJS := $(SRCS:.c=.o)
 
+SRCS_BONUS := ft_lstnew.c
+
+OBJS_BONUS := $(SRCS_BONUS:.c=.o)
+
 NAME := libft.a
+
 HEADER := libft.h
 
 all: $(NAME)
@@ -34,12 +39,16 @@ $(NAME): $(OBJS)
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus: $(OBJS) $(OBJS_BONUS)
+	ar rcs $(NAME) $(OBJS) $(OBJS_BONUS)
+
+.PHONY: all clean fclean re bonus
