@@ -37,7 +37,6 @@ static int	fill_map(t_list *tail, t_list *lst,
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*head;
-	t_list	*tail;
 	void	*content;
 
 	if (!lst || !f || !del)
@@ -51,8 +50,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		del(content);
 		return (NULL);
 	}
-	tail = head;
-	if (!fill_map(tail, lst->next, f, del))
+	if (!fill_map(head, lst->next, f, del))
 	{
 		ft_lstclear(&head, del);
 		return (NULL);
