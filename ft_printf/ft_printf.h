@@ -6,13 +6,14 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:14:22 by Camille           #+#    #+#             */
-/*   Updated: 2025/11/07 17:54:40 by Camille          ###   ########.fr       */
+/*   Updated: 2025/11/08 14:05:43 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
+# include "libft/libft.h"
 # include <stdarg.h>
 
 int		ft_printf(const char *format, ...);

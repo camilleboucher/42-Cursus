@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   print_pointer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 09:16:47 by Camille           #+#    #+#             */
-/*   Updated: 2025/11/03 10:21:26 by Camille          ###   ########.fr       */
+/*   Created: 2025/11/06 09:52:35 by Camille           #+#    #+#             */
+/*   Updated: 2025/11/08 18:01:30 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	print_pointer(va_list args)
 {
-	t_list	*last;
-
-	if (!lst || !new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	last = ft_lstlast(*lst);
-	last->next = new;
+	ft_putstr_fd("0x", 1);
+	ft_putnbr_base_fd(va_arg(args, size_t), "0123456789abcdef", 16, 1);
 }
