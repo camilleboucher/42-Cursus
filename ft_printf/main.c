@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_string.c                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 09:52:35 by Camille           #+#    #+#             */
-/*   Updated: 2025/11/08 14:27:11 by Camille          ###   ########.fr       */
+/*   Created: 2025/11/08 15:31:25 by Camille           #+#    #+#             */
+/*   Updated: 2025/11/08 18:08:23 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft/libft.h"
+#include <stdio.h>
 
-int	print_string(va_list args, int fd)
+int	main()
 {
-	int		size;
-	char	*str;
-	
-	str = va_arg(args, char *);
-	if (!str)
-		size = ft_putstr_fd("(null)", fd);
-	else
-		size = ft_putstr_fd(str, fd);
-	return (size);
+	char	*s = NULL;
+
+	printf("			(%d)	ft_printf\n", ft_printf("char		|%c|", '0'));
+	printf("			(%d)	printf\n", printf("char		|%c|", '0'));
+
+	printf("		(%d)	ft_printf\n", ft_printf("string		|%s|", s));
+	printf("		(%d)	printf\n", printf("string		|%s|", s));
+
+	printf("			(%d)	ft_printf\n", ft_printf("pointer		|%p|", &s));
+	printf("			(%d)	printf\n", printf("pointer		|%p|", &s));
+
+	return (0);
 }
+

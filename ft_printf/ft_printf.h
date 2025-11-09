@@ -16,16 +16,16 @@
 # include "libft/libft.h"
 # include <stdarg.h>
 
-int		ft_printf(const char *format, ...);
+int	ft_printf(const char *format, ...);
 
-void	print_char(va_list args);
-void	print_string(va_list args);
-void	print_pointer(va_list args);
-void	print_decimal(va_list args);
-void	print_integer(va_list args);
-void	print_unsigned_decimal(va_list args);
-void	print_hexadecimal_lowercase(va_list args);
-void	print_hexadecimal_uppercase(va_list args);
-void	print_percent_sign(va_list args);
+int	print_char(va_list args, int fd);
+int	print_string(va_list args, int fd);
+int	print_pointer(va_list args, int fd);
+int	print_decimal(va_list args, int fd);
+int	print_integer(va_list args, int fd);
+int	print_unsigned_decimal(va_list args, int fd);
+int	print_hexadecimal_lowercase(va_list args, int fd);
+int	print_hexadecimal_uppercase(va_list args, int fd);
+int	print_percent_sign(va_list args, int fd);
 
 #endif

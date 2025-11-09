@@ -30,15 +30,23 @@ void	ft_putnbr_base_fd(size_t n, int fd)
 	ft_putchar_fd(n % 10 + '0', fd);
 }*/
 
-void	ft_putnbr_base_fd(size_t n, char *base, size_t base_size, int fd)
+int	ft_putnbr_base_fd(size_t n, char *base, size_t base_size, int fd)
 {
+	int	count;
+
+	count = 0;
 	if (n < 0)
 	{
-		ft_putchar_fd('-', fd);
-		ft_putnbr_base_fd(-n, base, base_size, fd);
-		return ;
+		if (fd >= 0)
+			ft_putchar_fd('-', fd);
+		count++;
+		count += ft_putnbr_base_fd(-n, base, base_size, fd);
+		return (count);
 	}
 	else if (n >= base_size)
-		ft_putnbr_base_fd(n / base_size, base, base_size, fd);
-	ft_putchar_fd(base[n % base_size], fd);
+		count += ft_putnbr_base_fd(n / base_size, base, base_size, fd);
+	if (fd >= 0)
+		count += ft_putchar_fd(base[n % base_size], fd);
+	count++;
+	return (count);
 }

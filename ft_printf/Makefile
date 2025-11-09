@@ -24,24 +24,23 @@ SRCS := ft_printf.c print_char.c print_string.c print_pointer.c
 
 OBJS := $(SRCS:.c=.o)
 
-INCLUDE_DIR := .
+LIBFT_DIR := libft/
 
-LIBFT := libft.a
-
-LIBFT_DIR := libft
+LIBFT := $(LIBFT_DIR)libft.a
 
 MAKEFLAGS += --no-print-directory
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT_DIR)/$(LIBFT)
-	@$(AR) $(ARFLAGS) $(NAME) $(OBJS) $(LIBFT_DIR)/$(LIBFT)
+$(NAME): $(LIBFT) $(OBJS)
+	@cp $(LIBFT) $(NAME)
+	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
-$(LIBFT_DIR)/$(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR) all
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
 	@rm -f $(OBJS)
@@ -53,4 +52,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+allclean: all clean
+
+.PHONY: all clean fclean re allclean

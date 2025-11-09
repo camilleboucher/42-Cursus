@@ -12,7 +12,8 @@
 
 #include "ft_printf.h"
 
-void	print_char(va_list args)
+int	print_char(va_list args, int fd)
 {
-	ft_putchar_fd(va_arg(args, int), 1);
+	ft_putchar_fd(va_arg(args, int), fd);
+	return (1);
 }

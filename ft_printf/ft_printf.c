@@ -12,10 +12,11 @@
 
 #include "ft_printf.h"
 
-static void	init_print_params(void (**print_param)(va_list))
+static void	init_params(int (**print_param)(va_list, int), int *count)
 {
 	unsigned char	i;
 
+	*count = 0;
 	i = 127;
 	while (i)
 	{
@@ -33,12 +34,19 @@ static void	init_print_params(void (**print_param)(va_list))
 	print_param['%'] = print_percent_sign;*/
 }
 
+/*static void	increment_params(const char **format, int *counter)
+{
+	(*format)++;
+	(*counter)++;
+}*/
+
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
-	void	(*print_param[127])(va_list);
+	int	(*print_param[127])(va_list, int);
+	int		count;
 
-	init_print_params(print_param);
+	init_params(print_param, &count);
 	va_start(args, format);
 	while (*format)
 	{
@@ -46,16 +54,14 @@ int	ft_printf(const char *format, ...)
 		{
 			format++;
 			if (print_param[(unsigned char)*format])
-			{
-				print_param[(unsigned char)*format](args);
-				format++;
-			}
+				count += print_param[(unsigned char)*format](args, 1);
 			else
-				ft_putchar_fd('%', 1);
+				count += ft_putchar_fd('%', 1);
 		}
-		ft_putchar_fd(*format, 1);
+		else
+			count += ft_putchar_fd(*format, 1);
 		format++;
 	}
 	va_end(args);
-	return (0);
+	return (count);
 }
