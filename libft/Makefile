@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2025/11/08 18:57:02 by Camille          ###   ########.fr        #
+#    Updated: 2025/11/10 18:57:14 by Camille          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,15 @@ SRCS := ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 		ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
 		ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
 		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
-		ft_putnbr_base_fd.c ft_lstnew.c ft_lstadd_front.c ft_lstsize.c \
+		ft_lstnew.c ft_lstadd_front.c ft_lstsize.c \
 		ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c \
 		ft_lstiter.c ft_lstmap.c
 
 OBJS := $(SRCS:.c=.o)
 
-INCLUDE_DIR := .
+ifeq ($(DEBUG),1)
+    CFLAGS += -g
+endif
 
 all: $(NAME)
 
@@ -41,7 +43,7 @@ $(NAME): $(OBJS)
 	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJS)
@@ -50,8 +52,5 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
-
-bonus: $(OBJS)
-	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
 .PHONY: all clean fclean re

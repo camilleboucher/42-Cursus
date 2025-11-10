@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 09:52:35 by Camille           #+#    #+#             */
-/*   Updated: 2025/11/08 15:31:09 by Camille          ###   ########.fr       */
+/*   Updated: 2025/11/10 19:17:21 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static void	init_params(int (**print_param)(va_list, int), int *count)
 	print_param['c'] = print_char;
 	print_param['s'] = print_string;
 	print_param['p'] = print_pointer;
-	/*print_param['d'] = print_decimal;
-	print_param['i'] = print_integer;
+	print_param['d'] = print_decimal;
+	print_param['i'] = print_decimal;
 	print_param['u'] = print_unsigned_decimal;
 	print_param['x'] = print_hexadecimal_lowercase;
 	print_param['X'] = print_hexadecimal_uppercase;
-	print_param['%'] = print_percent_sign;*/
+	//print_param['%'] = print_percent_sign;
 }
 
 /*static void	increment_params(const char **format, int *counter)

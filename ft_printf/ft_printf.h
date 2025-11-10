@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:14:22 by Camille           #+#    #+#             */
-/*   Updated: 2025/11/08 14:05:43 by Camille          ###   ########.fr       */
+/*   Updated: 2025/11/10 18:38:23 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	print_char(va_list args, int fd);
 int	print_string(va_list args, int fd);
 int	print_pointer(va_list args, int fd);
 int	print_decimal(va_list args, int fd);
-int	print_integer(va_list args, int fd);
 int	print_unsigned_decimal(va_list args, int fd);
 int	print_hexadecimal_lowercase(va_list args, int fd);
 int	print_hexadecimal_uppercase(va_list args, int fd);

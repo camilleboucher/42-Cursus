@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2025/11/08 18:56:46 by Camille          ###   ########.fr        #
+#    Updated: 2025/11/10 19:18:24 by Camille          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ AR := ar
 
 ARFLAGS := rcs
 
-SRCS := ft_printf.c print_char.c print_string.c print_pointer.c
+SRCS := ft_printf.c print_char.c print_string.c print_pointer.c \
+		print_decimal.c print_unsigned_decimal.c print_hexadecimal.c
 
 OBJS := $(SRCS:.c=.o)
 
@@ -30,6 +31,10 @@ LIBFT := $(LIBFT_DIR)libft.a
 
 MAKEFLAGS += --no-print-directory
 
+ifeq ($(DEBUG),1)
+    CFLAGS += -g
+endif
+
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
@@ -37,7 +42,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	@$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
@@ -52,6 +57,4 @@ fclean: clean
 
 re: fclean all
 
-allclean: all clean
-
-.PHONY: all clean fclean re allclean
+.PHONY: all clean fclean re
