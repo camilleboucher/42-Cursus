@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2025/11/10 19:18:24 by Camille          ###   ########.fr        #
+#    Updated: 2025/11/11 10:15:00 by Camille          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ AR := ar
 ARFLAGS := rcs
 
 SRCS := ft_printf.c print_char.c print_string.c print_pointer.c \
-		print_decimal.c print_unsigned_decimal.c print_hexadecimal.c
+		print_decimal.c print_unsigned_decimal.c print_hexadecimal.c \
+		print_percent_sign.c
 
 OBJS := $(SRCS:.c=.o)
 

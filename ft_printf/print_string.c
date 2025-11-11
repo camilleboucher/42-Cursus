@@ -16,7 +16,7 @@ int	print_string(va_list args, int fd)
 {
 	int		size;
 	char	*str;
-	
+
 	str = va_arg(args, char *);
 	if (!str)
 		size = ft_putstr_fd("(null)", fd);

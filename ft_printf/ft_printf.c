@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 09:52:35 by Camille           #+#    #+#             */
-/*   Updated: 2025/11/10 19:17:21 by Camille          ###   ########.fr       */
+/*   Updated: 2025/11/11 11:01:54 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,29 @@ static void	init_params(int (**print_param)(va_list, int), int *count)
 	print_param['u'] = print_unsigned_decimal;
 	print_param['x'] = print_hexadecimal_lowercase;
 	print_param['X'] = print_hexadecimal_uppercase;
-	//print_param['%'] = print_percent_sign;
+	print_param['%'] = print_percent_sign;
 }
-
-/*static void	increment_params(const char **format, int *counter)
-{
-	(*format)++;
-	(*counter)++;
-}*/
 
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
-	int	(*print_param[127])(va_list, int);
+	int		(*print_param[127])(va_list, int);
 	int		count;
 
+	if (!format)
+		return (-1);
 	init_params(print_param, &count);
 	va_start(args, format);
 	while (*format)
 	{
 		if (*format == '%')
 		{
-			format++;
-			if (print_param[(unsigned char)*format])
-				count += print_param[(unsigned char)*format](args, 1);
+			if (print_param[(unsigned char)*(format + 1)])
+				count += print_param[(unsigned char)*(format + 1)](args, 1);
 			else
 				count += ft_putchar_fd('%', 1);
+			if (!*(++format))
+				break ;
 		}
 		else
 			count += ft_putchar_fd(*format, 1);

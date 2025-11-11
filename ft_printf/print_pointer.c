@@ -23,5 +23,5 @@ int	print_pointer(va_list args, int fd)
 		return (5);
 	}
 	ft_putstr_fd("0x", fd);
-	return (ft_putnbr_base_sizet_fd(address, "0123456789abcdef", 16, fd) + 2);
+	return (ft_putnbr_base_ul_fd(address, "0123456789abcdef", 16, fd) + 2);
 }

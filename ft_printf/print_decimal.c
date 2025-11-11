@@ -14,5 +14,5 @@
 
 int	print_decimal(va_list args, int fd)
 {
-	return (ft_putnbr_int_fd(va_arg(args, int), fd));
+	return (ft_putnbr_i_fd(va_arg(args, int), fd));
 }

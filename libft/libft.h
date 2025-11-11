@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:14:22 by Camille           #+#    #+#             */
-/*   Updated: 2025/11/10 19:24:06 by Camille          ###   ########.fr       */
+/*   Updated: 2025/11/11 11:12:59 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 int		ft_putchar_fd(char c, int fd);
 int		ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
-int		ft_putnbr_int_fd(int n, int fd);
-int		ft_putnbr_uint_fd(unsigned int n, int fd);
-int		ft_putnbr_base_uint_fd(unsigned int n, char *base, unsigned int base_size, int fd);
-int		ft_putnbr_base_sizet_fd(size_t n, char *base, size_t base_size, int fd);
+int		ft_putnbr_i_fd(int n, int fd);
+int		ft_putnbr_ui_fd(unsigned int n, int fd);
+int		ft_putnbr_base_ui_fd(unsigned int n, char *base,
+			unsigned int base_size, int fd);
+int		ft_putnbr_base_ul_fd(size_t n, char *base, size_t base_size, int fd);
 
 typedef struct s_list
 {
