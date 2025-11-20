@@ -11,103 +11,117 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
+#include <unistd.h>
 
-static ssize_t	fill_leftover(char *s_leftover, char *buf, int fd);
-static ssize_t	fill_buf(char *buf, int fd);
-static char		*extract_line(char *s_leftover, ssize_t size_left);
 
 char	*get_next_line(int fd)
 {
 	static char	*s_leftover = NULL;
-	char		*buf;
+	t_buf		*buf;
 	char		*line;
-	ssize_t		size_left;
 
 	buf = NULL;
-	size_left = 0;
-	if (!BUFFER_SIZE || fd < 0)
-		return (NULL);
-	if (!s_leftover || !ft_memchr(s_leftover, '\n', ft_strlen(s_leftover)))
+	while (!s_leftover || !ft_strchr(s_leftover, '\n'))
 	{
-		size_left = fill_leftover(s_leftover, buf, fd);
+		buf = fill_buf(fd);
+		if (!buf)
+		{
+			free(s_leftover);
+			return (NULL);
+		}
+		s_leftover = fill_leftover(s_leftover, buf->data);
+		free(buf->data);
 		free(buf);
-		if (!size_left)
+		if (!s_leftover)
 			return (NULL);
 	}
-	if (!size_left)
-		size_left = ft_strlen(s_leftover);
-	line = extract_line(s_leftover, size_left);
+	line = extract_line(s_leftover);
 	return (line);
 }
 
-static ssize_t	fill_leftover(char *s_leftover, char *buf, int fd)
+t_buf	*fill_buf(int fd)
 {
-	char	*old_leftover;
-	size_t	size_buf;
-	size_t	size_left;
+	t_buf	*buf;
 
-	old_leftover = NULL;
-	size_buf = fill_buf(buf, fd);
-	size_left = ft_strlen(s_leftover);
-	while (size_buf && !ft_memchr(s_leftover, '\n', size_buf))
-	{
-		s_leftover = malloc(sizeof(char) * (size_left + size_buf + 1));
-		if (!s_leftover)
-			return (0);
-		ft_memcpy(s_leftover, old_leftover, size_left);
-		free(old_leftover);
-		size_left = ft_strlen(s_leftover);
-		ft_memcpy((s_leftover + size_left), buf, size_buf);
-		s_leftover[size_left + size_buf] = '\0';
-		old_leftover = s_leftover;
-		size_buf = fill_buf(buf, fd);
-	}
-	return (size_left);
-}
-
-static ssize_t	fill_buf(char *buf, int fd)
-{
-	ssize_t		reading_size;
-
-	if (buf)
-		free(buf);
-	buf = malloc(sizeof(char) * (BUFFER_SIZE));
+	buf = malloc(sizeof(t_buf));
 	if (!buf)
-		return (0);
-	reading_size = read(fd, buf, BUFFER_SIZE);
-	if (reading_size <= 0)
-		return (0);
-	return (reading_size);
-}
-
-static char	*extract_line(char *s_leftover, ssize_t size_left)
-{
-	char	*old_leftover;
-	char	*end_of_line;
-	char	*line;
-	ssize_t	size_line;
-
-	end_of_line = ft_memchr(s_leftover, '\n', ft_strlen(s_leftover));
-	if (!end_of_line)
+		return (NULL);
+	buf->data = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf->data)
 	{
-		line = ft_strdup(s_leftover);
-		free(s_leftover);
-		return (line);
-	}
-	size_line = end_of_line - s_leftover;
-	size_left -= size_line;
-	line = malloc(sizeof(char) * (size_line + 1));
-	old_leftover = s_leftover;
-	s_leftover = malloc(sizeof(char) * (size_left));
-	if (!line || !s_leftover)
-	{
-		free(old_leftover);
+		free(buf);
 		return (NULL);
 	}
-	ft_memcpy(line, s_leftover, size_line);
-	line[size_line] = '\0';
-	ft_memcpy(s_leftover, old_leftover + size_line, size_left);
-	free(old_leftover);
+	buf->size = read(fd, buf->data, BUFFER_SIZE);
+	if (buf->size < 0)
+		return (NULL);
+	buf->data[buf->size] = '\0';
+	return (buf);
+}
+
+char	*fill_leftover(char *s_leftover, char *buf)
+{
+	char	*old_leftover;
+
+	old_leftover = s_leftover;
+	if (!s_leftover)
+		s_leftover = ft_strjoin("", buf);
+	else
+		s_leftover = ft_strjoin(s_leftover, buf);
+	if (old_leftover)
+		free(old_leftover);
+	return (s_leftover);
+}
+
+char	*extract_line(char *s_leftover)
+{
+	char	*old_leftover;
+	char	*line;
+	char	*end_of_line;
+	size_t	size_leftover;
+
+	end_of_line = ft_strchr(s_leftover, '\n');
+	size_leftover = ft_strlen(s_leftover);
+	line = ft_substr(s_leftover, 0, size_leftover);
+	if (!end_of_line)
+		free(s_leftover);
+	else
+	{
+		old_leftover = s_leftover;
+		s_leftover = ft_substr(s_leftover, (end_of_line - s_leftover), size_leftover);
+		free(old_leftover);
+		if (!s_leftover)
+		{
+			free(line); //double free du main ou pas ???
+			return (NULL);
+		}
+	}
 	return (line);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	size;
+	char	*sub_s;
+
+	if (!s)
+		return (NULL);
+	size = ft_strlen(s);
+	if (start > size)
+	{
+		sub_s = malloc(1);
+		if (sub_s)
+			return (NULL);
+		sub_s[0] = '\0';
+		return (sub_s);
+	}
+	size -= start;
+	if (len < size)
+		size = len;
+	sub_s = malloc(sizeof(char) * (size + 1));
+	if (!sub_s)
+		return (NULL);
+	ft_strlcpy(sub_s, s + start, size); // memcopy a la base....
+	sub_s[size] = '\0';
+	return (sub_s);
 }

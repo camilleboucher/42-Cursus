@@ -12,6 +12,36 @@
 
 #include "get_next_line.h"
 
+char	*ft_strchr(const char *s, size_t c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		else
+			s++;
+	}
+	if ((*s | (char)c) == '\0')
+		return ((char *)s);
+	return (NULL);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	size;
+	char	*str;
+
+	if (!s1 || !s2)
+		return (NULL);
+	size = ft_strlen(s1) + ft_strlen(s2) + 1;
+	str = malloc(sizeof(char) * size);
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s1, size);
+	ft_strlcat(str, s2, size);
+	return (str);
+}
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -22,46 +52,45 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	if (!dest && !src)
-		return (NULL);
-	while (n)
-	{
-		n--;
-		((char *)dest)[n] = ((char *)src)[n];
-	}
-	return (dest);
-}
-
-void	*ft_memchr(const void *s, int c, size_t n)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < n)
+	if (!size)
+		return (ft_strlen(src));
+	while (src[i] && i < size - 1)
 	{
-		if (((unsigned char *)s)[i] == (unsigned char)c)
-			return (&((unsigned char *)s)[i]);
+		dst[i] = src[i];
 		i++;
 	}
-	return (NULL);
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }
 
-char	*ft_strdup(const char *s)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	size;
-	char	*dup;
+	size_t	i;
+	size_t	j;
+	size_t	size_src;
+	size_t	size_dst;
 
-	size = ft_strlen(s);
-	dup = malloc(sizeof(char) * (size + 1));
-	if (!dup)
-		return (NULL);
-	dup[size] = '\0';
-	while (size)
+	i = 0;
+	j = 0;
+	size_src = ft_strlen(src);
+	if (!size)
+		return (size_src);
+	size_dst = ft_strlen(dst);
+	while (dst[i])
+		i++;
+	if (i > size - 1)
+		size_dst = size;
+	while (src[j] && i < size - 1)
 	{
-		size--;
-		dup[size] = s[size];
+		dst[i] = src[j];
+		i++;
+		j++;
 	}
-	return (dup);
+	dst[i] = '\0';
+	return (size_src + size_dst);
 }
