@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 09:58:45 by Camille           #+#    #+#             */
-/*   Updated: 2025/11/24 18:53:45 by Camille          ###   ########.fr       */
+/*   Updated: 2025/11/24 17:49:29 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[1024];
 	char		*buf;
 	char		*line;
 	ssize_t		size_read;
@@ -30,14 +30,14 @@ char	*get_next_line(int fd)
 	while (size_read > 0)
 	{
 		size_read = read_and_set_buf(&buf, fd);
-		if (!fill_stash(&stash, buf))
+		if (!fill_stash(&stash[fd], buf))
 			break ;
-		if (ft_strchr(stash, '\n'))
+		if (ft_strchr(stash[fd], '\n'))
 			break ;
 	}
 	free(buf);
 	if (size_read >= 0)
-		line = extract_line(&stash);
+		line = extract_line(&stash[fd]);
 	return (line);
 }
 
