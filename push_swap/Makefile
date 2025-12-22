@@ -24,7 +24,7 @@ ifeq ($(DEBUG),1)
 endif
 
 SRC_DIR := src/
-SRC_BASENAMES := push_swap
+SRC_BASENAMES := push_swap stack
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
 
 OBJ_DIR := .build/
