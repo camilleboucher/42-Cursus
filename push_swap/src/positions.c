@@ -1,39 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.c                                            :+:      :+:    :+:   */
+/*   positions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 15:10:48 by Camille           #+#    #+#             */
-/*   Updated: 2025/12/23 12:09:40 by Camille          ###   ########.fr       */
+/*   Updated: 2025/12/23 11:09:38 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack	*stack_new(int nb)
+void	set_positions(t_positions *pos, int i, t_stack *head, t_stack *tail)
 {
-	t_stack	*node;
-
-	node = malloc(sizeof(t_stack));
-	if (!node)
-		return (NULL);
-	node->nb = nb;
-	node->prev = NULL;
-	node->next = NULL;
-	return (node);
-}
-
-bool	stack_add(int nb, t_stack **current, t_positions *pos)
-{
-	t_stack	*node;
-
-	node = stack_new(nb);
-	if (!node)
-		return (false);
-	(*current)->next = node;
-	node->prev = *current;
-	pos->tail = node;
-	return (true);
+	pos->i = i;
+	pos->head = head;
+	pos->tail = tail;
 }

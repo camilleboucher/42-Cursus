@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:27:15 by Camille           #+#    #+#             */
-/*   Updated: 2025/12/22 15:46:56 by Camille          ###   ########.fr       */
+/*   Updated: 2025/12/23 12:11:23 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,38 +39,40 @@ static bool	ft_atoi_safe(const char *nptr, int *nb)
 	return (true);
 }
 
-static bool	parsing(int argc, char **argv, t_stack **a)
+static bool	parsing(int argc, char **argv, t_stack **a, t_positions *pos)
 {
-	t_stack	*node;
-	int		i;
-	int		nb;
+	int	nb;
 
-	i = 1;
-	node = NULL;
-	while (i != argc)
+	if (argv[1][0] && ft_atoi_safe(argv[1], &nb))
 	{
-		if (argv[i][0] && ft_atoi_safe(argv[i], &nb))
+		*a = stack_new(nb);
+		if (!*a)
+			return (false);
+	}
+	set_positions(pos, 2, *a, *a);
+	while (pos->i != argc)
+	{
+		if (argv[pos->i][0] && ft_atoi_safe(argv[pos->i], &nb))
 		{
-			node = stack_new(nb);
-			if (!node)
-				return (false);
-			//stack_add(node, a, a);
+			//TODO: add_node
+			//TODO: check doublons
 		}
 		else
 			return (false);
-		i++;
+		pos->i++;
 	}
 	return (true);
 }
 
 int	main(int argc, char **argv)
 {
-	t_stack	*a;
+	t_stack		*a;
+	t_positions	pos;
 
 	if (argc == 1)
 		return (1);
 	a = NULL;
-	if (!parsing(argc, argv, &a))
+	if (!parsing(argc, argv, &a, &pos))
 		trigger_error(&a);
 	if (argc == 2)
 		return (0);
@@ -81,7 +83,7 @@ void	trigger_error(t_stack **stack)
 {
 	if (*stack)
 	{
-		//free stack
+		//TODO: free nodes de stack recursivement
 	}
 	ft_putstr_fd("Error\n", 2);
 	exit(1);
