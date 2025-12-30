@@ -1,21 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   positions.c                                        :+:      :+:    :+:   */
+/*   kilfen_baridon.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 15:10:48 by Camille           #+#    #+#             */
-/*   Updated: 2025/12/23 11:09:38 by Camille          ###   ########.fr       */
+/*   Created: 2025/12/30 09:33:13 by Camille           #+#    #+#             */
+/*   Updated: 2025/12/30 09:36:55 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	init_positions(t_positions *pos, int i, t_stack *stack)
-{
-	pos->count = i;
-	pos->head = stack;
-	pos->tail = stack;
-	pos->current = stack;
-}

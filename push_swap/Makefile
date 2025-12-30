@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2025/12/23 12:10:26 by Camille          ###   ########.fr        #
+#    Updated: 2025/12/30 09:41:15 by Camille          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ ifeq ($(DEBUG),1)
 endif
 
 SRC_DIR := src/
-SRC_BASENAMES := push_swap stack positions
+SRC_BASENAMES := push_swap stack positions moves algorithm/kilfen_baridon 
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
 
 OBJ_DIR := .build/
