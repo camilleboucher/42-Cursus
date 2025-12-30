@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2025/12/30 09:41:15 by Camille          ###   ########.fr        #
+#    Updated: 2025/12/30 10:30:32 by Camille          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,12 @@ ifeq ($(DEBUG),1)
 endif
 
 SRC_DIR := src/
-SRC_BASENAMES := push_swap stack positions moves algorithm/kilfen_baridon 
-SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
+ALGO_DIR := algorithm/
+
+SRC_BASENAMES := push_swap stack positions main_logic moves
+ALGO_BASENAMES := kilfen_baridon
+SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES))) \
+		$(addprefix $(SRC_DIR)$(ALGO_DIR), $(addsuffix .c,$(ALGO_BASENAMES)))
 
 OBJ_DIR := .build/
 OBJS := $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -40,6 +44,7 @@ $(LIBFT):
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)$(ALGO_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

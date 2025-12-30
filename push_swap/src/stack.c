@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 15:10:48 by Camille           #+#    #+#             */
-/*   Updated: 2025/12/23 12:09:40 by Camille          ###   ########.fr       */
+/*   Updated: 2025/12/30 10:51:05 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,4 @@ void	printStack(t_stack *a, t_positions *pos)
 		a = a->next;
 		i++;
 	}
-	ft_printf("count %d", pos->count);
 }

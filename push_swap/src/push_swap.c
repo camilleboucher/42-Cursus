@@ -6,11 +6,40 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:27:15 by Camille           #+#    #+#             */
-/*   Updated: 2025/12/23 12:11:23 by Camille          ###   ########.fr       */
+/*   Updated: 2025/12/30 10:22:31 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+static bool	ft_atoi_safe(const char *nptr, int *nb, t_positions *pos);
+static bool	parsing(int argc, char **argv, t_stack **a, t_positions *pos);
+
+int	main(int argc, char **argv)
+{
+	t_stack		*a;
+	t_positions	pos;
+
+	if (argc == 1)
+		return (1);
+	a = NULL;
+	pos.count = 0;
+	if (!parsing(argc, argv, &a, &pos))
+		trigger_error( &pos);
+	if (argc == 2)
+		freeStack(&pos);
+	main_logic(a, &pos);
+	freeStack( &pos);
+	return (0);
+}
+
+void	trigger_error(t_positions *pos)
+{
+	if (pos->count)
+		freeStack(pos);
+	ft_putstr_fd("Error\n", 2);
+	exit(1);
+}
 
 static bool	ft_atoi_safe(const char *nptr, int *nb, t_positions *pos)
 {
@@ -63,30 +92,4 @@ static bool	parsing(int argc, char **argv, t_stack **a, t_positions *pos)
 	(*a)->prev = pos->tail;
 	(*a)->prev->next = *a;
 	return (true);
-}
-
-int	main(int argc, char **argv)
-{
-	t_stack		*a;
-	t_positions	pos;
-
-	if (argc == 1)
-		return (1);
-	a = NULL;
-	pos.count = 0;
-	if (!parsing(argc, argv, &a, &pos))
-		trigger_error( &pos);
-	if (argc == 2)
-		freeStack(&pos);
-	//printStack(a, &pos);
-	freeStack( &pos);
-	return (0);
-}
-
-void	trigger_error(t_positions *pos)
-{
-	if (pos->count)
-		freeStack(pos);
-	ft_putstr_fd("Error\n", 2);
-	exit(1);
 }

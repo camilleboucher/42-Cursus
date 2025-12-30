@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:59:28 by Camille           #+#    #+#             */
-/*   Updated: 2025/12/30 09:54:24 by Camille          ###   ########.fr       */
+/*   Updated: 2025/12/30 11:26:16 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_positions
 }	t_positions;
 
 // push_swap.c
+int		main(int argc, char **argv);
 void	trigger_error(t_positions *pos);
 
 // stack.c
@@ -53,7 +54,15 @@ void	printStack(t_stack *a, t_positions *pos);
 // positions.c
 void	init_positions(t_positions *pos, int i, t_stack *stack);
 
-// algorithm/kilfen_baridon.c
+// main_logic.c
+void	main_logic(t_stack *a, t_positions *pos);
 
+// moves.c
+void	swap(t_stack *stack);
+void	rotate(t_stack **stack, t_positions *pos);
+/*void	reverse_rotate(t_stack **stack);
+void	push(t_stack **stack_1, t_stack **stack_2);*/
+
+// algorithm/kilfen_baridon.c
 
 #endif
