@@ -6,74 +6,71 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 15:10:48 by Camille           #+#    #+#             */
-/*   Updated: 2025/12/30 10:51:05 by Camille          ###   ########.fr       */
+/*   Updated: 2026/01/01 12:09:55 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack	*stack_new(int nb)
+bool	init_stack(int nb, t_stack *stack, char name)
 {
-	t_stack	*node;
+	t_node	*node;
 
-	node = malloc(sizeof(t_stack));
+	node = malloc(sizeof(t_node));
 	if (!node)
-		return (NULL);
+		return (false);
 	node->nb = nb;
 	node->prev = NULL;
 	node->next = NULL;
-	return (node);
-}
-
-bool	stack_add(int nb, t_positions *pos)
-{
-	t_stack	*node;
-
-	node = stack_new(nb);
-	if (!node)
-		return (false);
-	pos->tail->next = node;
-	node->prev = pos->tail;
-	pos->tail = node;
+	stack->name = name;
+	stack->count = 2;
+	stack->head = node;
+	stack->tail = node;
+	stack->current = node;
 	return (true);
 }
 
-bool	hasDuplicates(int nb, t_stack *a)
+bool	has_duplicate(int nb, t_stack *a)
 {
-	while (a)
+	a->current = a->head;
+	while (1)
 	{
-		if (nb == a->nb)
+		if (nb == a->current->nb)
 			return (true);
-		a = a->next;
+		a->current = a->current->next;
+		if (a->current == a->tail || !a->current)
+			break;
 	}
 	return (false);
 }
 
-void	freeStack(t_positions *pos)
+void	free_stack(t_stack *stack)
 {
-	if (pos->count)
+	if (stack->count)
 	{
-		pos->count--;
-		while (pos->count)
+		stack->count--;
+		while (stack->count)
 		{
-			pos->current = pos->head;
-			pos->head = pos->current->next;
-			free(pos->current);
-			pos->count--;
+			stack->current = stack->head;
+			stack->head = stack->current->next;
+			free(stack->current);
+			stack->count--;
 		}
 	}
 }
 
-void	printStack(t_stack *a, t_positions *pos)
+void	print_stack(t_stack *stack)
 {
 	int	i;
 
 	i = 1;
-	while (i < pos->count)
+	stack->current = stack->head;
+	while (i < stack->count)
 	{
 		ft_printf("Node %d [%p]:	%d	prev[%p]	next[%p]\n",
-			i, a, a->nb, a->prev, a->next);
-		a = a->next;
+			i, stack->current, stack->current->nb,
+			stack->current->prev, stack->current->next);
+		stack->current = stack->current->next;
 		i++;
 	}
 }

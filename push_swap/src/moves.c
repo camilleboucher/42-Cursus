@@ -12,20 +12,45 @@
 
 #include "push_swap.h"
 
-void	swap(t_stack *stack)
+void	swap(t_stack *stack, bool display_stackname)
 {
 	int	nb;
 
-	nb = stack->nb;
-	stack->nb = stack->next->nb;
-	stack->next->nb = nb;
+	nb = stack->head->nb;
+	stack->head->nb = stack->head->next->nb;
+	stack->head->next->nb = nb;
+	ft_putchar_fd('s', 1);
+	if (display_stackname)
+	{
+		ft_putchar_fd(stack->name, 1);
+		ft_putchar_fd('\n', 1);
+	}
 }
 
-void	rotate(t_stack **stack, t_positions *pos)
+void	rotate(t_stack *stack, bool display_stackname)
 {
-	pos->head = pos->head->next;
-	pos->tail = pos->head->prev;
-	(*stack) = pos->head;
-	(*stack)->prev = pos->tail;
-	(*stack)->next = pos->head->next;
+	stack->head = stack->head->next;
+	stack->tail = stack->head->prev;
+	stack->head->prev = stack->tail;
+	stack->head->next = stack->head->next;
+	ft_putchar_fd('r', 1);
+	if (display_stackname)
+	{
+		ft_putchar_fd(stack->name, 1);
+		ft_putchar_fd('\n', 1);
+	}
+}
+
+void	reverse_rotate(t_stack *stack, bool display_stackname)
+{
+	stack->head = stack->head->prev;
+	stack->tail = stack->tail->prev;
+	stack->head->prev = stack->tail;
+	stack->head->next = stack->head->next;
+	if (display_stackname)
+	{
+		ft_putstr_fd("rr", 1);
+		ft_putchar_fd(stack->name, 1);
+		ft_putchar_fd('\n', 1);
+	}
 }

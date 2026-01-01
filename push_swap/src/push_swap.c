@@ -6,42 +6,39 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:27:15 by Camille           #+#    #+#             */
-/*   Updated: 2025/12/30 10:22:31 by Camille          ###   ########.fr       */
+/*   Updated: 2026/01/01 12:12:42 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static bool	ft_atoi_safe(const char *nptr, int *nb, t_positions *pos);
-static bool	parsing(int argc, char **argv, t_stack **a, t_positions *pos);
+static bool	ft_atoi_safe(const char *nptr, int *nb, t_stack *a);
+static bool	parsing(int argc, char **argv, t_stack *a);
 
 int	main(int argc, char **argv)
 {
-	t_stack		*a;
-	t_positions	pos;
+	t_stack	a;
 
 	if (argc == 1)
 		return (1);
-	a = NULL;
-	pos.count = 0;
-	if (!parsing(argc, argv, &a, &pos))
-		trigger_error( &pos);
+	if (!parsing(argc, argv, &a))
+		trigger_error(&a);
 	if (argc == 2)
-		freeStack(&pos);
-	main_logic(a, &pos);
-	freeStack( &pos);
+		free_stack(&a);
+	main_logic(&a);
+	free_stack(&a);
 	return (0);
 }
 
-void	trigger_error(t_positions *pos)
+void	trigger_error(t_stack *a)
 {
-	if (pos->count)
-		freeStack(pos);
+	if(a)
+		free_stack(a);
 	ft_putstr_fd("Error\n", 2);
 	exit(1);
 }
 
-static bool	ft_atoi_safe(const char *nptr, int *nb, t_positions *pos)
+static bool	ft_atoi_safe(const char *nptr, int *nb, t_stack *a)
 {
 	long	nbr;
 	int		sign;
@@ -56,7 +53,7 @@ static bool	ft_atoi_safe(const char *nptr, int *nb, t_positions *pos)
 	while (*nptr)
 	{
 		if(!ft_isdigit(*nptr))
-			trigger_error(pos);
+			trigger_error(a);
 		nbr *= 10;
 		nbr += *nptr - '0';
 		if (nbr * sign > INT_MAX || nbr * sign < INT_MIN)
@@ -67,29 +64,26 @@ static bool	ft_atoi_safe(const char *nptr, int *nb, t_positions *pos)
 	return (true);
 }
 
-static bool	parsing(int argc, char **argv, t_stack **a, t_positions *pos)
+static bool	parsing(int argc, char **argv, t_stack *a)
 {
 	int	nb;
 
-	if (argv[1][0] && ft_atoi_safe(argv[1], &nb, pos))
+	if (argv[1][0] && ft_atoi_safe(argv[1], &nb, a))
 	{
-		*a = stack_new(nb);
-		if (!*a)
+		if(!init_stack(nb, a, 'a'))
 			return (false);
 	}
-	init_positions(pos, 2, *a);
-	while (pos->count != argc)
+	while (a->count != argc)
 	{
-		if (argv[pos->count][0] && ft_atoi_safe(argv[pos->count], &nb, pos))
+		if (argv[a->count][0] && ft_atoi_safe(argv[a->count], &nb, a))
 		{
-			if (hasDuplicates(nb, *a) || !stack_add(nb, pos))
+			if (has_duplicate(nb, a) || !add_node(nb, a))
 				return (false);
 		}
 		else
 			return (false);
-		pos->count++;
+		a->count++;
 	}
-	(*a)->prev = pos->tail;
-	(*a)->prev->next = *a;
+	a->head->prev = a->tail;
 	return (true);
 }
