@@ -14,18 +14,21 @@
 
 static bool	ft_atoi_safe(const char *nptr, int *nb, t_stack *a);
 static bool	parsing(int argc, char **argv, t_stack *a);
+static void	init_stack_b(t_stack *stack);
 
 int	main(int argc, char **argv)
 {
 	t_stack	a;
+	t_stack	b;
 
 	if (argc == 1)
 		return (1);
-	if (!parsing(argc, argv, &a))
+	if (!parsing(argc - 1, argv, &a))
 		trigger_error(&a);
 	if (argc == 2)
 		free_stack(&a);
-	main_logic(&a);
+	init_stack_b(&b);
+	main_logic(&a, &b);
 	free_stack(&a);
 	return (0);
 }
@@ -68,22 +71,28 @@ static bool	parsing(int argc, char **argv, t_stack *a)
 {
 	int	nb;
 
-	if (argv[1][0] && ft_atoi_safe(argv[1], &nb, a))
+	if (argv[argc][0] && ft_atoi_safe(argv[argc], &nb, a))
 	{
-		if(!init_stack(nb, a, 'a'))
+		if(!init_stack_a(nb, a))
 			return (false);
 	}
-	while (a->count != argc)
+	while (--argc)
 	{
-		if (argv[a->count][0] && ft_atoi_safe(argv[a->count], &nb, a))
+		if (argv[argc][0] && ft_atoi_safe(argv[argc], &nb, a))
 		{
 			if (has_duplicate(nb, a) || !add_node(nb, a))
 				return (false);
 		}
 		else
 			return (false);
-		a->count++;
 	}
-	a->head->prev = a->tail;
 	return (true);
+}
+
+static void	init_stack_b(t_stack *b)
+{
+	b->name = 'b';
+	b->head = NULL;
+	b->tail = NULL;
+	b->current = NULL;
 }

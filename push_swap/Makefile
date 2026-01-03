@@ -26,7 +26,7 @@ endif
 SRC_DIR := src/
 ALGO_DIR := algorithm/
 
-SRC_BASENAMES := push_swap stack nodes main_logic moves
+SRC_BASENAMES := push_swap stack main_logic moves moves_wrappers
 ALGO_BASENAMES := kilfen_baridon
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES))) \
 		$(addprefix $(SRC_DIR)$(ALGO_DIR), $(addsuffix .c,$(ALGO_BASENAMES)))

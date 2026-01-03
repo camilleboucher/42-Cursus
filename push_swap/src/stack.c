@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-bool	init_stack(int nb, t_stack *stack, char name)
+bool	init_stack_a(int nb, t_stack *stack)
 {
 	t_node	*node;
 
@@ -22,8 +22,7 @@ bool	init_stack(int nb, t_stack *stack, char name)
 	node->nb = nb;
 	node->prev = NULL;
 	node->next = NULL;
-	stack->name = name;
-	stack->count = 2;
+	stack->name = 'a';
 	stack->head = node;
 	stack->tail = node;
 	stack->current = node;
@@ -33,29 +32,38 @@ bool	init_stack(int nb, t_stack *stack, char name)
 bool	has_duplicate(int nb, t_stack *a)
 {
 	a->current = a->head;
-	while (1)
+	while (a->current)
 	{
 		if (nb == a->current->nb)
 			return (true);
 		a->current = a->current->next;
-		if (a->current == a->tail || !a->current)
-			break;
 	}
 	return (false);
 }
 
+bool	add_node(int nb, t_stack *stack)
+{
+	t_node	*node;
+
+	node = malloc(sizeof(t_node));
+	if (!node)
+		return (false);
+	stack->head->prev = node;
+	node->nb = nb;
+	node->prev = NULL;
+	node->next = stack->head;
+	stack->head = node;
+	return (true);
+}
+
 void	free_stack(t_stack *stack)
 {
-	if (stack->count)
+	stack->current = stack->head;
+	while (stack->current)
 	{
-		stack->count--;
-		while (stack->count)
-		{
-			stack->current = stack->head;
-			stack->head = stack->current->next;
-			free(stack->current);
-			stack->count--;
-		}
+		stack->head = stack->current->next;
+		free(stack->current);
+		stack->current = stack->head;
 	}
 }
 
@@ -65,7 +73,7 @@ void	print_stack(t_stack *stack)
 
 	i = 1;
 	stack->current = stack->head;
-	while (i < stack->count)
+	while (stack->current)
 	{
 		ft_printf("Node %d [%p]:	%d	prev[%p]	next[%p]\n",
 			i, stack->current, stack->current->nb,

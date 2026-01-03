@@ -35,10 +35,9 @@ typedef struct s_node
 typedef struct s_stack
 {
 	char	name;
-	int		count;
 	t_node	*head;
 	t_node	*tail;
-	t_node	*current;
+	t_node	*current;//TODO: Remplacer si assez de place dans les fonctions
 }	t_stack;
 
 // push_swap.c
@@ -46,22 +45,25 @@ int		main(int argc, char **argv);
 void	trigger_error(t_stack *stack);
 
 // stack.c
-bool	init_stack(int nb, t_stack *stack, char name);
+bool	init_stack_a(int nb, t_stack *stack);
 bool	has_duplicate(int nb, t_stack *a);
+bool	add_node(int nb, t_stack *stack);
 void	free_stack(t_stack *stack);
 void	print_stack(t_stack *stack);
 
-// nodes.c
-bool	add_node(int nb, t_stack *stack);
-
 // main_logic.c
-void	main_logic(t_stack *a);
+void	main_logic(t_stack *a, t_stack *b);
 
 // moves.c
 void	swap(t_stack *stack, bool display_stackname);
 void	rotate(t_stack *stack, bool display_stackname);
 void	reverse_rotate(t_stack *stack, bool display_stackname);
-//void	push(t_stack **stack_1, t_stack **stack_2);
+void	push(t_stack *from, t_stack *to);
+
+// moves_wrappers.c
+void	ss(t_stack *a, t_stack *b);
+void	rr(t_stack *a, t_stack *b);
+void	rrr(t_stack *a, t_stack *b);
 
 // algorithm/kilfen_baridon.c
 
