@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:59:28 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/01 12:09:37 by Camille          ###   ########.fr       */
+/*   Updated: 2026/01/06 15:10:09 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_node
 typedef struct s_stack
 {
 	char	name;
+	int		nodes_count;
 	t_node	*head;
 	t_node	*tail;
 	t_node	*current;//TODO: Remplacer si assez de place dans les fonctions
@@ -49,7 +50,13 @@ bool	init_stack_a(int nb, t_stack *stack);
 bool	has_duplicate(int nb, t_stack *a);
 bool	add_node(int nb, t_stack *stack);
 void	free_stack(t_stack *stack);
-void	print_stack(t_stack *stack);
+void	print_stack(t_stack *stack);//TODO: remplacer par stackb
+
+// stack_utils.c
+bool	is_sorted(t_stack *stack);
+t_node	*find_smallest_nb(t_stack *stack);
+t_node	*find_first_nb_bigger_than(t_stack *sorted_stack, int nb);
+void	positionning_head(t_stack *stack, t_node *to);
 
 // main_logic.c
 void	main_logic(t_stack *a, t_stack *b);
@@ -64,6 +71,10 @@ void	push(t_stack *from, t_stack *to);
 void	ss(t_stack *a, t_stack *b);
 void	rr(t_stack *a, t_stack *b);
 void	rrr(t_stack *a, t_stack *b);
+
+// algorithm/jamie_dawson.c
+void	sort_3(t_stack *s);
+void	sort_456(t_stack *a, t_stack *b);
 
 // algorithm/kilfen_baridon.c
 

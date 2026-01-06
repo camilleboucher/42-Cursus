@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:27:15 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/01 12:12:42 by Camille          ###   ########.fr       */
+/*   Updated: 2026/01/06 11:06:30 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv)
 		trigger_error(&a);
 	if (argc == 2)
 		free_stack(&a);
+	a.nodes_count = argc - 1;
 	init_stack_b(&b);
 	main_logic(&a, &b);
 	free_stack(&a);
@@ -92,6 +93,7 @@ static bool	parsing(int argc, char **argv, t_stack *a)
 static void	init_stack_b(t_stack *b)
 {
 	b->name = 'b';
+	b->nodes_count = 0;
 	b->head = NULL;
 	b->tail = NULL;
 	b->current = NULL;

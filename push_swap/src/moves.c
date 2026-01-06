@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 10:21:38 by Camille           #+#    #+#             */
-/*   Updated: 2025/12/30 11:44:03 by Camille          ###   ########.fr       */
+/*   Updated: 2026/01/06 11:08:06 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	push(t_stack *from, t_stack *to)
 	to->head = from->current;
 	if (!to->tail)
 		to->tail = from->current;
+	from->nodes_count--;
+	to->nodes_count++;
 	ft_putstr_fd("p", 1);
 	ft_putchar_fd(to->name, 1);
 	ft_putchar_fd('\n', 1);

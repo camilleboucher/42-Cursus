@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2026/01/01 11:26:15 by Camille          ###   ########.fr        #
+#    Updated: 2026/01/06 10:56:16 by Camille          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ endif
 SRC_DIR := src/
 ALGO_DIR := algorithm/
 
-SRC_BASENAMES := push_swap stack main_logic moves moves_wrappers
-ALGO_BASENAMES := kilfen_baridon
+SRC_BASENAMES := push_swap stack main_logic moves moves_wrappers stack_utils
+ALGO_BASENAMES := jamie_dawson kilfen_baridon
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES))) \
 		$(addprefix $(SRC_DIR)$(ALGO_DIR), $(addsuffix .c,$(ALGO_BASENAMES)))
 
