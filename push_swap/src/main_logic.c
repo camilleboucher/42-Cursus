@@ -21,6 +21,11 @@ void	main_logic(t_stack *a, t_stack *b)
 		sort_3(a);
 	else if (a->nodes_count >= 4 && a->nodes_count <= 6)
 		sort_456(a, b); //TODO: generer des nb aleatoires et/ou utiliser des testers
+	else
+	{
+		rank(a);
+		algorithm_kilfen_baridon(a, b);
+	}
 	print_stack(a);
 	//(void)b;
 	//ft_printf("%d", a->nodes_count);
@@ -63,4 +68,40 @@ void	main_logic(t_stack *a, t_stack *b)
 	swap(a, true);
 	print_stack(a);
 	print_stack(b);*/
+}
+
+void	rank(t_stack *a)
+{
+	int		i;
+	t_node	*next_smallest;
+
+	i = 1;
+	next_smallest = find_smallest_nb(a);
+	next_smallest->rank = 1;
+	while (find_next_smallest_nb(a, &next_smallest))
+	{
+		i++;
+		next_smallest->rank = i;
+	}
+}
+
+t_node	*find_next_smallest_nb(t_stack *stack, t_node **save_in)
+{
+	int		prev_smallest;
+	t_node	*next_smallest;
+
+	prev_smallest = (*save_in)->nb;
+	next_smallest = NULL;
+	stack->current = stack->head;
+	while (stack->current)
+	{
+		if (stack->current->nb > prev_smallest)
+		{
+			if (!next_smallest || next_smallest->nb > stack->current->nb)
+				next_smallest = stack->current;
+		}
+		stack->current = stack->current->next;
+	}
+	*save_in = next_smallest;
+	return (next_smallest);
 }

@@ -75,8 +75,8 @@ void	print_stack(t_stack *stack)
 	stack->current = stack->head;
 	while (stack->current)
 	{
-		ft_printf("Node %d [%p]:	%d	prev[%p]	next[%p]\n",
-			i, stack->current, stack->current->nb,
+		ft_printf("Node %d [%p]:	%d(rank %d)	prev[%p]	next[%p]\n",
+			i, stack->current, stack->current->nb, stack->current->rank,
 			stack->current->prev, stack->current->next);
 		stack->current = stack->current->next;
 		i++;

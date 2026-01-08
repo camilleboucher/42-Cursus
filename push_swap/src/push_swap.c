@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 
 void	trigger_error(t_stack *a)
 {
-	if(a)
+	if (a)
 		free_stack(a);
 	ft_putstr_fd("Error\n", 2);
 	exit(1);

@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:59:28 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/06 15:10:09 by Camille          ###   ########.fr       */
+/*   Updated: 2026/01/08 15:35:49 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ typedef struct s_stack
 	t_node	*current;//TODO: Remplacer si assez de place dans les fonctions
 }	t_stack;
 
+typedef struct s_chunk
+{
+	int		min;
+	int		max;
+	int		nodes_count;
+	bool	complete;//INFO: PERTINENT ??
+}	t_chunk;
+
 // push_swap.c
 int		main(int argc, char **argv);
 void	trigger_error(t_stack *stack);
@@ -60,6 +68,8 @@ void	positionning_head(t_stack *stack, t_node *to);
 
 // main_logic.c
 void	main_logic(t_stack *a, t_stack *b);
+void	rank(t_stack *a);
+t_node	*find_next_smallest_nb(t_stack *stack, t_node **save_in);
 
 // moves.c
 void	swap(t_stack *stack, bool display_stackname);
@@ -72,10 +82,18 @@ void	ss(t_stack *a, t_stack *b);
 void	rr(t_stack *a, t_stack *b);
 void	rrr(t_stack *a, t_stack *b);
 
+// chunks.c
+t_chunk	**calculate_chunks(t_stack *a);
+void	error_chunks(t_stack *a, t_chunk **chunks, int nb_chunks);
+void	free_chunk(t_chunk **chunks, int nb_chunks);
+
 // algorithm/jamie_dawson.c
 void	sort_3(t_stack *s);
 void	sort_456(t_stack *a, t_stack *b);
 
 // algorithm/kilfen_baridon.c
+void	algorithm_kilfen_baridon(t_stack *a, t_stack *b);
+
+
 
 #endif
