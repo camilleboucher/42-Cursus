@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 14:59:28 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/08 15:35:49 by Camille          ###   ########.fr       */
+/*   Updated: 2026/01/12 17:02:16 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 # include "ft_stdio.h"
 # include "ft_stdlib.h"
 
+//TODO: opti possible avec racine carree ??? idee de axel
 # ifndef STACK_SHARE
-#  define STACK_SHARE 3
+#  define STACK_SHARE 6
 # endif
 
 typedef struct s_node
@@ -46,7 +47,7 @@ typedef struct s_chunk
 	int		min;
 	int		max;
 	int		nodes_count;
-	bool	complete;//INFO: PERTINENT ??
+	bool	completed;
 }	t_chunk;
 
 // push_swap.c
@@ -83,17 +84,35 @@ void	rr(t_stack *a, t_stack *b);
 void	rrr(t_stack *a, t_stack *b);
 
 // chunks.c
-t_chunk	**calculate_chunks(t_stack *a);
+void	calculate_chunks(t_stack *a, t_chunk **chunks);
+void	update(t_chunk **chunks, int rank);
+void	init(t_chunk **chunks);
 void	error_chunks(t_stack *a, t_chunk **chunks, int nb_chunks);
 void	free_chunk(t_chunk **chunks, int nb_chunks);
+
+// chunks_utils.c //TODO: renommer ?
+int		first_smallest_available_chunk(t_chunk **chunks);
+bool	in_first_available_chunk_or_the_next(t_chunk **chunks, int rank);
+bool	in_smallest_available_chunk(t_chunk **chunks, int rank);
+bool	find_rotation_and_optimize(t_chunk **chunks, t_stack *b, int rank);
+
+// chunks_utils_phase_2.c //TODO:renommer?
+
 
 // algorithm/jamie_dawson.c
 void	sort_3(t_stack *s);
 void	sort_456(t_stack *a, t_stack *b);
 
-// algorithm/kilfen_baridon.c
+// algorithm/kilfen_baridon.c //TODO:CHAnger nom fichier car pas accurate
 void	algorithm_kilfen_baridon(t_stack *a, t_stack *b);
+void	phase_1(t_stack *a, t_stack *b, t_chunk **chunks);
+void	phase_2(t_stack *a, t_stack *b, t_chunk **chunks);
+//void	phase_3(t_stack *a, t_stack *b, t_chunk **chunks);
 
-
+// PROTECTION
+# if STACK_SHARE <= 0
+#  undef STACK_SHARE
+#  define STACK_SHARE 3
+# endif
 
 #endif

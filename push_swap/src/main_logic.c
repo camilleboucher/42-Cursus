@@ -14,7 +14,7 @@
 
 void	main_logic(t_stack *a, t_stack *b)
 {
-	print_stack(a);
+	//print_stack(a);
 	if (a->nodes_count == 2 && a->head->nb > a->tail->nb)
 		swap(a, true);
 	else if (a->nodes_count == 3)
@@ -26,7 +26,12 @@ void	main_logic(t_stack *a, t_stack *b)
 		rank(a);
 		algorithm_kilfen_baridon(a, b);
 	}
-	print_stack(a);
+	//print_stack(a);
+	//print_stack(b);
+
+
+
+
 	//(void)b;
 	//ft_printf("%d", a->nodes_count);
 	//print_stack(a);

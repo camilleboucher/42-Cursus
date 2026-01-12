@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
 #include "push_swap.h"
 
 bool	init_stack_a(int nb, t_stack *stack)
@@ -20,6 +21,7 @@ bool	init_stack_a(int nb, t_stack *stack)
 	if (!node)
 		return (false);
 	node->nb = nb;
+	node->rank = 0;
 	node->prev = NULL;
 	node->next = NULL;
 	stack->name = 'a';
@@ -50,6 +52,7 @@ bool	add_node(int nb, t_stack *stack)
 		return (false);
 	stack->head->prev = node;
 	node->nb = nb;
+	node->rank = 0;
 	node->prev = NULL;
 	node->next = stack->head;
 	stack->head = node;
@@ -73,6 +76,7 @@ void	print_stack(t_stack *stack)
 
 	i = 1;
 	stack->current = stack->head;
+	ft_printf("STACK %c :\n=====================\n", stack->name);
 	while (stack->current)
 	{
 		ft_printf("Node %d [%p]:	%d(rank %d)	prev[%p]	next[%p]\n",

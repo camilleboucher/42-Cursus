@@ -21,6 +21,12 @@ void	swap(t_stack *stack, bool display_stackname)
 	nb = stack->head->nb;
 	stack->head->nb = stack->head->next->nb;
 	stack->head->next->nb = nb;
+	if (stack->head->rank)
+	{
+		nb = stack->head->rank;
+		stack->head->rank = stack->head->next->rank;
+		stack->head->next->rank = nb;
+	}
 	ft_putchar_fd('s', 1);
 	if (display_stackname)
 	{
@@ -82,7 +88,5 @@ void	push(t_stack *from, t_stack *to)
 		to->tail = from->current;
 	from->nodes_count--;
 	to->nodes_count++;
-	ft_putstr_fd("p", 1);
-	ft_putchar_fd(to->name, 1);
-	ft_putchar_fd('\n', 1);
+	ft_printf("p%c\n", to->name);
 }
