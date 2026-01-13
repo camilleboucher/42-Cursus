@@ -39,7 +39,7 @@ typedef struct s_stack
 	int		nodes_count;
 	t_node	*head;
 	t_node	*tail;
-	t_node	*current;//TODO: Remplacer si assez de place dans les fonctions
+	t_node	*current;
 }	t_stack;
 
 typedef struct s_chunk
@@ -49,6 +49,16 @@ typedef struct s_chunk
 	int		nodes_count;
 	bool	completed;
 }	t_chunk;
+
+typedef struct s_references
+{
+	int	rank;
+	int	rank_to_sort;
+	int	bigest_rank;
+	int	i;
+	int	i_rotate;
+	int	i_reverse_rotate;
+}	t_references;
 
 // push_swap.c
 int		main(int argc, char **argv);
@@ -97,6 +107,15 @@ bool	in_smallest_available_chunk(t_chunk **chunks, int rank);
 bool	find_rotation_and_optimize(t_chunk **chunks, t_stack *b, int rank);
 
 // chunks_utils_phase_2.c //TODO:renommer?
+void	push_phase_2(t_stack *a, t_stack *b, int a_rotations, int b_rotations);
+int		calculate_rotations_of_b(t_stack *a, t_stack *b,
+		t_chunk **chunks, t_references ref);
+bool	in_bigest_available_chunk(t_chunk **chunks, int rank);
+
+
+int		times_can_put_head_after_tail(t_stack *a, t_references ref);
+int		times_can_put_tail_after_head(t_stack *a, t_references ref);
+int		calculate_same_rotations_for_next_push_of_b(int nb_rotations, t_stack *b);
 
 
 // algorithm/jamie_dawson.c

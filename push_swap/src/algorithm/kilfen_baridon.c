@@ -38,7 +38,7 @@
 
 // PHASE 2 :
 // =========
-//	rank_to_sort = chunks[STACK_SHARE - 1]->max;
+//	rank_to_sort = b->nodes_count + 3;
 //	TANT QUE tous les chunks ne sont pas complet
 //			i = STACK_SHARE - 1; (index du chunk a traiter)
 //			TANT QUE chunks[i] n'est pas complet
@@ -59,8 +59,6 @@
 //							"FUSION" des rotations dans le meme sens (B et A avant le push)
 //							ROTATIONS de A et/ou B avant de PUSH
 //							PUSH A
-//
-//
 
 // PHASE 3 :
 // =========
@@ -73,7 +71,7 @@ void	algorithm_kilfen_baridon(t_stack *a, t_stack *b)
 		trigger_error(a);
 	calculate_chunks(a, chunks);
 	phase_1(a, b, chunks);
-	init(chunks);
+	init(chunks);//FIX: verifier dans les 3 nodes dans a cb sont deja triee (dans le cas par exemple ou les chunks sont petits (UNO))
 	chunks[STACK_SHARE - 1]->nodes_count = 3;
 	phase_2(a, b, chunks);
 
@@ -119,9 +117,30 @@ void	phase_1(t_stack *a, t_stack *b, t_chunk **chunks)
 	sort_3(a);
 }
 
+// PHASE 2 :
+// =========
+//	rank_to_sort = b->nodes_count + 3;
+//	TANT QUE tous les chunks ne sont pas complet
+//			i = STACK_SHARE - 1; (index du chunk a traiter)
+//			TANT QUE chunks[i] n'est pas complet
+//					trouver le B a push le plus proche qui peut se mettre en dessous du triage
+//					ET au dessus du buffer (le buffer se trouve en dessous du triage (donc du bigest_rank))
+//					(tant que le bigest_rank n'est pas trie, la stack a est forcement le buffer de tri)
 void	phase_2(t_stack *a, t_stack *b, t_chunk **chunks)
 {
-	(void)a;
-	(void)b;
-	(void)chunks;
+	t_references	ref;
+	int				a_rotations;
+
+	ref.bigest_rank = b->nodes_count + 3;
+	ref.rank_to_sort = ref.bigest_rank;
+	while (!chunks[0]->completed)
+	{
+		ref.i = STACK_SHARE - 1;
+		// verifier si les trois nodes restantes sont pas deja 
+		while (!chunks[ref.i]->completed)
+		{
+			push_phase_2(a, b, calculate_rotations_of_b(a, b, chunks, ref), 
+				calculate_rotations_of_a(a, ref);
+		}
+	}
 }
