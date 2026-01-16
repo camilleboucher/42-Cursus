@@ -39,7 +39,7 @@ t_node	*find_smallest_nb(t_stack *stack)
 	smallest = stack->current;
 	while (stack->current)
 	{
-		if (smallest->nb >stack->current->nb)
+		if (smallest->nb > stack->current->nb)
 			smallest = stack->current;
 		stack->current = stack->current->next;
 	}
@@ -48,8 +48,8 @@ t_node	*find_smallest_nb(t_stack *stack)
 
 t_node	*find_first_nb_bigger_than(t_stack *sorted_stack, int nb)
 {
-	t_node *finding;
-	t_node *smallest;
+	t_node	*finding;
+	t_node	*smallest;
 
 	finding = NULL;
 	sorted_stack->current = sorted_stack->head;

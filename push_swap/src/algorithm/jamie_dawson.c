@@ -17,7 +17,7 @@ void	sort_3(t_stack *s)
 	int	head;
 	int	middle;
 	int	tail;
-	
+
 	head = s->head->nb;
 	middle = s->head->next->nb;
 	tail = s->tail->nb;
@@ -26,7 +26,7 @@ void	sort_3(t_stack *s)
 	else if (head > middle && middle > tail && tail < head)
 	{
 		swap(s, true);
-		reverse_rotate(s,true);
+		reverse_rotate(s, true);
 	}
 	else if (head > middle && middle < tail && tail < head)
 		rotate(s, true);

@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-static bool	ft_atoi_safe(const char *nptr, int *nb, t_stack *a);
+static bool	ft_atoi_safe(const char *nptr, int *nb);
 static bool	parsing(int argc, char **argv, t_stack *a);
 static void	init_stack_b(t_stack *stack);
 
@@ -27,10 +27,13 @@ int	main(int argc, char **argv)
 		trigger_error(&a);
 	if (argc == 2)
 		free_stack(&a);
-	a.nodes_count = argc - 1;
-	init_stack_b(&b);
-	main_logic(&a, &b);
-	free_stack(&a);
+	else
+	{
+		a.nodes_count = argc - 1;
+		init_stack_b(&b);
+		main_logic(&a, &b);
+		free_stack(&a);
+	}
 	return (0);
 }
 
@@ -42,7 +45,7 @@ void	trigger_error(t_stack *a)
 	exit(1);
 }
 
-static bool	ft_atoi_safe(const char *nptr, int *nb, t_stack *a)
+static bool	ft_atoi_safe(const char *nptr, int *nb)
 {
 	long	nbr;
 	int		sign;
@@ -56,8 +59,8 @@ static bool	ft_atoi_safe(const char *nptr, int *nb, t_stack *a)
 	}
 	while (*nptr)
 	{
-		if(!ft_isdigit(*nptr))
-			trigger_error(a);
+		if (!ft_isdigit(*nptr))
+			return (false);
 		nbr *= 10;
 		nbr += *nptr - '0';
 		if (nbr * sign > INT_MAX || nbr * sign < INT_MIN)
@@ -72,14 +75,19 @@ static bool	parsing(int argc, char **argv, t_stack *a)
 {
 	int	nb;
 
-	if (argv[argc][0] && ft_atoi_safe(argv[argc], &nb, a))
+	if (argv[argc][0] && ft_atoi_safe(argv[argc], &nb))
 	{
-		if(!init_stack_a(nb, a))
+		if (!init_stack_a(nb, a))
 			return (false);
+	}
+	else
+	{
+		a->head = NULL;
+		return (false);
 	}
 	while (--argc)
 	{
-		if (argv[argc][0] && ft_atoi_safe(argv[argc], &nb, a))
+		if (argv[argc][0] && ft_atoi_safe(argv[argc], &nb))
 		{
 			if (has_duplicate(nb, a) || !add_node(nb, a))
 				return (false);
