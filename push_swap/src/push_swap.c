@@ -57,6 +57,8 @@ static bool	ft_atoi_safe(const char *nptr, int *nb)
 		sign = -1;
 		nptr++;
 	}
+	if (!*nptr)
+		return (false);
 	while (*nptr)
 	{
 		if (!ft_isdigit(*nptr))
