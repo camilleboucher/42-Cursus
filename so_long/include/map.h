@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   map.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 15:37:41 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/22 15:40:30 by Camille          ###   ########.fr       */
+/*   Created: 2026/01/22 14:10:43 by Camille           #+#    #+#             */
+/*   Updated: 2026/01/22 15:38:28 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef MAP_H
+# define MAP_H
 
-# define WINDOW_TITLE "SO_LONG"
-# define WINDOW_WIDTH 400
-# define WINDOW_HEIGHT 400
+typedef struct s_map
+{
+	char	**rows;
+}	t_map;
+
+t_map	extract_map(char *path);
 
 #endif

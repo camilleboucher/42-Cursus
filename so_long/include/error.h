@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ctx.h                                              :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 11:31:59 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/20 11:32:57 by Camille          ###   ########.fr       */
+/*   Created: 2026/01/22 15:24:35 by Camille           #+#    #+#             */
+/*   Updated: 2026/01/22 17:08:38 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CTX_H
-# define CTX_H
+#ifndef ERROR_H
+# define ERROR_H
 
-# include "mlx.h"
+#include <stdint.h>
 
-typedef struct s_ctx
-{
-	mlx_context				mlx;
-	mlx_window_create_info	info;
-	mlx_window				win;
-	mlx_image				render;
-}	t_ctx;
+void	error(uint8_t errno, int fd, void **malloc, uint8_t count);
 
 #endif
