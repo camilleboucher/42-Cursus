@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 15:45:41 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/22 23:12:28 by cboucher         ###   ########.fr       */
+/*   Created: 2026/01/20 17:59:52 by Camille           #+#    #+#             */
+/*   Updated: 2026/01/22 23:11:47 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "map.h"
-#include "error_handling.h"
+#include "ft_stdio.h"
 
-int	main(int argc, char *argv[])
+void	error_exit(char *errmsg)
 {
-	t_map	map;
-
-	if (argc != 2)
-		error_exit(ERRMSG_NO_PARAM);
-	map = extract_map(argv[1]);
-	(void)map; //FIX: tmp
-	return (EXIT_SUCCESS);
+	ft_printf("Error\n%s\n", errmsg);//TODO: ajouter printf fd + get rid of ft_printf.h et update old projects who use ft_printf.h
+	exit(EXIT_FAILURE);
 }
