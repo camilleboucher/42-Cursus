@@ -15,6 +15,6 @@
 
 void	error_exit(char *errmsg)
 {
-	ft_printf("Error\n%s\n", errmsg);//TODO: ajouter printf fd + get rid of ft_printf.h et update old projects who use ft_printf.h
+	ft_dprintf(2, "Error\n%s\n", errmsg);//TODO: update old projects + bug ?
 	exit(EXIT_FAILURE);
 }
