@@ -20,7 +20,8 @@ LIBFT_NAME := libft.a
 LIBFT := $(LIBFT_DIR)$(LIBFT_NAME)
 MAKEFLAGS += --no-print-directory
 
-LIBS := $(LIBMLX_DIR) $(LIBFT_DIR)
+LIBS := $(LIBFT_DIR)
+#LIBS := $(LIBMLX_DIR) $(LIBFT_DIR)
 INCLUDES := -Iinclude $(addprefix -I, $(addsuffix include, $(LIBS)))
 
 CC := cc
@@ -42,7 +43,7 @@ OBJS := $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $^ -o $@ $(LIBMLX)
+	@$(CC) $(CFLAGS) $^ -o $@ #$(LIBMLX)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)

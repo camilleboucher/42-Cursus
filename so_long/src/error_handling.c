@@ -11,10 +11,19 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 #include "ft_stdio.h"
+#include "get_next_line.h"
 
-void	error_exit(char *errmsg)
+void	error_exit(char *errmsg, int fd, char *row)
 {
-	ft_dprintf(2, "Error\n%s\n", errmsg);//TODO: update old projects + bug ?
+	ft_dprintf(2, "Error\n%s\n", errmsg);
+	while (row)
+	{
+		free(row);
+		row = get_next_line(fd);
+	}
+	if (fd >= 0)
+		close(fd);
 	exit(EXIT_FAILURE);
 }

@@ -13,60 +13,95 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <fcntl.h>
-#include "ft_string.h"
+#include <unistd.h>
 #include "get_next_line.h"
 #include "error_handling.h"
 #include "map.h"
 
-static bool	is_valid_extension(char *path, char *ext);
-static t_map	parsing(int fd);
+static void	parsing(int fd, t_map *map);
+static bool	check_first_last_rows(char *row, t_map *map);
+static void	check_rows(char *row, t_map *map, int fd);
 
 t_map	extract_map(char *path)
 {
 	int		fd;
 	t_map	map;
 
-	if (!is_valid_extension(path, "ber"))
-		error_exit(ERRMSG_INVALID_EXTENSION);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		error_exit(ERRMSG_INVALID_PATH);
-	map = parsing(fd);
+		error_exit(ERRMSG_INVALID_PATH, -1, NULL);
+	map = (t_map){0};
+	parsing(fd, &map);
+	close(fd);
+	//TODO: check ici OU dans main la faisabilite de la map
 	return (map);
 }
 
-static bool	is_valid_extension(char *path, char *ext)
-{
-	uint8_t	size;
 
-	size = ft_strlen(ext);
-	while (*path)
-		path++;
-	path -= size;
-	if (!ft_strncmp(path, ext, size))
-		return (true);
-	return (false);
+static void	parsing(int fd, t_map *map)
+{
+	char	*row;
+
+	row = get_next_line(fd);
+	if (!row)
+		error_exit(ERRMSG_INVALID_MAP_OR_MALLOC_FAILED, fd, NULL);
+	if (!check_first_last_rows(row, map))
+		error_exit(ERRMSG_INVALID_SURROUNDING, fd, row);
+	if (map->width < 3)
+		error_exit(ERRMSG_SIZE_MIN, fd, row);
+	free(row);
+	map->height++;
+	row = get_next_line(fd);
+	while (row)
+	{
+		check_rows(row, map, fd);
+		free(row);
+		row = get_next_line(fd);
+	}
+	//TODO:regarder si player et collectible et exit sont set
+	if (!check_first_last_rows(map->data[map->height - 1], NULL))
+		error_exit(ERRMSG_INVALID_SURROUNDING, fd, NULL);
 }
 
-static t_map	parsing(int fd)
+static bool	check_first_last_rows(char *row, t_map *map)
 {
-	t_map	map;
-	char	*row;
 	uint8_t	i;
 
-	map = (t_map){0};
-	row = get_next_line(fd);
 	i = 0;
 	while (row[i] && row[i] != '\n')
 	{
-		if (row[i] != '1')
-			error_exit(ERRMSG_INVALID_SURROUNDING);
+		if (row[i] != C_WALL)
+			return (false);
+		if (map)
+			map->data[map->height][i] = C_WALL;
 		i++;
 	}
-	//if (i < 4)
-		//error pas assez de colonnes
-	// nb colonnes = i - 1;
-	// nb row
-	// free line and calculer le nb de line ou faire un buffer de lignes directement dans map
-	return (map);
+	if (map && !map->width)
+		map->width = i;
+	return (true);
+}
+
+static void	check_rows(char *row, t_map *map, int fd)
+{
+	uint8_t	i;
+
+	i = 0;
+	if (row[i] != C_WALL)
+		error_exit(ERRMSG_INVALID_SURROUNDING, fd, row);
+	map->data[map->height][i] = row[i];
+	i++;
+	while (row[i] && row[i] != '\n')
+	{
+		if (row[i] != C_EMPTY_SPACE && row[i] != C_WALL && row[i] != C_COLLECTIBLE &&
+			row[i] != C_EXIT && row[i] != C_PLAYER_STARTING_POS)
+			error_exit(ERRMSG_INVALID_MAP_CHARACTERS, fd, row);
+		map->data[map->height][i] = row[i];
+		i++;
+	}
+	if (i != map->width)
+		error_exit(ERRMSG_MAP_IS_NOT_RECTANGULAR, fd, row);
+	if (map->data[map->height][i - 1] != C_WALL)
+		error_exit(ERRMSG_INVALID_SURROUNDING, fd, row);
+	map->height++;
+	//TODO: ajouter dans structure pos player et exit  et collectibleet check ici si place pour gerer doublons
 }
