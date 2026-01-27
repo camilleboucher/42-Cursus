@@ -29,6 +29,16 @@ The ultimate goal of this project is to be able to reuse it in other projects an
 
 In C, as with low-level languages, we must manage memory to avoid reading from or writing to inappropriate locations. Therefore, it is important to properly initialize each variable after its declaration. We should also ensure that character strings are terminated by a null byte `'\0'` to indicate the end of the string. For an array of integers, the end is indicated by a variable containing the number of elements (`size`). Lastly, for a linked list, it will be a `next` pointer that points to `NULL` (no address).
 
+### Stack and Heap
+
+When allocating memory by creating variables, we can request the compiler to store them in the stack or in the heap.
+
+The stack is limited, but allocation within it is faster. It also allows us to take advantage of locality (avoiding fragmentation) to optimize CPU cache usage and thus gain performance (cache hit). However, we must be careful with recursion in return values to avoid a stack overflow. For dynamic sizes, we need to allocate memory in the heap.
+
+The heap is slower but larger and more flexible. Since allocation in the heap is dynamic, we must ensure to free it to avoid saturating memory. Unlike many other high-level languages, C does not have a garbage collector, which allows for performance gains compared to languages that do. However, we must be even more vigilant about memory leaks or security flaws, such as use-after-free, for example.
+
+It's worth noting that the stack operates in a single thread. For multi-threading, it's better to use the heap.
+
 ## Instructions
 
 ### Compilation
@@ -39,5 +49,6 @@ Use `make` or `make re` to compile the program. For cleaning the generated files
 ## Resources
 1.	[GNU Make Manual](https://www.gnu.org/software/make/manual/) for make.
 2.	`man` for the original functions of glibc and for the ASCII table.
-2.	Peer-to-peer learning.
-2.	Web research and AI chat for some notions.
+3.	Peer-to-peer learning.
+4.	[Core Dumped YouTube Channel](https://www.youtube.com/@CoreDumpped)
+5.	Web research, YouTube videos and AI chat for some notions.
