@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 17:59:52 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/22 23:45:40 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/01/29 23:23:00 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 static void	parsing(int fd, t_map *map);
 static bool	check_first_last_rows(char *row, t_map *map);
 static void	check_rows(char *row, t_map *map, int fd);
+static void	check_duplicate(uint8_t i, t_map *map, char *row, int fd);
 
 t_map	extract_map(char *path)
 {
@@ -33,10 +34,8 @@ t_map	extract_map(char *path)
 	map = (t_map){0};
 	parsing(fd, &map);
 	close(fd);
-	//TODO: check ici OU dans main la faisabilite de la map
 	return (map);
 }
-
 
 static void	parsing(int fd, t_map *map)
 {
@@ -58,7 +57,6 @@ static void	parsing(int fd, t_map *map)
 		free(row);
 		row = get_next_line(fd);
 	}
-	//TODO:regarder si player et collectible et exit sont set
 	if (!check_first_last_rows(map->data[map->height - 1], NULL))
 		error_exit(ERRMSG_INVALID_SURROUNDING, fd, NULL);
 }
@@ -92,9 +90,14 @@ static void	check_rows(char *row, t_map *map, int fd)
 	i++;
 	while (row[i] && row[i] != '\n')
 	{
-		if (row[i] != C_EMPTY_SPACE && row[i] != C_WALL && row[i] != C_COLLECTIBLE &&
-			row[i] != C_EXIT && row[i] != C_PLAYER_STARTING_POS)
+		if (row[i] != C_EMPTY_SPACE && row[i] != C_WALL
+			&& row[i] != C_COLLECTIBLE && row[i] != C_EXIT
+			&& row[i] != C_PLAYER_STARTING_POS)
 			error_exit(ERRMSG_INVALID_MAP_CHARACTERS, fd, row);
+		if (row[i] == C_COLLECTIBLE)
+			map->nb_collectible++;
+		else if (row[i] == C_PLAYER_STARTING_POS || row[i] == C_EXIT)
+			check_duplicate(i, map, row, fd);
 		map->data[map->height][i] = row[i];
 		i++;
 	}
@@ -103,5 +106,21 @@ static void	check_rows(char *row, t_map *map, int fd)
 	if (map->data[map->height][i - 1] != C_WALL)
 		error_exit(ERRMSG_INVALID_SURROUNDING, fd, row);
 	map->height++;
-	//TODO: ajouter dans structure pos player et exit  et collectibleet check ici si place pour gerer doublons
+}
+
+static void	check_duplicate(uint8_t i, t_map *map, char *row, int fd)
+{
+	if (row[i] == C_PLAYER_STARTING_POS)
+	{
+		if (map->starting_pos.x)
+			error_exit(ERRMSG_DUPLICATE_PLAYER, fd, row);
+		map->starting_pos.x = i;
+		map->starting_pos.y = map->height;
+	}
+	else
+	{
+		if (map->has_exit)
+			error_exit(ERRMSG_DUPLICATE_EXIT, fd, row);
+		map->has_exit = true;
+	}
 }

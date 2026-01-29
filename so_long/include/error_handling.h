@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:24:35 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/22 22:54:52 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/01/29 22:52:03 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@
 	"The map is not rectangular. [err6]"
 # define ERRMSG_INVALID_MAP_CHARACTERS \
 	"The characters in the map's data are not valid. [err7]"
+# define ERRMSG_DUPLICATE_PLAYER \
+	"There must be only one player on the map. [err8]"
+# define ERRMSG_DUPLICATE_EXIT \
+	"There must be only one exit on the map. [err9]"
+# define ERRMSG_NO_COLLECTIBLE \
+	"There must be at least one collectible on the map. [err10]"
+# define ERRMSG_UNPLAYABLE_MAP \
+	"The map is unplayable. [err11]"
 
 void	error_exit(char *errmsg, int fd, char *row);
 

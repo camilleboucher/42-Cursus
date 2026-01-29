@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:10:43 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/22 15:38:28 by Camille          ###   ########.fr       */
+/*   Updated: 2026/01/29 17:24:44 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MAP_H
 
 # include <stdint.h>
+# include <stdbool.h>
+# include "components.h"
 
 # define MAP_FILE_EXTENSION "ber"
 
@@ -28,9 +30,12 @@
 
 typedef struct s_map
 {
-	uint8_t	width;
-	uint8_t	height;
-	char	data[MAP_MAX_ROWS][MAP_MAX_COLS];
+	uint8_t					width;
+	uint8_t					height;
+	char					data[MAP_MAX_ROWS][MAP_MAX_COLS];
+	t_component_position	starting_pos;
+	uint16_t				nb_collectible;
+	bool					has_exit;
 }	t_map;
 
 t_map	extract_map(char *path);
