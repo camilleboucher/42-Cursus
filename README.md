@@ -30,3 +30,8 @@ In this project, we need to create a Linux server in the form of a virtual machi
 ### Push_swap
 
 Here we have to sort a stack of numbers with the help of another stack with the least amount of moves. This project is quite complex because it requires many functions and an efficient algorithm. I chose to use a doubly linked list, which allowed me to understand this new concept better and to gain a clearer grasp of linked lists, which I thought I already understood. It was also a great project for me to better assimilate pointers and structures (struct).
+
+## My Best Ressources
+
+1.	Peer-to-peer learning. (thank you all)
+2.	[Core Dumped YouTube Channel](https://www.youtube.com/@CoreDumpped) for computer Science and low-level programming concepts.

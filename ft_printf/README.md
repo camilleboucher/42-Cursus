@@ -27,7 +27,10 @@ I used an array of function pointers to achieve an O(1) optimization. Instead of
 I started this project before implementing get_next_line (which allows reading a file line by line). In its current state, I am making system calls for almost every character I process. I later realized that this is not the most optimal approach!
 Therefore, if I wish to improve this project in the future, I will use buffers and reduce the number of system calls.
 
+It is important to limit system calls as much as possible for performance reasons due to context switching.
+
 ## Resources
 1.	`man` for the original function and va macros.
 2.	Peer-to-peer learning.
-3.	Web research, YouTube videos and AI chat for some notions.
+3.	[Excellent video about the Heap from Core Dumped](https://www.youtube.com/watch?v=ioJkA7Mw2-U) and why it's essential to avoid syscalls to prevent constant context switching in terms of performance.
+4.	Web research, YouTube videos and AI chat for some notions.

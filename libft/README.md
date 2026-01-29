@@ -33,7 +33,7 @@ When allocating memory by creating variables, we can request the compiler to sto
 
 The stack is limited, but allocation within it is faster. It also allows us to take advantage of locality (avoiding fragmentation) to optimize CPU cache usage and thus gain performance (cache hit). However, we must be careful with recursion in return values to avoid a stack overflow. For dynamic sizes, we need to allocate memory in the heap.
 
-The heap is slower but larger and more flexible. Since allocation in the heap is dynamic, we must ensure to free it to avoid saturating memory. Unlike many other high-level languages, C does not have a garbage collector, which allows for performance gains compared to languages that do. However, we must be even more vigilant about memory leaks or security flaws, such as use-after-free, for example.
+The heap is a little bit slower but larger and more flexible. Since allocation in the heap is dynamic, we must ensure to free it to avoid saturating memory. Unlike many other high-level languages, C does not have a garbage collector, which allows for performance gains compared to languages that do. However, we must be even more vigilant about memory leaks or security flaws, such as use-after-free, for example.
 
 It's worth noting that the stack operates in a single thread. For multi-threading, it's better to use the heap.
 
@@ -51,5 +51,5 @@ I used bitwise operators in this project to gain an understanding of their uses 
 1.	[GNU Make Manual](https://www.gnu.org/software/make/manual/) for make.
 2.	`man` for the original functions of glibc and for the ASCII table.
 3.	Peer-to-peer learning.
-4.	[Core Dumped YouTube Channel](https://www.youtube.com/@CoreDumpped)
+4.	[Excellent video about the Stack from Core Dumped](https://www.youtube.com/watch?v=N3o5yHYLviQ)
 5.	Web research, YouTube videos and AI chat for some notions.
