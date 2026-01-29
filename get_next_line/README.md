@@ -20,4 +20,4 @@ To use this function, we must first open the file descriptor with the system cal
 ## Resources
 1.	Strong peer-to-peer learning.
 2.	[Tech Fairy's video](https://www.youtube.com/watch?v=saMebwRO-Q8)
-2.	Web research, YouTube videos and AI chat for some notions.
+3.	Web research, YouTube videos and AI chat for some notions.
