@@ -1,6 +1,6 @@
 _This project has been created as part of the 42 curriculum by cboucher._
 
-# Born2beroot
+# Born2beRoot
 
 ## Description
 In this project we have to do a linux virtual machine to learn the fundamentals of virtualization, system administration and bash scripting. For the bonus, we will deploy a web server for a wordpress website and I installed netdata who is a monitoring service.
@@ -120,8 +120,9 @@ The TCP protocol is reliable (ex: HTTPS and SSH). The UDP protocol is faster but
 ```
 
 ## Resources
-1.	Born2beroot guide:
+1.	I relied on Linux (and sysadmin) skills I have already acquired over several years out of passion.
+2.	Born2beroot guide:
 ```bash
 	https://github.com/chlimous/42-born2beroot_guide
 ```
-2.	Web research and AI chat for documentation and the script.
+3.	Web research and AI chat for documentation and the script.

@@ -12,8 +12,6 @@ Data structures are fundamental concepts in programming. Here, we have an initia
 
 The ultimate goal of this project is to be able to reuse it in other projects and to implement new functionalities throughout the core curriculum, such as an equivalent to `printf`, for example.
 
-
-
 ### A small example of important functions :
 
 1.	`ft_strlcat`: This function appends a specified number of characters from one string to the end of another, ensuring that the resulting string is null-terminated and does not exceed a given size, allowing safe concatenation.
@@ -45,6 +43,9 @@ It's worth noting that the stack operates in a single thread. For multi-threadin
 
 Use `make` or `make re` to compile the program. For cleaning the generated files use `make clean` or `make fclean`.
 
+## Technical Choices
+
+I used bitwise operators in this project to gain an understanding of their uses and to envision certain computational optimizations by employing them. In the end, the compiler already optimizes some operations on its own. However, I still found the challenge and the reflection interesting. We will necessarily have to use bitwise operators for the first exam, as well as for certain projects like minitalk (bit-by-bit signal transmission).
 
 ## Resources
 1.	[GNU Make Manual](https://www.gnu.org/software/make/manual/) for make.

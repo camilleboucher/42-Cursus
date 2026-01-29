@@ -1,6 +1,6 @@
 _This project has been created as part of the 42 curriculum by cboucher._
 
-# so_long
+# So Long
 
 ## Resources
 1.	MacroLibX Documentation : https://macrolibx.kbz8.me/
