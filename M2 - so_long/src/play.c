@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   play.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 15:37:41 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/29 23:14:03 by cboucher         ###   ########.fr       */
+/*   Created: 2026/02/02 16:06:50 by Camille           #+#    #+#             */
+/*   Updated: 2026/02/02 17:56:48 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#include "play.h"
+#include "map.h"
+#include "mlx.h"
 
-# define WINDOW_TITLE "SO_LONG"
-# define WINDOW_WIDTH 400
-# define WINDOW_HEIGHT 400
+void	init_mlx(t_game_engine *ge);
 
-#endif
+void	play(t_map *map)
+{
+	t_game_engine	ge;
+
+	ge.map = map;
+	init_mlx(&ge);
+}
+
+void	init_mlx(t_game_engine *ge)
+{
+	t_mlx	mlx;
+
+	mlx.mlx
+}

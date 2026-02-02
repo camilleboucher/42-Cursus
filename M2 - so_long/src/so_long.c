@@ -32,6 +32,7 @@ int	main(int argc, char *argv[])
 	map = extract_map(argv[1]);
 	if (!is_playable_map(map))
 		error_exit(ERRMSG_UNPLAYABLE_MAP, -1, NULL);
+	play(&map);
 	return (EXIT_SUCCESS);
 }
 
