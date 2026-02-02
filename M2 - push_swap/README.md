@@ -42,4 +42,5 @@ Example : `./push_swap 9 -33 21 6 7 4`
 2.	Explication of an algorithm for less than 7 numbers : [Adrian Roque](https://github.com/AdrianWR/push_swap)
 3.	Some inspirations for a complex algorithm (not in the final project) : [Video from Fred 1000orion](https://www.youtube.com/watch?v=2aMrmWOgLvU)
 4.	Peer-to-peer interactions for the use of the butterfly algorithm (efficient and easy algorithm).
+5.	Very good push_swap [visualizer](https://github.com/o-reo/push_swap_visualizer).
 5.	Web research and AI chat for some notions about double linked list.
