@@ -1,0 +1,6 @@
+-Wall
+-Werror
+-Wextra
+-Ilibft/include
+-IMacroLibX/include
+-Iinclude
