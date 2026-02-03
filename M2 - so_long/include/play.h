@@ -17,19 +17,20 @@
 # include "mlx.h"
 
 # define WINDOW_TITLE "SO_LONG"
-# define WINDOW_WIDTH 400
-# define WINDOW_HEIGHT 400
-
-typedef struct s_game_engine
-{
-	t_map	*map;
-	t_mlx	*mlx;
-}	t_game_engine;
+# define TILE_SIZE 64
 
 typedef struct s_mlx
 {
 	mlx_context				ctx;
 	mlx_window_create_info	info;
+	mlx_window				win;
 }	t_mlx;
+
+typedef struct s_game_engine
+{
+	t_map	*map;
+}	t_game_engine;
+
+void	play(t_map *map);
 
 #endif

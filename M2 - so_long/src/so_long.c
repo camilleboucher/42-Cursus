@@ -13,9 +13,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "ft_string.h"
-#include "components.h"
 #include "map.h"
 #include "error_handling.h"
+#include "components.h"
+#include "play.h"
 
 static bool	is_valid_extension(char *path, char *ext);
 static bool	is_playable_map(t_map map);

@@ -8,6 +8,10 @@ _This project has been created as part of the 42 curriculum by cboucher._
 
 Flood Fill (recursive)...
 
+### Pistes dameliorations
+
+Array List https://www.youtube.com/watch?v=xFMXIgvlgcY
+
 ## Resources
 1.	MacroLibX Documentation : https://macrolibx.kbz8.me/
 2.	Peer-to-peer learning for the idea of the [Flood Fill Algorithm](https://en.wikipedia.org/wiki/Flood_fill).
