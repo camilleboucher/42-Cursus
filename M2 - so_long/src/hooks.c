@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   play.h                                             :+:      :+:    :+:   */
+/*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 15:37:41 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/05 11:35:04 by Camille          ###   ########.fr       */
+/*   Created: 2026/02/03 14:19:02 by Camille           #+#    #+#             */
+/*   Updated: 2026/02/03 14:46:44 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PLAY_H
-# define PLAY_H
+#include "mlx.h"
+#include "hooks.h"
 
-# include "map.h"
-# include "mlx.h"
-
-# define WINDOW_TITLE "SO_LONG"
-# define FPS 30
-
-typedef struct s_mlx
+void	window_hook(int event, void *param)
 {
-	mlx_context				ctx;
-	mlx_window_create_info	info;
-	mlx_window				win;
-}	t_mlx;
+    if(event == 0)
+        mlx_loop_end((mlx_context)param);
+}
 
-typedef struct s_game_engine
+void	key_hook(int key, void *param)
 {
-	t_map		*map;
-	t_mlx		*mlx;
-	mlx_image	*tiles;
-}	t_game_engine;
-
-void	play(t_map *map);
-
-#endif
+    if(key == KEY_ESCAPE)
+        mlx_loop_end((mlx_context)param);
+}

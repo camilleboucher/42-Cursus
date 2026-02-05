@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   play.h                                             :+:      :+:    :+:   */
+/*   assets.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 15:37:41 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/05 11:35:04 by Camille          ###   ########.fr       */
+/*   Created: 2026/02/05 11:13:54 by Camille           #+#    #+#             */
+/*   Updated: 2026/02/05 11:44:15 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PLAY_H
-# define PLAY_H
+#ifndef ASSETS_H
+# define ASSETS_H
 
-# include "map.h"
-# include "mlx.h"
+# define NB_TILESETS 3
+# define NB_TILE_TEXTURES 5
+# define TILE_SIZE 16
 
-# define WINDOW_TITLE "SO_LONG"
-# define FPS 30
+# define PATH_TILESET_TERRAIN "assets/tundraSwampTaigaForestDesert_0.png"
+# define PATH_TILESET_OBSTACLES "assets/forest_ [resources].png"
 
-typedef struct s_mlx
+enum e_tileset
 {
-	mlx_context				ctx;
-	mlx_window_create_info	info;
-	mlx_window				win;
-}	t_mlx;
+	TERRAIN,
+	RESSOURCES
+};
 
-typedef struct s_game_engine
+enum e_tile
 {
-	t_map		*map;
-	t_mlx		*mlx;
-	mlx_image	*tiles;
-}	t_game_engine;
-
-void	play(t_map *map);
+	EMPTY_SPACE,
+	WALL,
+	COLLECTIBLE,
+	EXIT,
+	PLAYER_FRONT
+};
 
 #endif
