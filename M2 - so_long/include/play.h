@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 15:37:41 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/05 11:35:04 by Camille          ###   ########.fr       */
+/*   Updated: 2026/02/06 14:54:04 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # define WINDOW_TITLE "SO_LONG"
 # define FPS 30
+# define SCALING 3
 
 typedef struct s_mlx
 {
@@ -31,6 +32,7 @@ typedef struct s_game_engine
 	t_map		*map;
 	t_mlx		*mlx;
 	mlx_image	*tiles;
+	mlx_image	render;
 }	t_game_engine;
 
 void	play(t_map *map);

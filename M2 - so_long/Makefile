@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2026/02/03 14:48:30 by Camille          ###   ########.fr        #
+#    Updated: 2026/02/06 11:15:25 by Camille          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ endif
 SRC_DIR := src/
 ALGO_DIR := algorithm/
 
-SRC_BASENAMES := so_long error_handling map play hooks
+SRC_BASENAMES := so_long error_handling map play hooks rendering
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
 
 OBJ_DIR := .build/

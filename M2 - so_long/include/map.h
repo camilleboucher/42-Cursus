@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:10:43 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/29 17:24:44 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:52:40 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_map
 	uint8_t					width;
 	uint8_t					height;
 	char					data[MAP_MAX_ROWS][MAP_MAX_COLS];
-	t_component_position	starting_pos;
+	t_component_position	player_pos;
 	uint16_t				nb_collectible;
 	bool					has_exit;
 }	t_map;

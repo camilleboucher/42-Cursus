@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   components.h                                       :+:      :+:    :+:   */
+/*   rendering.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/22 14:10:43 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/06 15:30:04 by Camille          ###   ########.fr       */
+/*   Created: 2026/02/06 10:23:31 by Camille           #+#    #+#             */
+/*   Updated: 2026/02/06 15:27:16 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMPONENTS_H
-# define COMPONENTS_H
+#ifndef RENDERING_H
+# define RENDERING_H
 
-# include <stdint.h>
-
-typedef struct s_component_position
-{
-	uint16_t	x;
-	uint16_t	y;
-}	t_component_position;
+void	rendering(void *param);
 
 #endif

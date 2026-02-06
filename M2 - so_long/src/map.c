@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 17:59:52 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/29 23:23:00 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:54:54 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ static void	check_duplicate(uint8_t i, t_map *map, char *row, int fd)
 {
 	if (row[i] == C_PLAYER_STARTING_POS)
 	{
-		if (map->starting_pos.x)
+		if (map->player_pos.x)
 			error_exit(ERRMSG_DUPLICATE_PLAYER, fd, row);
-		map->starting_pos.x = i;
-		map->starting_pos.y = map->height;
+		map->player_pos.x = i;
+		map->player_pos.y = map->height;
 	}
 	else
 	{

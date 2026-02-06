@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 15:45:41 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/29 23:25:50 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:53:57 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static bool	is_playable_map(t_map map)
 {
 	if (!map.nb_collectible)
 		error_exit(ERRMSG_NO_COLLECTIBLE, -1, NULL);
-	flood_fill_algorithm(&map, map.starting_pos);
+	flood_fill_algorithm(&map, map.player_pos);
 	if (!map.has_exit && !map.nb_collectible)
 		return (true);
 	return (false);
