@@ -34,7 +34,7 @@ endif
 SRC_DIR := src/
 ALGO_DIR := algorithm/
 
-SRC_BASENAMES := so_long error_handling map play hooks rendering
+SRC_BASENAMES := so_long error_handling map play hooks rendering gameplay
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
 
 OBJ_DIR := .build/

@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:06:50 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/06 16:03:38 by Camille          ###   ########.fr       */
+/*   Updated: 2026/02/08 10:06:54 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	play(t_map *map)
 	load_tiles(&ge, &mlx);
 	ge.render = mlx_new_image(mlx.ctx, map->width * TILE_SIZE,
 						   map->height * TILE_SIZE);
+	ge.move_count = 0;
+	mlx_on_event(mlx.ctx, mlx.win, MLX_KEYDOWN, key_hook, &ge);
 	mlx_add_loop_hook(mlx.ctx, rendering, &ge);
 	mlx_loop(mlx.ctx);
 	i = 0;
@@ -61,7 +63,6 @@ static void	init_mlx(t_mlx *mlx, int width, int height)
 	mlx->win = mlx_new_window(mlx->ctx, &mlx->info);
 	mlx_set_fps_goal(mlx->ctx, FPS);
 	mlx_on_event(mlx->ctx, mlx->win, MLX_WINDOW_EVENT, window_hook, mlx->ctx);
-	mlx_on_event(mlx->ctx, mlx->win, MLX_KEYDOWN, key_hook, mlx->ctx);
 }
 
 static void	load_tiles(t_game_engine *ge, t_mlx *mlx)

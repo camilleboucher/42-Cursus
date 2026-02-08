@@ -4,6 +4,10 @@ _This project has been created as part of the 42 curriculum by cboucher._
 
 ## Technical Choices
 
+### Architecture
+
+MVC est venu naturellement
+
 ### Algorithm for checking if the map is playable
 
 Flood Fill (recursive)...
@@ -18,3 +22,4 @@ Array List https://www.youtube.com/watch?v=xFMXIgvlgcY
 3.	Assets from kevins-moms-house.itch.io : [Terrain](https://kevins-moms-house.itch.io/fantasy) and [Player](https://kevins-moms-house.itch.io/playersprites)
 https://pixelserial.itch.io/ for other player asset
 2.	Web research and AI chat for some notions about double linked list.
+https://wiki.libsdl.org/SDL2/SDL_Scancode

@@ -12,6 +12,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include "mlx.h"
 #include "mlx_extended.h"
 #include "play.h"
 #include "map.h"
@@ -44,10 +45,13 @@ void	rendering(void *param)
 		}
 		pos.x++;
 	}
+	mlx_clear_window(mlx->ctx, mlx->win, (mlx_color){0});
 	mlx_put_transformed_image_to_window(mlx->ctx, mlx->win, ge->render, 0, 0, SCALING, SCALING, 0);
 	mlx_put_transformed_image_to_window(mlx->ctx, mlx->win,
-									 ge->tiles[PLAYER_FRONT], map->player_pos.x * TILE_SIZE,
-									 map->player_pos.y * TILE_SIZE, SCALING, SCALING, 0); 	//FIX:render player sur le render puis scale
+									 ge->tiles[PLAYER_FRONT],
+									 ((map->player_pos.x * TILE_SIZE) - 8) * SCALING,
+									 ((map->player_pos.y * TILE_SIZE) - 18) * SCALING,
+									 SCALING, SCALING, 0);
 }
 
 static enum e_tile	find_tile(t_map *map, uint8_t line, uint8_t col)
@@ -62,6 +66,9 @@ static enum e_tile	find_tile(t_map *map, uint8_t line, uint8_t col)
 		return (EMPTY_SPACE);
 }
 
+//TODO: pour fix bug de la macro, utiliser eventuellement
+//mlx_pixel_put_array(mlx_context mlx, mlx_window win, int x, int y, mlx_color* pixels, size_t pixels_number);
+//et update la macro
 static void			render_tile(enum e_tile found, t_game_engine *ge, t_mlx *mlx,
 						  t_component_position *pos)
 {

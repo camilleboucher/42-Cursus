@@ -1,42 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   play.h                                             :+:      :+:    :+:   */
+/*   gameplay.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 15:37:41 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/06 14:54:04 by Camille          ###   ########.fr       */
+/*   Created: 2026/02/08 09:59:48 by Camille           #+#    #+#             */
+/*   Updated: 2026/02/08 10:21:33 by Camille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PLAY_H
-# define PLAY_H
+#ifndef GAMEPLAY_H
+# define GAMEPLAY_H
 
-# include <stdint.h>
 # include "map.h"
-# include "mlx.h"
+# include "play.h"
 
-# define WINDOW_TITLE "SO_LONG"
-# define FPS 30
-# define SCALING 3
-
-typedef struct s_mlx
+enum e_direction
 {
-	mlx_context				ctx;
-	mlx_window_create_info	info;
-	mlx_window				win;
-}	t_mlx;
+	RIGHT,
+	LEFT,
+	DOWN,
+	UP
+};
 
-typedef struct s_game_engine
-{
-	t_map		*map;
-	t_mlx		*mlx;
-	mlx_image	*tiles;
-	mlx_image	render;
-	uint16_t	move_count;
-}	t_game_engine;
-
-void	play(t_map *map);
+bool	move_player(enum e_direction direction, t_map *map,
+		t_component_position pos);
+bool	update_game_status(t_game_engine *ge, bool player_move);
 
 #endif
