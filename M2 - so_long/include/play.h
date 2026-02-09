@@ -18,8 +18,8 @@
 # include "mlx.h"
 
 # define WINDOW_TITLE "SO_LONG"
-# define FPS 30
-# define SCALING 3
+# define FPS 28
+# define SCssssALING 3 //FIX: limiter map
 
 typedef struct s_mlx
 {
@@ -32,6 +32,7 @@ typedef struct s_game_engine
 {
 	t_map		*map;
 	t_mlx		*mlx;
+	uint8_t		scaling;
 	mlx_image	*tiles;
 	mlx_image	render;
 	uint16_t	move_count;

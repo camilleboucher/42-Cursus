@@ -14,15 +14,18 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "mlx.h"
+#include "ft_stdio.h"
 #include "hooks.h"
 #include "play.h"
 #include "gameplay.h"
-#include "ft_stdio.h"
 
 void	window_hook(int event, void *param)
 {
-    if(event == 0)
-        mlx_loop_end((mlx_context)param);
+	if (event == 0)
+	{
+		ft_printf("\nBye!\n");
+		mlx_loop_end((mlx_context)param);
+	}
 }
 
 void	key_hook(int key, void *param)
@@ -36,11 +39,11 @@ void	key_hook(int key, void *param)
 	mlx = ge->mlx;
 	map = ge->map;
 	player_move = false;
-	if (key == SDL_SCANCODE_B)
-		ft_printf("\rPLAYER POS %d:%d | COLLECTIBLES : %d",
-			ge->map->player_pos.x, ge->map->player_pos.y, map->nb_collectible);
-    if (key == SDL_SCANCODE_ESCAPE)
+	if (key == SDL_SCANCODE_ESCAPE)
+	{
+		ft_printf("\nBye!\n");
 		mlx_loop_end(mlx->ctx);
+	}
 	else if (key == SDL_SCANCODE_RIGHT || key == SDL_SCANCODE_D)
 		player_move = move_player(RIGHT, map, map->player_pos);
 	else if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_A)
@@ -49,6 +52,6 @@ void	key_hook(int key, void *param)
 		player_move = move_player(DOWN, map, map->player_pos);
 	else if (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_W)
 		player_move = move_player(UP, map, map->player_pos);
-	if(!update_game_status(ge, player_move))
+	if (!update_game_status(ge, player_move))
 		mlx_loop_end(mlx->ctx);
 }

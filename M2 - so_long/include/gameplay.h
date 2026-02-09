@@ -25,7 +25,7 @@ enum e_direction
 };
 
 bool	move_player(enum e_direction direction, t_map *map,
-		t_component_position pos);
+			t_component_position pos);
 bool	update_game_status(t_game_engine *ge, bool player_move);
 
 #endif

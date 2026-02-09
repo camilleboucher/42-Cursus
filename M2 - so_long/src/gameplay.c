@@ -15,7 +15,7 @@
 #include "map.h"
 
 bool	move_player(enum e_direction direction, t_map *map,
-				 t_component_position pos)
+				t_component_position pos)
 {
 	if (direction == RIGHT && map->data[pos.y][pos.x + 1] != C_WALL)
 	{
@@ -57,7 +57,8 @@ bool	update_game_status(t_game_engine *ge, bool player_move)
 	}
 	else if (!(ge->map->nb_collectible) && *player_cell == C_EXIT)
 	{
-		//TODO: ajouter un \n et affihcer WIN
+		ft_printf("\rMove count : %d\nCongratulation! You win!\n",
+			ge->move_count);
 		return (false);
 	}
 	return (true);

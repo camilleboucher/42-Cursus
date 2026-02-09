@@ -19,8 +19,8 @@
 
 # define MAP_FILE_EXTENSION "ber"
 
-# define MAP_MAX_ROWS 255
-# define MAP_MAX_COLS 255
+# define MAP_MAX_ROWS 38//TODO:38 pour screen_width / (16 * scaling) - 2tiles. voir si pertinent et tester
+# define MAP_MAX_COLS 38
 
 # define C_EMPTY_SPACE '0'
 # define C_WALL '1'

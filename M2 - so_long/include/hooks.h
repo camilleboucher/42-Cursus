@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HOOK_H
-# define HOOK_H
+#ifndef HOOKS_H
+# define HOOKS_H
 
 # include <SDL2/SDL_scancode.h>
 
