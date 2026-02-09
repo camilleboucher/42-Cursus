@@ -12,6 +12,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include "mlx.h"
 #include "mlx_extended.h"
 #include "play.h"
 #include "map.h"
@@ -21,6 +22,7 @@
 static enum e_tile	find_tile(t_map *map, uint8_t line, uint8_t col);
 static void			render_tile(enum e_tile found, t_game_engine *ge,
 						t_mlx *mlx, t_component_position *pos);
+static void			display_layer(t_game_engine *ge, mlx_image tile, int x, int y);
 
 void	rendering(void *param)
 {
@@ -45,11 +47,10 @@ void	rendering(void *param)
 		pos.x++;
 	}
 	mlx_clear_window(mlx->ctx, mlx->win, (mlx_color){0});
-	//FIX: faire un wrapper layers car fn name trop long
-	mlx_put_transformed_image_to_window(mlx->ctx, mlx->win, ge->render, 0, 0, ge->scaling, ge->scaling, 0);
-	mlx_put_transformed_image_to_window(mlx->ctx, mlx->win, ge->tiles[PLAYER_FRONT],
-			((map->player_pos.x * TILE_SIZE) - 8) * ge->scaling,
-			((map->player_pos.y * TILE_SIZE) - 18) * ge->scaling, ge->scaling, ge->scaling, 0);
+	display_layer(ge, ge->render, 0, 0);
+	display_layer(ge, ge->tiles[PLAYER_FRONT],
+			   ((map->player_pos.x * TILE_SIZE) - 8) * ge->scaling,
+			   ((map->player_pos.y * TILE_SIZE) - 18) * ge->scaling);
 }
 
 static enum e_tile	find_tile(t_map *map, uint8_t line, uint8_t col)
@@ -93,4 +94,9 @@ static void	render_tile(enum e_tile found, t_game_engine *ge,
 		r.x++;
 		w.x++;
 	}
+}
+
+static void			display_layer(t_game_engine *ge, mlx_image tile, int x, int y)
+{
+	mlx_put_transformed_image_to_window(ge->mlx->ctx, ge->mlx->win, tile, x, y, ge->scaling, ge->scaling, 0);
 }

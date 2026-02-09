@@ -19,7 +19,7 @@
 
 # define MAP_FILE_EXTENSION "ber"
 
-# define MAP_MAX_ROWS 38//TODO:38 pour screen_width / (16 * scaling) - 2tiles. voir si pertinent et tester
+# define MAP_MAX_ROWS 20
 # define MAP_MAX_COLS 38
 
 # define C_EMPTY_SPACE '0'
@@ -32,7 +32,7 @@ typedef struct s_map
 {
 	uint8_t					width;
 	uint8_t					height;
-	char					data[MAP_MAX_ROWS][MAP_MAX_COLS];
+	char					data[MAP_MAX_ROWS + 1][MAP_MAX_COLS + 1];
 	t_component_position	player_pos;
 	uint16_t				nb_collectible;
 	bool					has_exit;

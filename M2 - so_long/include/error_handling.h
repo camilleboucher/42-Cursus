@@ -25,18 +25,20 @@
 	"The map is not surrounded by walls. [err4]"
 # define ERRMSG_SIZE_MIN \
 	"The minimum size of the map can be 3x5, 4x4 or 5x3. [err5]"
+# define ERRMSG_SIZE_MAX \
+	"The maximum size of the map is 20x38. [err6]"
 # define ERRMSG_MAP_IS_NOT_RECTANGULAR \
-	"The map is not rectangular. [err6]"
+	"The map is not rectangular. [err7]"
 # define ERRMSG_INVALID_MAP_CHARACTERS \
-	"The characters in the map's data are not valid. [err7]"
+	"The characters in the map's data are not valid. [err8]"
 # define ERRMSG_DUPLICATE_PLAYER \
-	"There must be only one player on the map. [err8]"
+	"There must be only one player on the map. [err9]"
 # define ERRMSG_DUPLICATE_EXIT \
-	"There must be only one exit on the map. [err9]"
+	"There must be only one exit on the map. [err10]"
 # define ERRMSG_NO_COLLECTIBLE \
-	"There must be at least one collectible on the map. [err10]"
+	"There must be at least one collectible on the map. [err11]"
 # define ERRMSG_UNPLAYABLE_MAP \
-	"The map is unplayable. [err11]"
+	"The map is unplayable. [err12]"
 
 void	error_exit(char *errmsg, int fd, char *row);
 

@@ -19,7 +19,6 @@
 
 # define WINDOW_TITLE "SO_LONG"
 # define FPS 28
-# define SCssssALING 3 //FIX: limiter map
 
 typedef struct s_mlx
 {

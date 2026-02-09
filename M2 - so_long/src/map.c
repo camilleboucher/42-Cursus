@@ -53,6 +53,10 @@ static void	parsing(int fd, t_map *map)
 	row = get_next_line(fd);
 	while (row)
 	{
+		if (map->height > MAP_MAX_ROWS)
+			error_exit(ERRMSG_SIZE_MAX, fd, row);
+		else if (map->width > MAP_MAX_COLS)
+			error_exit(ERRMSG_SIZE_MAX, fd, row);
 		check_rows(row, map, fd);
 		free(row);
 		row = get_next_line(fd);

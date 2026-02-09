@@ -23,10 +23,8 @@
 
 static uint8_t		init_mlx_and_scaling(t_mlx *mlx, int width, int height);
 static void			load_tiles(t_game_engine *ge, t_mlx *mlx);
-static mlx_image	load_from_tileset(uint8_t line, uint8_t column,
-						mlx_image *tileset, t_mlx *mlx);
-static mlx_image	load_player_from_tileset(uint8_t line, uint8_t column,
-						mlx_image *tileset, t_mlx *mlx);
+static mlx_image	load_from_tileset(t_component_position tile_pos,
+						uint8_t tile_size, mlx_image *tileset, t_mlx *mlx);
 
 void	play(t_map *map)
 {
@@ -83,7 +81,7 @@ static uint8_t	init_mlx_and_scaling(t_mlx *mlx, int width, int height)
 
 static void	load_tiles(t_game_engine *ge, t_mlx *mlx)
 {
-	mlx_image	tileset[NB_TILESETS];
+	mlx_image				tileset[NB_TILESETS];
 
 	tileset[TERRAIN] = mlx_new_image_from_file(mlx->ctx,
 			PATH_TILESET_TERRAIN, NULL, NULL);
@@ -91,67 +89,39 @@ static void	load_tiles(t_game_engine *ge, t_mlx *mlx)
 			PATH_TILESET_OBSTACLES, NULL, NULL);
 	tileset[CHARACTER] = mlx_new_image_from_file(mlx->ctx,
 			PATH_TILESET_CHARACTER, NULL, NULL);
-	ge->tiles[EMPTY_SPACE] = load_from_tileset(2, 8, &tileset[TERRAIN], mlx);
-	ge->tiles[WALL] = load_from_tileset(4, 1, &tileset[RESSOURCES], mlx);
-	ge->tiles[COLLECTIBLE] = load_from_tileset(1, 10,
+	ge->tiles[EMPTY_SPACE] = load_from_tileset((t_component_position){2, 8}, TILE_SIZE,
+											&tileset[TERRAIN], mlx);
+	ge->tiles[WALL] = load_from_tileset((t_component_position){4, 1}, TILE_SIZE,
+									 &tileset[RESSOURCES], mlx);
+	ge->tiles[COLLECTIBLE] = load_from_tileset((t_component_position){1, 10}, TILE_SIZE,
 			&tileset[RESSOURCES], mlx);
-	ge->tiles[EXIT] = load_from_tileset(8, 1, &tileset[RESSOURCES], mlx);
-	ge->tiles[PLAYER_FRONT] = load_player_from_tileset(0, 0,
+	ge->tiles[EXIT] = load_from_tileset((t_component_position){8, 1}, TILE_SIZE,
+									&tileset[RESSOURCES], mlx);
+	ge->tiles[PLAYER_FRONT] = load_from_tileset((t_component_position){0, 0}, TILE_PLAYER_SIZE,
 			&tileset[CHARACTER], mlx);
 	mlx_destroy_image(mlx->ctx, tileset[TERRAIN]);
 	mlx_destroy_image(mlx->ctx, tileset[RESSOURCES]);
 	mlx_destroy_image(mlx->ctx, tileset[CHARACTER]);
 }
 
-//FIX: fusionner line et column pour ajouter size pour adapter nimporte quel size de sprite
-static mlx_image	load_from_tileset(uint8_t line, uint8_t column,
-										mlx_image *tileset, t_mlx *mlx)
+static mlx_image	load_from_tileset(t_component_position tile_pos,
+										uint8_t tile_size, mlx_image *tileset, t_mlx *mlx)
 {
 	mlx_image				tile;
 	mlx_color				color;
 	t_component_position	r;
 	t_component_position	w;
 
-	tile = mlx_new_image(mlx->ctx, TILE_SIZE, TILE_SIZE);
-	line *= TILE_SIZE;
-	column *= TILE_SIZE;
-	r.x = line;
+	tile = mlx_new_image(mlx->ctx, tile_size, tile_size);
+	tile_pos.x *= tile_size;
+	tile_pos.y *= tile_size;
+	r.x = tile_pos.x;
 	w.x = 0;
-	while (r.x < (line + TILE_SIZE))
+	while (r.x < (tile_pos.x + tile_size))
 	{
-		r.y = column;
+		r.y = tile_pos.y;
 		w.y = 0;
-		while (r.y < (column + TILE_SIZE))
-		{
-			color = mlx_get_image_pixel(mlx->ctx, *tileset, r.y, r.x);
-			mlx_set_image_pixel(mlx->ctx, tile, w.y, w.x, color);
-			r.y++;
-			w.y++;
-		}
-		r.x++;
-		w.x++;
-	}
-	return (tile);
-}
-
-static mlx_image	load_player_from_tileset(uint8_t line, uint8_t column,
-										mlx_image *tileset, t_mlx *mlx)
-{
-	mlx_image				tile;
-	mlx_color				color;
-	t_component_position	r;
-	t_component_position	w;
-
-	tile = mlx_new_image(mlx->ctx, TILE_PLAYER_SIZE, TILE_PLAYER_SIZE);
-	line *= TILE_PLAYER_SIZE;
-	column *= TILE_PLAYER_SIZE;
-	r.x = line;
-	w.x = 0;
-	while (r.x < (line + TILE_PLAYER_SIZE))
-	{
-		r.y = column;
-		w.y = 0;
-		while (r.y < (column + TILE_PLAYER_SIZE))
+		while (r.y < (tile_pos.y + tile_size))
 		{
 			color = mlx_get_image_pixel(mlx->ctx, *tileset, r.y, r.x);
 			mlx_set_image_pixel(mlx->ctx, tile, w.y, w.x, color);
