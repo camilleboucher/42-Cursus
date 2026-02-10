@@ -12,8 +12,10 @@
 
 NAME := so_long
 
-LIBMLX_DIR := MacroLibX/
-LIBMLX:= $(LIBMLX_DIR)libmlx.so -lSDL2
+LIBMLX_DIR := libmlx/
+LIBMLX:= $(LIBMLX_DIR)libmlx.so
+LIBMLXFLAG := -lSDL2
+LIBMLXFLAG_DEBUG :=
 
 LIBFT_DIR := libft/
 LIBFT_NAME := libft.a
@@ -21,14 +23,15 @@ LIBFT := $(LIBFT_DIR)$(LIBFT_NAME)
 MAKEFLAGS += --no-print-directory
 
 LIBS := $(LIBFT_DIR)
-LIBS := $(LIBMLX_DIR) $(LIBFT_DIR)
 INCLUDES := -Iinclude $(addprefix -I, $(addsuffix include, $(LIBS)))
+LIBS := $(LIBMLX_DIR)
+INCLUDES += \ $(addprefix -I, $(addsuffix includes, $(LIBS)))
 
 CC := cc
 CFLAGS := -Wall -Werror -Wextra $(INCLUDES)
 ifeq ($(DEBUG),true)
     CFLAGS += -g
-    LIBMLX := $(LIBMLX_DIR)libmlx_debug.so -lSDL2
+    LIBMLXFLAG_DEBUG := DEBUG=true
 endif
 
 SRC_DIR := src/
@@ -42,11 +45,15 @@ OBJS := $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $^ -o $@ $(LIBMLX)
+$(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LIBMLX) $(LIBMLXFLAG)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
+
+$(LIBMLX):
+	git clone https://github.com/seekrs/MacroLibX.git -b v2.2.6 $(LIBMLX_DIR) --depth=1
+	$(LIBMLXFLAG_DEBUG) $(MAKE) -C $(LIBMLX_DIR)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
@@ -54,6 +61,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 clean:
 	@rm -rf $(OBJ_DIR)
+	@rm -rf $(LIBMLX_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean

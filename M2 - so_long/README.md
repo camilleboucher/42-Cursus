@@ -23,3 +23,6 @@ Array List https://www.youtube.com/watch?v=xFMXIgvlgcY
 https://pixelserial.itch.io/ for other player asset
 2.	Web research and AI chat for some notions about double linked list.
 https://wiki.libsdl.org/SDL2/SDL_Scancode
+
+
+//TODO: map sans exit possible + leaks yannis gnl + protections alloc mlx
