@@ -35,8 +35,8 @@ void	play(t_map *map)
 
 	ge.map = map;
 	ge.mlx = &mlx;
-	ge.scaling = init_mlx_and_scaling(&mlx, map->width * TILE_SIZE,
-		map->height * TILE_SIZE);
+	ge.scaling = init_mlx_and_scaling(&mlx,
+			map->width * TILE_SIZE, map->height * TILE_SIZE);
 	ge.tiles = tiles;
 	load_tiles(&ge, &mlx);
 	ge.render = mlx_new_image(mlx.ctx, map->width * TILE_SIZE,
@@ -89,23 +89,23 @@ static void	load_tiles(t_game_engine *ge, t_mlx *mlx)
 			PATH_TILESET_OBSTACLES, NULL, NULL);
 	tileset[CHARACTER] = mlx_new_image_from_file(mlx->ctx,
 			PATH_TILESET_CHARACTER, NULL, NULL);
-	ge->tiles[EMPTY_SPACE] = load_from_tileset((t_component_position){2, 8}, TILE_SIZE,
-											&tileset[TERRAIN], mlx);
-	ge->tiles[WALL] = load_from_tileset((t_component_position){4, 1}, TILE_SIZE,
-									 &tileset[RESSOURCES], mlx);
-	ge->tiles[COLLECTIBLE] = load_from_tileset((t_component_position){1, 10}, TILE_SIZE,
-			&tileset[RESSOURCES], mlx);
-	ge->tiles[EXIT] = load_from_tileset((t_component_position){8, 1}, TILE_SIZE,
-									&tileset[RESSOURCES], mlx);
-	ge->tiles[PLAYER_FRONT] = load_from_tileset((t_component_position){0, 0}, TILE_PLAYER_SIZE,
-			&tileset[CHARACTER], mlx);
+	ge->tiles[EMPTY_SPACE] = load_from_tileset((t_component_position){2, 8},
+			TILE_SIZE, &tileset[TERRAIN], mlx);
+	ge->tiles[WALL] = load_from_tileset((t_component_position){4, 1},
+			TILE_SIZE, &tileset[RESSOURCES], mlx);
+	ge->tiles[COLLECTIBLE] = load_from_tileset((t_component_position){1, 10},
+			TILE_SIZE, &tileset[RESSOURCES], mlx);
+	ge->tiles[EXIT] = load_from_tileset((t_component_position){8, 1},
+			TILE_SIZE, &tileset[RESSOURCES], mlx);
+	ge->tiles[PLAYER_FRONT] = load_from_tileset((t_component_position){0, 0},
+			TILE_PLAYER_SIZE, &tileset[CHARACTER], mlx);
 	mlx_destroy_image(mlx->ctx, tileset[TERRAIN]);
 	mlx_destroy_image(mlx->ctx, tileset[RESSOURCES]);
 	mlx_destroy_image(mlx->ctx, tileset[CHARACTER]);
 }
 
 static mlx_image	load_from_tileset(t_component_position tile_pos,
-										uint8_t tile_size, mlx_image *tileset, t_mlx *mlx)
+						uint8_t tile_size, mlx_image *tileset, t_mlx *mlx)
 {
 	mlx_image				tile;
 	mlx_color				color;

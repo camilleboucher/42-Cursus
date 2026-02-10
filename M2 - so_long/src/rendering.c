@@ -22,17 +22,16 @@
 static enum e_tile	find_tile(t_map *map, uint8_t line, uint8_t col);
 static void			render_tile(enum e_tile found, t_game_engine *ge,
 						t_mlx *mlx, t_component_position *pos);
-static void			display_layer(t_game_engine *ge, mlx_image tile, int x, int y);
+static void			display_layer(t_game_engine *ge, mlx_image tile,
+						int x, int y);
 
 void	rendering(void *param)
 {
 	t_game_engine			*ge;
-	t_mlx					*mlx;
 	t_map					*map;
 	t_component_position	pos;
 
 	ge = (t_game_engine *)param;
-	mlx = ge->mlx;
 	map = ge->map;
 	pos = (t_component_position){0};
 	while (pos.x < map->height)
@@ -40,17 +39,17 @@ void	rendering(void *param)
 		pos.y = 0;
 		while (pos.y < map->width)
 		{
-			render_tile(EMPTY_SPACE, ge, mlx, &pos);
-			render_tile(find_tile(map, pos.x, pos.y), ge, mlx, &pos);
+			render_tile(EMPTY_SPACE, ge, ge->mlx, &pos);
+			render_tile(find_tile(map, pos.x, pos.y), ge, ge->mlx, &pos);
 			pos.y++;
 		}
 		pos.x++;
 	}
-	mlx_clear_window(mlx->ctx, mlx->win, (mlx_color){0});
+	mlx_clear_window(ge->mlx->ctx, ge->mlx->win, (mlx_color){0});
 	display_layer(ge, ge->render, 0, 0);
 	display_layer(ge, ge->tiles[PLAYER_FRONT],
-			   ((map->player_pos.x * TILE_SIZE) - 8) * ge->scaling,
-			   ((map->player_pos.y * TILE_SIZE) - 18) * ge->scaling);
+		((map->player_pos.x * TILE_SIZE) - 8) * ge->scaling,
+		((map->player_pos.y * TILE_SIZE) - 18) * ge->scaling);
 }
 
 static enum e_tile	find_tile(t_map *map, uint8_t line, uint8_t col)
@@ -65,9 +64,6 @@ static enum e_tile	find_tile(t_map *map, uint8_t line, uint8_t col)
 		return (EMPTY_SPACE);
 }
 
-//TODO: pour fix bug de la macro, utiliser eventuellement
-//mlx_pixel_put_array(mlx_context mlx, mlx_window win, int x, int y, mlx_color* pixels, size_t pixels_number);
-//et update la macro
 static void	render_tile(enum e_tile found, t_game_engine *ge,
 				t_mlx *mlx, t_component_position *pos)
 {
@@ -96,7 +92,8 @@ static void	render_tile(enum e_tile found, t_game_engine *ge,
 	}
 }
 
-static void			display_layer(t_game_engine *ge, mlx_image tile, int x, int y)
+static void	display_layer(t_game_engine *ge, mlx_image tile, int x, int y)
 {
-	mlx_put_transformed_image_to_window(ge->mlx->ctx, ge->mlx->win, tile, x, y, ge->scaling, ge->scaling, 0);
+	mlx_put_transformed_image_to_window(ge->mlx->ctx, ge->mlx->win, tile, x, y,
+		ge->scaling, ge->scaling, 0);
 }
