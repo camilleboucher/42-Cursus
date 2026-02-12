@@ -2,5 +2,5 @@
 -Werror
 -Wextra
 -Ilibft/include
--IMacroLibX/include
+-Ilibmlx/includes
 -Iinclude

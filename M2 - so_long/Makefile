@@ -25,7 +25,7 @@ MAKEFLAGS += --no-print-directory
 LIBS := $(LIBFT_DIR)
 INCLUDES := -Iinclude $(addprefix -I, $(addsuffix include, $(LIBS)))
 LIBS := $(LIBMLX_DIR)
-INCLUDES += \ $(addprefix -I, $(addsuffix includes, $(LIBS)))
+INCLUDES += $(addprefix -I, $(addsuffix includes, $(LIBS)))
 
 CC := cc
 CFLAGS := -Wall -Werror -Wextra $(INCLUDES)
@@ -43,17 +43,20 @@ SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
 OBJ_DIR := .build/
 OBJS := $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-all: $(NAME)
+all: $(NAME) check_compilation
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
-	@$(CC) $(CFLAGS) $^ -o $@ $(LIBMLX) $(LIBMLXFLAG)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LIBFT) $(LIBMLX) $(LIBMLXFLAG)
+
+check_compilation:
+	@[ -f "$(NAME)" ] && echo "$(NAME) compiled successfully" || echo "compilation error"
 
 $(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) -j
 
 $(LIBMLX):
 	git clone https://github.com/seekrs/MacroLibX.git -b v2.2.6 $(LIBMLX_DIR) --depth=1
-	$(LIBMLXFLAG_DEBUG) $(MAKE) -C $(LIBMLX_DIR)
+	$(LIBMLXFLAG_DEBUG) $(MAKE) -C $(LIBMLX_DIR) -j
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
