@@ -1,0 +1,6 @@
+[submodule "M2 - push_swap/libft"]
+	path = M2 - push_swap/libft
+	url = https://github.com/camilleboucher/42-libft.git
+[submodule "M2 - so_long/libft"]
+	path = M2 - so_long/libft
+	url = https://github.com/camilleboucher/42-libft.git
