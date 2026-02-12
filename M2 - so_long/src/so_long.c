@@ -54,6 +54,10 @@ static bool	is_playable_map(t_map map)
 {
 	if (!map.nb_collectible)
 		error_exit(ERRMSG_NO_COLLECTIBLE, -1, NULL);
+	if (!map.player_pos.x)
+		error_exit(ERRMSG_NO_PLAYER, -1, NULL);
+	if (!map.has_exit)
+		error_exit(ERRMSG_NO_EXIT, -1, NULL);
 	flood_fill_algorithm(&map, map.player_pos);
 	if (!map.has_exit && !map.nb_collectible)
 		return (true);

@@ -37,8 +37,12 @@
 	"There must be only one exit on the map. [err10]"
 # define ERRMSG_NO_COLLECTIBLE \
 	"There must be at least one collectible on the map. [err11]"
+# define ERRMSG_NO_PLAYER \
+	"There must be one player on the map. [err12]"
+# define ERRMSG_NO_EXIT \
+	"There must be one exit on the map. [err13]"
 # define ERRMSG_UNPLAYABLE_MAP \
-	"The map is unplayable. [err12]"
+	"The map is unplayable. [err14]"
 
 void	error_exit(char *errmsg, int fd, char *row);
 

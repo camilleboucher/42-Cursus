@@ -43,10 +43,13 @@ SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
 OBJ_DIR := .build/
 OBJS := $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-all: $(NAME) check_compilation
+all: starting_compilation $(NAME) check_compilation
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
 	@$(CC) $(CFLAGS) $^ -o $@ $(LIBFT) $(LIBMLX) $(LIBMLXFLAG)
+
+starting_compilation:
+	@echo "Compiling $(NAME)..."
 
 check_compilation:
 	@[ -f "$(NAME)" ] && echo "$(NAME) compiled successfully" || echo "compilation error"
@@ -75,4 +78,4 @@ re: fclean all
 
 bonus: all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re starting_compilation check_compilation
