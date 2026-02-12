@@ -6,12 +6,14 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 11:13:54 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/06 16:00:51 by Camille          ###   ########.fr       */
+/*   Updated: 2026/02/12 21:20:59 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASSETS_H
 # define ASSETS_H
+
+# include "play.h"
 
 # define NB_TILESETS 3
 # define NB_TILE_TEXTURES 5
@@ -37,5 +39,7 @@ enum e_tile
 	EXIT,
 	PLAYER_FRONT
 };
+
+void		load_tiles(t_game_engine *ge, t_mlx *mlx);
 
 #endif

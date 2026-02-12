@@ -6,12 +6,14 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:24:35 by Camille           #+#    #+#             */
-/*   Updated: 2026/01/29 22:52:03 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/02/12 22:14:33 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERROR_HANDLING_H
 # define ERROR_HANDLING_H
+
+#include "play.h"
 
 # define ERRMSG_NO_PARAM \
 	"The so_long program take a .ber file map as a parameter. [err0]"
@@ -45,5 +47,7 @@
 	"The map is unplayable. [err14]"
 
 void	error_exit(char *errmsg, int fd, char *row);
+void	error_exit_mlx_malloc(t_mlx *mlx);
+void	error_exit_mlx_image_malloc(t_game_engine *ge, mlx_image tilesets[]);
 
 #endif
