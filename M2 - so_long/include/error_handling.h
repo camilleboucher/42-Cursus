@@ -13,7 +13,7 @@
 #ifndef ERROR_HANDLING_H
 # define ERROR_HANDLING_H
 
-#include "play.h"
+# include "play.h"
 
 # define ERRMSG_NO_PARAM \
 	"The so_long program take a .ber file map as a parameter. [err0]"

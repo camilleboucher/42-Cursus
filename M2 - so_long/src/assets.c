@@ -29,7 +29,6 @@ void	load_tiles(t_game_engine *ge, t_mlx *mlx)
 	mlx_image				tilesets[NB_TILESETS];
 
 	load_tilesets(ge, mlx, tilesets);
-	ft_memset(ge->tiles, 0x0, NB_TILE_TEXTURES);
 	ge->tiles[EMPTY_SPACE] = load_from_tileset((t_component_position){2, 8},
 			TILE_SIZE, &tilesets[TERRAIN], mlx);
 	ge->tiles[WALL] = load_from_tileset((t_component_position){4, 1},
@@ -41,7 +40,7 @@ void	load_tiles(t_game_engine *ge, t_mlx *mlx)
 	ge->tiles[PLAYER_FRONT] = load_from_tileset((t_component_position){0, 0},
 			TILE_PLAYER_SIZE, &tilesets[CHARACTER], mlx);
 	if (!ge->tiles[EMPTY_SPACE] || !ge->tiles[WALL] || !ge->tiles[COLLECTIBLE]
-	|| !ge->tiles[EXIT] || !ge->tiles[PLAYER_FRONT])
+		|| !ge->tiles[EXIT] || !ge->tiles[PLAYER_FRONT])
 		error_exit_mlx_image_malloc(ge, tilesets);
 	mlx_destroy_image(mlx->ctx, tilesets[TERRAIN]);
 	mlx_destroy_image(mlx->ctx, tilesets[RESSOURCES]);
@@ -50,7 +49,8 @@ void	load_tiles(t_game_engine *ge, t_mlx *mlx)
 
 static void	load_tilesets(t_game_engine *ge, t_mlx *mlx, mlx_image tilesets[])
 {
-	ft_memset(tilesets, 0x0, NB_TILESETS);
+	ft_memset(ge->tiles, 0x0, NB_TILE_TEXTURES * sizeof(mlx_image));
+	ft_memset(tilesets, 0x0, NB_TILESETS * sizeof(mlx_image));
 	tilesets[TERRAIN] = mlx_new_image_from_file(mlx->ctx,
 			PATH_TILESET_TERRAIN, NULL, NULL);
 	tilesets[RESSOURCES] = mlx_new_image_from_file(mlx->ctx,

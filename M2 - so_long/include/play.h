@@ -32,8 +32,8 @@ typedef struct s_game_engine
 	t_map		*map;
 	t_mlx		*mlx;
 	uint8_t		scaling;
-	mlx_image	*tiles;
 	mlx_image	render;
+	mlx_image	*tiles;
 	uint16_t	move_count;
 }	t_game_engine;
 

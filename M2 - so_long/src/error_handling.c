@@ -38,25 +38,31 @@ void	error_exit_mlx_malloc(t_mlx *mlx)
 		mlx_destroy_window(mlx->ctx, mlx->win);
 	if (mlx->ctx)
 		mlx_destroy_context(mlx->ctx);
+	exit(EXIT_FAILURE);
 }
 
 void	error_exit_mlx_image_malloc(t_game_engine *ge, mlx_image tilesets[])
 {
-	t_mlx	*mlx;
-	uint8_t	i;
+	t_mlx		*mlx;
+	mlx_image	*tiles;
+	uint8_t		i;
 
 	mlx = ge->mlx;
+	tiles = ge->tiles;
 	mlx_destroy_image(mlx->ctx, ge->render);
 	i = 0;
 	while (i < NB_TILESETS)
 	{
-		mlx_destroy_image(mlx->ctx, tilesets[i]);
+		if (tilesets[i])
+			mlx_destroy_image(mlx->ctx, tilesets[i]);
 		i++;
 	}
 	i = 0;
 	while (i < NB_TILE_TEXTURES)
 	{
-		mlx_destroy_image(mlx->ctx, ge->tiles[i]);
+		if (tiles[i])
+			mlx_destroy_image(mlx->ctx, tiles[i]);
 		i++;
 	}
+	error_exit_mlx_malloc(mlx);
 }

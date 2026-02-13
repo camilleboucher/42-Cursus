@@ -33,12 +33,12 @@ void	play(t_map *map)
 	mlx = (t_mlx){0x0};
 	ge.scaling = init_mlx_and_scaling(&mlx,
 			map->width * TILE_SIZE, map->height * TILE_SIZE);
-	ge.tiles = tiles;
-	load_tiles(&ge, &mlx);
 	ge.render = mlx_new_image(mlx.ctx, map->width * TILE_SIZE,
 			map->height * TILE_SIZE);
 	if (!ge.render)
 		error_exit_mlx_malloc(&mlx);
+	ge.tiles = tiles;
+	load_tiles(&ge, &mlx);
 	ge.move_count = 0;
 	ft_printf("Move count : 0");
 	mlx_on_event(mlx.ctx, mlx.win, MLX_KEYDOWN, key_hook, &ge);
