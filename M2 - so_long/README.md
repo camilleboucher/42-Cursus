@@ -2,7 +2,7 @@ _This project has been created as part of the 42 curriculum by cboucher._
 
 # So Long
 
-![img](so_long.webm)
+https://github.com/user-attachments/assets/2405245d-4d92-4b15-9e88-7f060cafa506
 
 ## Description
 
