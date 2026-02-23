@@ -2,6 +2,8 @@ _This project has been created as part of the 42 curriculum by cboucher._
 
 # Push_swap
 
+https://github.com/user-attachments/assets/921d40f8-5f49-4754-8cdc-cd3f9220cc25
+
 ## Description
 
 In this project we have to sort a stack of numbers with a small set of instructions and with the least amount of moves. We also have another empty stack where we can put numbers temporarily.
