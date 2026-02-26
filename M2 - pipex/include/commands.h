@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/26 15:17:02 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/26 21:14:09 by cboucher         ###   ########.fr       */
+/*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
+/*   Updated: 2026/02/26 21:10:30 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef COMMANDS_H
+# define COMMANDS_H
 
-typedef struct s_pipex
-{
-	char	***cmds;
-	int		fds[3];
-}	t_pipex;
+# include "pipex.h"
+
+void	get_cmds(char *argv[], t_pipex *pipex);
+void	free_cmds(char ***cmds);
+void	free_cmds_and_exit(char ***cmds);
 
 #endif

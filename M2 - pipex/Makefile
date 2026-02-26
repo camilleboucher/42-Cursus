@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2026/02/12 21:23:35 by cboucher         ###   ########.fr        #
+#    Updated: 2026/02/26 21:15:52 by cboucher         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ endif
 
 SRC_DIR := src/
 
-SRC_BASENAMES := pipex
+SRC_BASENAMES := pipex commands
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
 
 OBJ_DIR := .build/

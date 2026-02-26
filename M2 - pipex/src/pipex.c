@@ -6,16 +6,16 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/26 15:59:46 by Camille          ###   ########.fr       */
+/*   Updated: 2026/02/26 21:19:06 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_stdio.h"
 #include "pipex.h"
+#include "commands.h"
 
-void	get_cmds(char *argv[], t_pipex *pipex);
-void	free_cmds(char ***cmds);
+static void	get_fds(t_pipex *pipex, char *infile);
 
 int main(int argc, char *argv[], char *env[])
 {
@@ -27,46 +27,21 @@ int main(int argc, char *argv[], char *env[])
 		return (EXIT_FAILURE);
 	}
 	get_cmds(argv, &pipex);
+	get_fds(&pipex, argv[1]);
 	(void)env;
 	free_cmds(pipex.cmds);
 	return (EXIT_SUCCESS);
 }
 
-#include <stdio.h>
-#include "strutils.h"
-void	get_cmds(char *argv[], t_pipex *pipex)
+#include <fcntl.h>
+static void	get_fds(t_pipex *pipex, char *infile)
 {
-	char	***cmds;
-
-	cmds = malloc(sizeof(char **) * 2);
-	cmds[0] = ft_split(argv[2], ' ');
-	cmds[1] = ft_split(argv[3], ' ');
-	if (!cmds[0] || !cmds[1])
+	pipex->fds[0] = open(infile, O_RDONLY);
+	if (pipex->fds[0] == -1)
+		free_cmds_and_exit(pipex->cmds);
+	if (pipe(&pipex->fds[1]) == -1)
 	{
-		free_cmds(cmds);
-		perror("pipex");
-		exit(EXIT_FAILURE);
+		close(pipex->fds[0]);
+		free_cmds_and_exit(pipex->cmds);
 	}
-	pipex->cmds = cmds;
-}
-
-#include <stdint.h>
-void	free_cmds(char ***cmds)
-{
-	uint8_t	i;
-	uint8_t	j;
-
-	i = 0;
-	while (i < 2)
-	{
-		j = 0;
-		while (cmds[i][j])
-		{
-			free(cmds[i][j]);
-			j++;
-		}
-		free(cmds[i]);
-		i++;
-	}
-	free(cmds);
 }
