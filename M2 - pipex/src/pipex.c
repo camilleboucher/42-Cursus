@@ -14,8 +14,8 @@
 #include "ft_stdio.h"
 #include "pipex.h"
 
-static void	get_cmds(char *argv[], t_pipex *pipex);
-static void	free_cmds_exit(char **cmds[2]);
+void	get_cmds(char *argv[], t_pipex *pipex);
+void	free_cmds(char ***cmds);
 
 int main(int argc, char *argv[], char *env[])
 {
@@ -28,24 +28,30 @@ int main(int argc, char *argv[], char *env[])
 	}
 	get_cmds(argv, &pipex);
 	(void)env;
-	free_cmds_exit(pipex.cmds);
+	free_cmds(pipex.cmds);
 	return (EXIT_SUCCESS);
 }
 
+#include <stdio.h>
 #include "strutils.h"
-static void	get_cmds(char *argv[], t_pipex *pipex)
+void	get_cmds(char *argv[], t_pipex *pipex)
 {
-	char	**cmds[2];
+	char	***cmds;
 
-	cmds[0] = ft_split(argv[3], ' ');
-	cmds[1] = ft_split(argv[4], ' ');
+	cmds = malloc(sizeof(char **) * 2);
+	cmds[0] = ft_split(argv[2], ' ');
+	cmds[1] = ft_split(argv[3], ' ');
 	if (!cmds[0] || !cmds[1])
-		free_cmds_exit(cmds);
+	{
+		free_cmds(cmds);
+		perror("pipex");
+		exit(EXIT_FAILURE);
+	}
 	pipex->cmds = cmds;
 }
 
 #include <stdint.h>
-void	free_cmds_exit(char **cmds[2])
+void	free_cmds(char ***cmds)
 {
 	uint8_t	i;
 	uint8_t	j;
@@ -63,5 +69,4 @@ void	free_cmds_exit(char **cmds[2])
 		i++;
 	}
 	free(cmds);
-	exit(EXIT_FAILURE);
 }
