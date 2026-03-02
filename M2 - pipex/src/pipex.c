@@ -6,42 +6,80 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/26 21:19:06 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:33:22 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "ft_stdio.h"
+#include "ft_stdlib.h"
 #include "pipex.h"
-#include "commands.h"
+#include "fds.h"
 
-static void	get_fds(t_pipex *pipex, char *infile);
+static t_cmd	**init_pipex(int size);
+static void		clean_pipex(t_cmd **cmds, int size);
 
-int main(int argc, char *argv[], char *env[])
+int main(int argc, char *argv[], char *envp[])
 {
-	t_pipex	pipex;
+	t_cmd	**cmds;
+	int		size;
 
 	if (argc != 5)
 	{
-		ft_printf("pipex: the pipex program takes 4 arguments\n");
+		ft_dprintf(2, "pipex: the pipex program takes 4 arguments\n");
 		return (EXIT_FAILURE);
 	}
-	get_cmds(argv, &pipex);
-	get_fds(&pipex, argv[1]);
-	(void)env;
-	free_cmds(pipex.cmds);
+	size = argc - 3;
+	cmds = init_pipex(size);
+	get_fds(cmds, size, argv[1], argv[argc - 1]);
+	get_cmds(cmds, size, argv, envp);
+	clean_pipex(cmds, size);
 	return (EXIT_SUCCESS);
 }
 
-#include <fcntl.h>
-static void	get_fds(t_pipex *pipex, char *infile)
+static t_cmd	**init_pipex(int size)
 {
-	pipex->fds[0] = open(infile, O_RDONLY);
-	if (pipex->fds[0] == -1)
-		free_cmds_and_exit(pipex->cmds);
-	if (pipe(&pipex->fds[1]) == -1)
+	t_cmd	**cmds;
+	int		i;
+
+	i = size;
+	cmds = ft_calloc(sizeof(t_cmd *), size);
+	if (!cmds)
+		error_exit(cmds, size);
+	while (i)
 	{
-		close(pipex->fds[0]);
-		free_cmds_and_exit(pipex->cmds);
+		i--;
+		cmds[i] = malloc(sizeof(t_cmd));
+		if (!cmds[i])
+			error_exit(cmds, size);
 	}
+	return (cmds);
+}
+
+static void	clean_pipex(t_cmd **cmds, int size)
+{
+	int	i;
+
+	if (cmds)
+	{
+		i = size;
+		while (i)
+		{
+			i--;
+			if (cmds[i]->fds[IN] != -1)
+				close(cmds[i]->fds[IN]);
+			if (cmds[i]->fds[OUT] != -1)
+				close(cmds[i]->fds[OUT]);
+			free(cmds[i]);
+		}
+		free(cmds);
+	}
+}
+
+void	error_exit(t_cmd **cmds, int size)
+{
+	perror("pipex");
+	clean_pipex(cmds, size);
+	exit(EXIT_FAILURE);
 }

@@ -4,6 +4,8 @@ _This project has been created as part of the 42 curriculum by cboucher._
 
 ## Description
 
+Discovering native support for base octale
+
 ## Technical Choices
 
 ## Instructions
@@ -23,4 +25,5 @@ Example : `./so_long maps/1.ber`
 1.	[Article by Roslyn Michelle](https://www.rozmichelle.com/pipes-forks-dups/)
 2.	[CodeVault's Youtube playlist](https://www.youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY)
 3.	Peer-to-peer learning.
-4.	Web research and AI chat for some notions.
+4.	man (umask, pipe, fork, dup2, execve, wait, waitpid)
+5.	Web research and AI chat for some notions.

@@ -6,18 +6,50 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/26 21:19:54 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/02 16:42:19 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
-#include "strutils.h"
 #include "commands.h"
+#include "ft_string.h"
+#include "strutils.h"
 
-void	get_cmds(char *argv[], t_pipex *pipex)
+static char	**extract_paths(char *envp[]);
+
+void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 {
+	int		i;
+	char	**paths;
+
+	i = 0;
+	paths = extract_paths(envp);
+	if (cmds[0]->fds[IN] == -1)
+	{
+		close(cmds[0]->fds[OUT]);
+		close(cmds[1]->fds[IN]);
+		i++;
+	}
+	while (i < size)
+	{
+		//extract path
+		//extract argv
+	}
+}
+
+static char	**extract_paths(char *envp[])
+{
+	int		i;
+	char	*env_path;
+	char	**paths;
+
+	i = 0;
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
+		i++;
+	env_path = ft_strdup(envp[i] + 5); //TODO:proteger
+	paths = ft_split(env_path, ':');//TODO:proteger et enlever le \n de la derniere avec substr
+	return (paths);
+}
+/*
 	char	***cmds;
 
 	cmds = malloc(sizeof(char **) * 2);
@@ -53,4 +85,4 @@ void	free_cmds_and_exit(char ***cmds)
 	perror("pipex");
 	free_cmds(cmds);
 	exit(EXIT_FAILURE);
-}
+}*/

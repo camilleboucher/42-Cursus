@@ -6,17 +6,28 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/02/26 21:10:30 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:05:11 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMANDS_H
 # define COMMANDS_H
 
-# include "pipex.h"
+# include <unistd.h>
 
-void	get_cmds(char *argv[], t_pipex *pipex);
-void	free_cmds(char ***cmds);
-void	free_cmds_and_exit(char ***cmds);
+# define IN 0
+# define OUT 1
+
+typedef struct s_cmd
+{
+	char	*path;
+	char	**argv;
+	int		fds[2];
+	pid_t	pid;
+}	t_cmd;
+
+void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[]);
+//void	free_cmds(char ***cmds);
+//void	free_cmds_and_exit(char ***cmds);
 
 #endif
