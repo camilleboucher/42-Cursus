@@ -19,7 +19,7 @@
 
 static char *find_executable(char *bin, char **paths);
 static char	*find_path(char *bin, char**paths);
-static void	skip_clean_cmd(t_cmd *cmd, int fd_in_next_cmd, bool should_free);
+static void	skip_clean_cmd(t_cmd *cmd, int *fd_in_next_cmd, bool should_free);
 
 void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 {
@@ -29,7 +29,7 @@ void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 	i = 0;
 	paths = extract_paths(cmds, size, envp);
 	if (cmds[0]->fds[IN] == -1)
-		skip_clean_cmd(cmds[i++], cmds[1]->fds[IN], false);
+		skip_clean_cmd(cmds[i++], &cmds[1]->fds[IN], false);
 	while (i < size)
 	{
 		cmds[i]->argv = ft_split(argv[i + 2], ' ');
@@ -39,7 +39,7 @@ void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 		if (!cmds[i]->path)
 			error_paths_exit(cmds, size, paths);
 		if (!cmds[i]->path[0])
-			skip_clean_cmd(cmds[i], cmds[i + 1]->fds[IN], true);//TODO: prb valgrind pipex "" "" "" "" ou equivalent a < "" "" | "" > ""
+			skip_clean_cmd(cmds[i], &cmds[i + 1]->fds[IN], true);//TODO: VOIR FIX dans cette fonction prb valgrind pipex "" "" "" "" ou equivalent a < "" "" | "" > ""
 		i++;
 	}
 	ft_free_strs(paths);
@@ -51,8 +51,11 @@ static char *find_executable(char *bin, char **paths)
 
 	if (!bin)
 		path = ft_strdup("");
-	else if (!ft_strncmp(bin, "./", 2) || !ft_strncmp(bin, "../", 3) ||
-		!ft_strncmp(bin, "/", 1))//FIX:fuite invalid >> mon bin est NULL sans doute car mon split va retourner NULL si \0
+	//TODO: si !*paths et que le bin n'est pas relatif ou absolu, il ne faut pas que je le regle path strdup bin...
+		//ET questce que je retourne si je ne trouve pas le path que je recherche dans la fonction find_path
+	else if (!*paths || !ft_strncmp(bin, "./", 2) || !ft_strncmp(bin, "../", 3) ||
+		!ft_strncmp(bin, "/", 1))//FIX:TOUJOURS ACURATE CETTE ERREUR??? vu que jai corrige des trucs entre temps
+												//fuite invalid >> mon bin est NULL sans doute car mon split va retourner NULL si \0
 		path = ft_strdup(bin);
 	else
 		path = find_path(bin, paths);
@@ -76,11 +79,11 @@ static char	*find_path(char *bin, char**paths)//TODO: TESTER en executant des fi
 		path = NULL;
 		i++;
 	}
-	path = ft_strdup(bin);//TODO: dans lidee que on freera path et argv serarement
+	path = ft_strdup(bin);
 	return (path);
 }
 
-static void	skip_clean_cmd(t_cmd *cmd, int fd_in_next_cmd, bool should_free)
+static void	skip_clean_cmd(t_cmd *cmd, int *fd_in_next_cmd, bool should_free)
 {
 	if (should_free)
 		free(cmd->path);
@@ -89,5 +92,7 @@ static void	skip_clean_cmd(t_cmd *cmd, int fd_in_next_cmd, bool should_free)
 		ft_free_strs(cmd->argv);
 	cmd->argv = NULL;
 	close(cmd->fds[OUT]);
-	close(fd_in_next_cmd);
+	cmd->fds[OUT] = -1;
+	close(*fd_in_next_cmd); //FIX: gdb segfault ici si pipex "" "" "" ""
+	*fd_in_next_cmd = -1;
 }
