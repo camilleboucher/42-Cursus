@@ -16,6 +16,7 @@
 #include "ft_stdlib.h"
 #include "pipex.h"
 #include "fds.h"
+#include "strutils.h"
 
 static t_cmd	**init_pipex(int size);
 static void		clean_pipex(t_cmd **cmds, int size);
@@ -67,6 +68,8 @@ static void	clean_pipex(t_cmd **cmds, int size)
 		while (i)
 		{
 			i--;
+			free(cmds[i]->path);
+			ft_free_strs(cmds[i]->argv);
 			if (cmds[i]->fds[IN] != -1)
 				close(cmds[i]->fds[IN]);
 			if (cmds[i]->fds[OUT] != -1)

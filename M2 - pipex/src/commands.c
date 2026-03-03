@@ -10,13 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <stdbool.h>
 #include "ft_string.h"
 #include "strutils.h"
 #include "commands.h"
 #include "paths.h"
 
-static char *find_executable(t_cmd *cmd, char **paths);
+static char *find_executable(char *bin, char **paths);
 static char	*find_path(char *bin, char**paths);
+static void	skip_clean_cmd(t_cmd *cmd, int fd_in_next_cmd, bool should_free);
 
 void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 {
@@ -26,38 +29,65 @@ void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 	i = 0;
 	paths = extract_paths(cmds, size, envp);
 	if (cmds[0]->fds[IN] == -1)
-	{
-		cmds[0]->path = NULL;
-		cmds[0]->argv = NULL;
-		close(cmds[0]->fds[OUT]);
-		close(cmds[1]->fds[IN]);
-		i++;
-	}
+		skip_clean_cmd(cmds[i++], cmds[1]->fds[IN], false);
 	while (i < size)
 	{
 		cmds[i]->argv = ft_split(argv[i + 2], ' ');
 		if (!cmds[i]->argv)
 			error_paths_exit(cmds, size, paths);
-		cmds[i]->path = find_executable(cmds[i], paths);
-		//TODO:protection path
+		cmds[i]->path = find_executable(cmds[i]->argv[0], paths);
+		if (!cmds[i]->path)
+			error_paths_exit(cmds, size, paths);
+		if (!cmds[i]->path[0])
+			skip_clean_cmd(cmds[i], cmds[i + 1]->fds[IN], true);//TODO: prb valgrind pipex "" "" "" "" ou equivalent a < "" "" | "" > ""
+		i++;
 	}
-	free_paths(paths);
+	ft_free_strs(paths);
 }
 
-static char *find_executable(t_cmd *cmd, char **paths)
+static char *find_executable(char *bin, char **paths)
 {
 	char	*path;
 
-	if (!ft_strncmp(cmd->argv[0], "./", 2))
-		path = ft_strdup(cmd->argv[0]);
+	if (!bin)
+		path = ft_strdup("");
+	else if (!ft_strncmp(bin, "./", 2) || !ft_strncmp(bin, "../", 3) ||
+		!ft_strncmp(bin, "/", 1))//FIX:fuite invalid >> mon bin est NULL sans doute car mon split va retourner NULL si \0
+		path = ft_strdup(bin);
 	else
-	{
-		path = find_path(cmd->argv[0], paths);
-	}
+		path = find_path(bin, paths);
 	return (path);
 }
 
-static char	*find_path(char *bin, char**paths)
+static char	*find_path(char *bin, char**paths)//TODO: TESTER en executant des fichiers non executable
 {
-	//TODO: a continuer : strjoin old new et utiliser fonction access dans boucle etc...
+	int		i;
+	char	*path;
+
+	i = 0;
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], bin);
+		if (!path)
+			return (NULL);
+		if (!access(path, F_OK))
+			return (path);
+		free(path);
+		path = NULL;
+		i++;
+	}
+	path = ft_strdup(bin);//TODO: dans lidee que on freera path et argv serarement
+	return (path);
+}
+
+static void	skip_clean_cmd(t_cmd *cmd, int fd_in_next_cmd, bool should_free)
+{
+	if (should_free)
+		free(cmd->path);
+	cmd->path = NULL;
+	if (should_free)
+		ft_free_strs(cmd->argv);
+	cmd->argv = NULL;
+	close(cmd->fds[OUT]);
+	close(fd_in_next_cmd);
 }

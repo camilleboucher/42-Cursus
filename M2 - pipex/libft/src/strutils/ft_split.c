@@ -16,7 +16,6 @@
 static size_t	strs_counter(char *str, char c);
 static size_t	strlen_until_sep(char *str, char c);
 static int		fill_strs(char *str, char c, char **strs);
-static void		free_strs(char **strs);
 
 char	**ft_split(char const *s, char c)
 {
@@ -32,7 +31,7 @@ char	**ft_split(char const *s, char c)
 	strs[nb_strs] = NULL;
 	if (!fill_strs((char *)s, c, strs))
 	{
-		free_strs(strs);
+		ft_free_strs(strs);
 		return (NULL);
 	}
 	return (strs);
@@ -101,10 +100,12 @@ static int	fill_strs(char *str, char c, char **strs)
 	return (1);
 }
 
-static void	free_strs(char **strs)
+void	ft_free_strs(char **strs)
 {
 	size_t	i;
 
+	if (!strs)
+		return ;
 	i = 0;
 	while (strs[i])
 	{

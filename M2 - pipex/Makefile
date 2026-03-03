@@ -30,7 +30,7 @@ endif
 
 SRC_DIR := src/
 
-SRC_BASENAMES := pipex commands fds
+SRC_BASENAMES := pipex commands fds paths
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
 
 OBJ_DIR := .build/

@@ -43,23 +43,8 @@ char	**extract_paths(t_cmd **cmds, int size, char *envp[])//TODO:tester avec PAT
 	return (paths);
 }
 
-void	free_paths(char **paths)
-{
-	int	size;
-
-	size = 0;
-	while (paths[size])
-		size++;
-	while (size)
-	{
-		size--;//TODO: postulat que paths nest pas vide
-		free(paths[size]);
-	}
-	free(paths);
-}
-
 void	error_paths_exit(t_cmd **cmds, int size, char **paths)
 {
-	free_paths(paths);
+	ft_free_strs(paths);
 	error_exit(cmds, size);
 }
