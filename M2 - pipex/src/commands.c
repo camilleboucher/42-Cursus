@@ -38,8 +38,6 @@ void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 		cmds[i]->path = find_executable(cmds[i]->argv[0], paths);
 		if (!cmds[i]->path)
 			error_paths_exit(cmds, size, paths);
-		if (!cmds[i]->path[0])
-			skip_clean_cmd(cmds[i], &cmds[i + 1]->fds[IN], true);//TODO: VOIR FIX dans cette fonction prb valgrind pipex "" "" "" "" ou equivalent a < "" "" | "" > ""
 		i++;
 	}
 	ft_free_strs(paths);
@@ -51,12 +49,11 @@ static char *find_executable(char *bin, char **paths)
 
 	if (!bin)
 		path = ft_strdup("");
-	//TODO: si !*paths et que le bin n'est pas relatif ou absolu, il ne faut pas que je le regle path strdup bin...
-		//ET questce que je retourne si je ne trouve pas le path que je recherche dans la fonction find_path
-	else if (!*paths || !ft_strncmp(bin, "./", 2) || !ft_strncmp(bin, "../", 3) ||
-		!ft_strncmp(bin, "/", 1))//FIX:TOUJOURS ACURATE CETTE ERREUR??? vu que jai corrige des trucs entre temps
-												//fuite invalid >> mon bin est NULL sans doute car mon split va retourner NULL si \0
+	else if (!ft_strncmp(bin, "./", 2) || !ft_strncmp(bin, "../", 3) ||
+		!ft_strncmp(bin, "/", 1))
 		path = ft_strdup(bin);
+	else if (!*paths)
+		path = ft_strdup("");
 	else
 		path = find_path(bin, paths);
 	return (path);
@@ -79,7 +76,7 @@ static char	*find_path(char *bin, char**paths)//TODO: TESTER en executant des fi
 		path = NULL;
 		i++;
 	}
-	path = ft_strdup(bin);
+	path = ft_strdup("");
 	return (path);
 }
 
@@ -93,6 +90,6 @@ static void	skip_clean_cmd(t_cmd *cmd, int *fd_in_next_cmd, bool should_free)
 	cmd->argv = NULL;
 	close(cmd->fds[OUT]);
 	cmd->fds[OUT] = -1;
-	close(*fd_in_next_cmd); //FIX: gdb segfault ici si pipex "" "" "" ""
+	close(*fd_in_next_cmd);
 	*fd_in_next_cmd = -1;
 }

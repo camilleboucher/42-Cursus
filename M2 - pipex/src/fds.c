@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <errno.h>
-#include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
 #include "ft_stdio.h"
@@ -26,7 +25,7 @@ void	get_fds(t_cmd **cmds, int size, char *infile, char *outfile)
 		ft_dprintf(2, "pipex: %s: %s\n", infile, strerror(errno));
 	cmds[1]->fds[OUT] = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (cmds[1]->fds[OUT] == -1)
-		perror("pipex");
+		ft_dprintf(2, "pipex: %s: %s\n", outfile, strerror(errno));
 	if (pipe(fds) == -1)
 		error_exit(cmds, size);
 	cmds[0]->fds[OUT] = fds[1];
