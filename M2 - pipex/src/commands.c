@@ -30,6 +30,9 @@ void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 	paths = extract_paths(cmds, size, envp);
 	if (cmds[0]->fds[IN] == -1)
 		skip_clean_cmd(cmds[i++], &cmds[1]->fds[IN], false);
+	if (cmds[--size]->fds[OUT] == -1)
+		skip_clean_cmd(cmds[size], &cmds[size]->fds[IN], false);
+	size++;
 	while (i < size)
 	{
 		cmds[i]->argv = ft_split(argv[i + 2], ' ');

@@ -21,6 +21,7 @@
 
 static t_cmd	**init_pipex(int size);
 
+//TODO: SI JAI LE temps remplacer les perror par les msg bash
 int main(int argc, char *argv[], char *envp[])
 {
 	t_cmd	**cmds;
