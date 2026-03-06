@@ -63,11 +63,16 @@ static char	*find_path(char *bin, char**paths)//TODO: TESTER en executant des fi
 {
 	int		i;
 	char	*path;
+	char	*prepath;
 
 	i = 0;
 	while (paths[i])
 	{
-		path = ft_strjoin(paths[i], bin);
+		prepath = ft_strjoin(paths[i], "/");
+		if (!prepath)
+			return (NULL);
+		path = ft_strjoin(prepath, bin);
+		free(prepath);
 		if (!path)
 			return (NULL);
 		if (!access(path, F_OK))
