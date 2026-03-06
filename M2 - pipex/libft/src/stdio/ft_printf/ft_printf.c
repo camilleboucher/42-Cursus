@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 09:52:35 by Camille           #+#    #+#             */
-/*   Updated: 2025/11/11 11:01:54 by Camille          ###   ########.fr       */
+/*   Updated: 2026/03/06 12:09:08 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ft_dprintf(int fd, const char *format, ...)
 		if (*format == '%')
 		{
 			if (print_param[(unsigned char)*(format + 1)])
-				count += print_param[(unsigned char)*(format + 1)](args, 1);
+				count += print_param[(unsigned char)*(format + 1)](args, fd);
 			else
 				count += ft_putchar_fd('%', fd);
 			if (!*(++format))

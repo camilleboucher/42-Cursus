@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/02 15:18:00 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:49:08 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,21 @@ void	get_fds(t_cmd **cmds, int size, char *infile, char *outfile)
 	cmds[1]->fds[IN] = fds[0];
 }
 
-void	close_fds(t_cmd **cmds, int size)
+void	close_fds(t_cmd *cmd)
+{
+	if (cmd->fds[IN] != -1)
+		close(cmd->fds[IN]);
+	cmd->fds[IN] = -1;
+	if (cmd->fds[OUT] != -1)
+		close(cmd->fds[OUT]);
+	cmd->fds[OUT] = -1;
+}
+
+void	close_all_fds(t_cmd **cmds, int size)
 {
 	while (size)
 	{
 		size--;
-		if (cmds[size]->fds[IN] != -1)
-			close(cmds[size]->fds[IN]);
-		if (cmds[size]->fds[OUT] != -1)
-			close(cmds[size]->fds[OUT]);
+		close_fds(cmds[size]);
 	}
 }

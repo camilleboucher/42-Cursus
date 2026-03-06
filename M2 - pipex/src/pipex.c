@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/02 15:33:22 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:52:01 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include <stdlib.h>
 #include "ft_stdio.h"
 #include "ft_stdlib.h"
+#include "strutils.h"
 #include "pipex.h"
 #include "fds.h"
-#include "strutils.h"
+#include "create_children.h"
 
 static t_cmd	**init_pipex(int size);
-static void		clean_pipex(t_cmd **cmds, int size);
 
 int main(int argc, char *argv[], char *envp[])
 {
@@ -35,6 +35,7 @@ int main(int argc, char *argv[], char *envp[])
 	cmds = init_pipex(size);
 	get_fds(cmds, size, argv[1], argv[argc - 1]);
 	get_cmds(cmds, size, argv, envp);
+	make_love(cmds, size, envp);
 	clean_pipex(cmds, size);
 	return (EXIT_SUCCESS);
 }
@@ -54,11 +55,12 @@ static t_cmd	**init_pipex(int size)
 		cmds[i] = malloc(sizeof(t_cmd));
 		if (!cmds[i])
 			error_exit(cmds, size);
+		cmds[i]->pid = -1;
 	}
 	return (cmds);
 }
 
-static void	clean_pipex(t_cmd **cmds, int size)
+void	clean_pipex(t_cmd **cmds, int size)
 {
 	int	i;
 
@@ -70,10 +72,7 @@ static void	clean_pipex(t_cmd **cmds, int size)
 			i--;
 			free(cmds[i]->path);
 			ft_free_strs(cmds[i]->argv);
-			if (cmds[i]->fds[IN] != -1)
-				close(cmds[i]->fds[IN]);
-			if (cmds[i]->fds[OUT] != -1)
-				close(cmds[i]->fds[OUT]);
+			close_fds(cmds[i]);
 			free(cmds[i]);
 		}
 		free(cmds);

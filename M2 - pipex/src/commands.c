@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/02 19:41:50 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:38:56 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char *find_executable(char *bin, char **paths)
 	return (path);
 }
 
-static char	*find_path(char *bin, char**paths)//TODO: TESTER en executant des fichiers non executable
+static char	*find_path(char *bin, char**paths)//TODO: TESTER en executant des fichiers non executable et verifier ronan discord pour flags access
 {
 	int		i;
 	char	*path;
@@ -88,8 +88,10 @@ static void	skip_clean_cmd(t_cmd *cmd, int *fd_in_next_cmd, bool should_free)
 	if (should_free)
 		ft_free_strs(cmd->argv);
 	cmd->argv = NULL;
-	close(cmd->fds[OUT]);
+	if (cmd->fds[OUT] != -1)
+		close(cmd->fds[OUT]);
 	cmd->fds[OUT] = -1;
-	close(*fd_in_next_cmd);
+	if (*fd_in_next_cmd != -1)
+		close(*fd_in_next_cmd);
 	*fd_in_next_cmd = -1;
 }
