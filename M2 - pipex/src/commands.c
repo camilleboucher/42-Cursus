@@ -19,7 +19,7 @@
 
 static char *find_executable(char *bin, char **paths);
 static char	*find_path(char *bin, char**paths);
-static void	skip_clean_cmd(t_cmd *cmd, int *fd_in_next_cmd, bool should_free);
+static void	skip_clean_cmd(t_cmd *cmd, int *pipe_fd_next);
 
 void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 {
@@ -29,9 +29,9 @@ void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 	i = 0;
 	paths = extract_paths(cmds, size, envp);
 	if (cmds[0]->fds[IN] == -1)
-		skip_clean_cmd(cmds[i++], &cmds[1]->fds[IN], false);
+		skip_clean_cmd(cmds[i++], &cmds[1]->fds[IN]);
 	if (cmds[--size]->fds[OUT] == -1)
-		skip_clean_cmd(cmds[size], &cmds[size]->fds[IN], false);
+		skip_clean_cmd(cmds[size], &cmds[size]->fds[IN]);
 	size++;
 	while (i < size)
 	{
@@ -62,7 +62,7 @@ static char *find_executable(char *bin, char **paths)
 	return (path);
 }
 
-static char	*find_path(char *bin, char**paths)//TODO: TESTER en executant des fichiers non executable et verifier ronan discord pour flags access
+static char	*find_path(char *bin, char**paths)
 {
 	int		i;
 	char	*path;
@@ -88,18 +88,12 @@ static char	*find_path(char *bin, char**paths)//TODO: TESTER en executant des fi
 	return (path);
 }
 
-static void	skip_clean_cmd(t_cmd *cmd, int *fd_in_next_cmd, bool should_free)
+static void	skip_clean_cmd(t_cmd *cmd, int *pipe_fd_next)
 {
-	if (should_free)
-		free(cmd->path);
-	cmd->path = NULL;
-	if (should_free)
-		ft_free_strs(cmd->argv);
-	cmd->argv = NULL;
 	if (cmd->fds[OUT] != -1)
 		close(cmd->fds[OUT]);
 	cmd->fds[OUT] = -1;
-	if (*fd_in_next_cmd != -1)
-		close(*fd_in_next_cmd);
-	*fd_in_next_cmd = -1;
+	if (*pipe_fd_next != -1)
+		close(*pipe_fd_next);
+	*pipe_fd_next = -1;
 }

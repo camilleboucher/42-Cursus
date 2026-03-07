@@ -64,4 +64,14 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re starting_compilation check_compilation
+BONUS_SRC_BASENAMES := pipex_bonus commands fds paths create_children
+BONUS_SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(BONUS_SRC_BASENAMES)))
+
+BONUS_OBJS := $(BONUS_SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+
+bonus: starting_compilation bonus_linking check_compilation
+
+bonus_linking: $(LIBFT) $(BONUS_OBJS)
+	@$(CC) $(CFLAGS) $^ -o $(NAME) $(LIBFT)
+
+.PHONY: all clean fclean re starting_compilation check_compilation bonus bonus_linking

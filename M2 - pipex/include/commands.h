@@ -27,7 +27,5 @@ typedef struct s_cmd
 }	t_cmd;
 
 void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[]);
-//void	free_cmds(char ***cmds);
-//void	free_cmds_and_exit(char ***cmds);
 
 #endif

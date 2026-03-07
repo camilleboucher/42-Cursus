@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/06 13:52:01 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/07 11:59:36 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 static t_cmd	**init_pipex(int size);
 
-//TODO: SI JAI LE temps remplacer les perror par les msg bash
 int main(int argc, char *argv[], char *envp[])
 {
 	t_cmd	**cmds;
@@ -53,7 +52,7 @@ static t_cmd	**init_pipex(int size)
 	while (i)
 	{
 		i--;
-		cmds[i] = malloc(sizeof(t_cmd));
+		cmds[i] = ft_calloc(sizeof(t_cmd), 1);
 		if (!cmds[i])
 			error_exit(cmds, size);
 		cmds[i]->pid = -1;
