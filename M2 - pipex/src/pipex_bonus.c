@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/07 15:20:00 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/07 15:59:34 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@
 #include <errno.h>
 #include "ft_stdio.h"
 #include "ft_stdlib.h"
+#include "ft_string.h"
 #include "strutils.h"
 #include "pipex.h"
 #include "fds.h"
 #include "create_children.h"
+#include "here_doc_bonus.h"
 
 static t_cmd	**init_pipex(int size);
-static int		get_fd_infile(char *infile_path);
+static void		get_io_files_data(int argc, char *argv[], t_io_data *io);
 
 int main(int argc, char *argv[], char *envp[])
 {
@@ -32,18 +34,22 @@ int main(int argc, char *argv[], char *envp[])
 	t_io_data	io;
 	int			exit_code;
 
-	if (argc != 5)
+	if (argc < 5)
 	{
-		ft_dprintf(2, "pipex: the pipex program takes 4 arguments\n");
+		ft_dprintf(2,
+			"pipex: the pipex (bonus) program takes at least 4 arguments\n");
 		return (EXIT_FAILURE);
 	}
 	size = argc - 3;
+	get_io_files_data(argc, argv, &io);
+	if (io.outfile_flags == (O_CREAT | O_APPEND | O_WRONLY))
+		size--;
 	cmds = init_pipex(size);
-	io.fd_infile = get_fd_infile(argv[1]);
-	io.outfile_path = argv[argc - 1];
-	io.outfile_flags = O_CREAT | O_TRUNC | O_WRONLY;
 	get_fds(cmds, size, &io);
-	get_cmds(cmds, size, argv, envp);
+	if (io.outfile_flags == (O_CREAT | O_APPEND | O_WRONLY))
+		get_cmds(cmds, size, argv + 1, envp);
+	else
+		get_cmds(cmds, size, argv, envp);
 	exit_code = make_love(cmds, size, envp);
 	clean_pipex(cmds, size);
 	return (exit_code);
@@ -98,12 +104,25 @@ void	error_exit(t_cmd **cmds, int size)
 	exit(EXIT_FAILURE);
 }
 
-static int	get_fd_infile(char *infile_path)
+static void		get_io_files_data(int argc, char *argv[], t_io_data *io)
 {
-	int	fd_infile;
-
-	fd_infile = open(infile_path, O_RDONLY);
-	if (fd_infile == -1)
-		ft_dprintf(2, "pipex: %s: %s\n", infile_path, strerror(errno));
-	return (fd_infile);
+	io->outfile_path = argv[argc - 1];
+	if ((ft_strlen(argv[1]) == 8) && !ft_strncmp(argv[1], "here_doc", 8))
+	{
+		if (argc < 6)
+		{
+			ft_dprintf(2, "pipex: the pipex (bonus) program \
+takes at least 5 arguments with the uses of a here document\n");
+			exit(EXIT_FAILURE);
+		}
+		io->outfile_flags = O_CREAT | O_APPEND | O_WRONLY;
+		io->fd_infile = get_fd_heredoc(argv[2], ft_strlen(argv[2]));
+	}
+	else
+	{
+		io->outfile_flags = O_CREAT | O_TRUNC | O_WRONLY;
+		io->fd_infile = open(argv[1], O_RDONLY);
+		if (io->fd_infile == -1)
+			ft_dprintf(2, "pipex: %s: %s\n", argv[1], strerror(errno));
+	}
 }

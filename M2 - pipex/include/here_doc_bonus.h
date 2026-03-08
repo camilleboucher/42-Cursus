@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.h                                         :+:      :+:    :+:   */
+/*   here_doc_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/02 15:05:11 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/07 15:59:17 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMANDS_H
-# define COMMANDS_H
+#ifndef HERE_DOC_BONUS_H
+# define HERE_DOC_BONUS_H
 
-# include <unistd.h>
-
-# define IN 0
-# define OUT 1
-
-typedef struct s_cmd
-{
-	char	*path;
-	char	**argv;
-	int		fds[2];
-	pid_t	pid;
-	int		fds_errmsg[2];
-}	t_cmd;
-
-void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[]);
+int	get_fd_heredoc(char *limiter, int size);
 
 #endif

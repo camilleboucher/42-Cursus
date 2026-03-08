@@ -15,6 +15,13 @@
 
 # include "commands.h"
 
+typedef struct s_io_data
+{
+	int		fd_infile;
+	char	*outfile_path;
+	int		outfile_flags;
+}	t_io_data;
+
 void	clean_pipex(t_cmd **cmds, int size);
 void	error_exit(t_cmd **cmds, int size);
 

@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2026/03/06 09:26:32 by cboucher         ###   ########.fr        #
+#    Updated: 2026/03/07 16:00:26 by cboucher         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ fclean: clean
 
 re: fclean all
 
-BONUS_SRC_BASENAMES := pipex_bonus commands fds paths create_children
+BONUS_SRC_BASENAMES := pipex_bonus here_doc_bonus commands fds paths create_children
 BONUS_SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(BONUS_SRC_BASENAMES)))
 
 BONUS_OBJS := $(BONUS_SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

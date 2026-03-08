@@ -6,6 +6,7 @@ _This project has been created as part of the 42 curriculum by cboucher._
 
 Discovering native support for base octale
 certains tests peuvent etre fait en limitant le nombre de processus dans une session bash avec ulimit -u 547 par exemple
+echo $? dans bash pour recuperer le code de sortie de la derniere commande
 
 ## Technical Choices
 
@@ -31,10 +32,9 @@ Example : `./so_long maps/1.ber`
 
 TODO:
 
-9h a 12h
-14h30 a 
-- le heredoc peut gerer des chaines vides
-- faire readme
+9h a 11h et 13h20 a 20h20
+- fuite gnl quand tout se passe bien avant waitchildren
+- faire norme + readme
 - TEST CA A LECOLE sqns infile et avec pas de perm outfile : valgrind --trace-children=yes --track-fds=yes ./pipex infile "touch bra" "touch bre" "tougfzfzefch bro" "touch bru" outfile
+- TEST CA A LECOLE avec pipex2 sans perm dexec : valgrind --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all ./pipex infile "touch a" "./pipex2" "touch c" outfile
 - RETEST path vide et inexistant
-- SI JAI LE temps remplacer les perror par les msg bash

@@ -6,17 +6,18 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/06 13:49:16 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/07 15:18:52 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDS_H
 # define FDS_H
 
-# include "commands.h"
+# include "pipex.h"
 
-void	get_fds(t_cmd **cmds, int size, char *infile, char *outfile);
-void	close_fds(t_cmd *cmd);
-void	close_all_fds(t_cmd **cmds, int size);
+void	get_fds(t_cmd **cmds, int size, t_io_data *io);
+void	duplicate_fds(t_cmd *cmd);
+void	close_fds(int (*fds)[2]);
+void	close_all(t_cmd **cmds, int size);
 
 #endif

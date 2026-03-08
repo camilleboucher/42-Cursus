@@ -17,7 +17,7 @@
 #include "commands.h"
 #include "paths.h"
 
-static char *find_executable(char *bin, char **paths);
+static char	*find_executable(char *bin, char **paths);
 static char	*find_path(char *bin, char**paths);
 static void	skip_clean_cmd(t_cmd *cmd, int *pipe_fd_next);
 
@@ -46,14 +46,14 @@ void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[])
 	ft_free_strs(paths);
 }
 
-static char *find_executable(char *bin, char **paths)
+static char	*find_executable(char *bin, char **paths)
 {
 	char	*path;
 
 	if (!bin)
 		path = ft_strdup("");
-	else if (!ft_strncmp(bin, "./", 2) || !ft_strncmp(bin, "../", 3) ||
-		!ft_strncmp(bin, "/", 1))
+	else if (!ft_strncmp(bin, "./", 2) || !ft_strncmp(bin, "../", 3)
+		|| !ft_strncmp(bin, "/", 1))
 		path = ft_strdup(bin);
 	else if (!*paths)
 		path = ft_strdup("");

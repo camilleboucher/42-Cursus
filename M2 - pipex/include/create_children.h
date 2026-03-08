@@ -15,6 +15,6 @@
 
 # include "commands.h"
 
-void	make_love(t_cmd **cmds, int size, char *envp[]);
+int	make_love(t_cmd **cmds, int size, char *envp[]);
 
 #endif
