@@ -32,9 +32,8 @@ Example : `./so_long maps/1.ber`
 
 TODO:
 
-9h a 11h et 13h20 a 20h20
-- fuite gnl quand tout se passe bien avant waitchildren
+9h a 11h et 13h20 a 22h20
 - faire norme + readme
+- TEST ECOLE : voir TODO create_children.c
 - TEST CA A LECOLE sqns infile et avec pas de perm outfile : valgrind --trace-children=yes --track-fds=yes ./pipex infile "touch bra" "touch bre" "tougfzfzefch bro" "touch bru" outfile
 - TEST CA A LECOLE avec pipex2 sans perm dexec : valgrind --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all ./pipex infile "touch a" "./pipex2" "touch c" outfile
-- RETEST path vide et inexistant

@@ -45,5 +45,3 @@ int	get_fd_heredoc(char *limiter, int size)
 	close(fds[OUT]);
 	return (fds[IN]);
 }
-
-

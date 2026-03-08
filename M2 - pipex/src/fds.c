@@ -34,7 +34,7 @@ void	get_fds(t_cmd **cmds, int size, t_io_data *io)
 			error_exit(cmds, size);
 		cmds[nb_pipes - 1]->fds[OUT] = fds[OUT];
 		cmds[nb_pipes]->fds[IN] = fds[IN];
-		if (pipe(fds_errmsg) == - 1)
+		if (pipe(fds_errmsg) == -1)
 			error_exit(cmds, size);
 		cmds[nb_pipes]->fds_errmsg[OUT] = fds_errmsg[OUT];
 		cmds[nb_pipes]->fds_errmsg[IN] = fds_errmsg[IN];

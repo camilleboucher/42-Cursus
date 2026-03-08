@@ -25,7 +25,7 @@
 static t_cmd	**init_pipex(int size);
 static int		get_fd_infile(char *infile_path);
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	t_cmd		**cmds;
 	int			size;

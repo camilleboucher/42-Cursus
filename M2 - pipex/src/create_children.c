@@ -43,9 +43,6 @@ int	make_love(t_cmd **cmds, int size, char *envp[])
 				exit_child(cmds, size, i);
 		}
 		close_fds(&cmds[i]->fds);
-		//if (cmds[i]->fds_errmsg[OUT] != -1)
-		//	close(cmds[i]->fds_errmsg[OUT]);
-		//cmds[i]->fds_errmsg[OUT] = -1;
 		i++;
 	}
 	wait_children(cmds, nb_children, &wstatus);
@@ -100,7 +97,7 @@ static void	wait_children(t_cmd **cmds, int nb_children, int *wstatus)
 		i = 1;
 	while (i < nb_children)
 	{
-		err_line = get_next_line(cmds[i]->fds_errmsg[IN], true);//TODO:AAAAAAARRRRRGGGGGG
+		err_line = get_next_line(cmds[i]->fds_errmsg[IN], true);
 		ft_dprintf(2, err_line);
 		free(err_line);
 		close_fds(&cmds[i]->fds_errmsg);

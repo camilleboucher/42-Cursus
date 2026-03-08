@@ -27,7 +27,7 @@
 static t_cmd	**init_pipex(int size);
 static void		get_io_files_data(int argc, char *argv[], t_io_data *io);
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	t_cmd		**cmds;
 	int			size;
@@ -104,7 +104,7 @@ void	error_exit(t_cmd **cmds, int size)
 	exit(EXIT_FAILURE);
 }
 
-static void		get_io_files_data(int argc, char *argv[], t_io_data *io)
+static void	get_io_files_data(int argc, char *argv[], t_io_data *io)
 {
 	io->outfile_path = argv[argc - 1];
 	if ((ft_strlen(argv[1]) == 8) && !ft_strncmp(argv[1], "here_doc", 8))
