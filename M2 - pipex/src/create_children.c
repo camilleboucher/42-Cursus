@@ -43,9 +43,9 @@ int	make_love(t_cmd **cmds, int size, char *envp[])
 				exit_child(cmds, size, i);
 		}
 		close_fds(&cmds[i]->fds);
-		if (cmds[i]->fds_errmsg[OUT] != -1)
-			close(cmds[i]->fds_errmsg[OUT]);
-		cmds[i]->fds_errmsg[OUT] = -1;
+		//if (cmds[i]->fds_errmsg[OUT] != -1)
+		//	close(cmds[i]->fds_errmsg[OUT]);
+		//cmds[i]->fds_errmsg[OUT] = -1;
 		i++;
 	}
 	wait_children(cmds, nb_children, &wstatus);
@@ -69,6 +69,7 @@ static void	exit_child(t_cmd **cmds, int size, int i)
 {
 	int	exit_code;
 
+	exit_code = EXIT_FAILURE;
 	if (access(cmds[i]->path, F_OK) == -1)
 	{
 		if (!cmds[i]->argv[0])
@@ -77,10 +78,9 @@ static void	exit_child(t_cmd **cmds, int size, int i)
 			ft_dprintf(2, "pipex: %s: command not found\n", cmds[i]->argv[0]);
 		exit_code = 127;
 	}
-	else
+	else if (access(cmds[i]->path, X_OK) == -1)
 	{
-		if (access(cmds[i]->path, X_OK) == -1)
-			ft_dprintf(2, "pipex: %s: permission denied\n", cmds[i]->argv[0]);
+		ft_dprintf(2, "pipex: %s: permission denied\n", cmds[i]->argv[0]);
 		exit_code = 126;
 	}
 	clean_pipex(cmds, size);
@@ -100,7 +100,7 @@ static void	wait_children(t_cmd **cmds, int nb_children, int *wstatus)
 		i = 1;
 	while (i < nb_children)
 	{
-		err_line = get_next_line(cmds[i]->fds_errmsg[IN]);
+		err_line = get_next_line(cmds[i]->fds_errmsg[IN], true);//TODO:AAAAAAARRRRRGGGGGG
 		ft_dprintf(2, err_line);
 		free(err_line);
 		close_fds(&cmds[i]->fds_errmsg);

@@ -13,6 +13,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# include <stdbool.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include "strutils.h"
@@ -22,6 +23,6 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, bool free_stash);
 
 #endif

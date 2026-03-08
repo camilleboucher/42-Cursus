@@ -41,7 +41,7 @@ static void	parsing(int fd, t_map *map)
 {
 	char	*row;
 
-	row = get_next_line(fd);
+	row = get_next_line(fd, false);
 	if (!row)
 		error_exit(ERRMSG_INVALID_MAP_OR_MALLOC_FAILED, fd, NULL);
 	if (!check_first_last_rows(row, map))
@@ -50,7 +50,7 @@ static void	parsing(int fd, t_map *map)
 		error_exit(ERRMSG_SIZE_MIN, fd, row);
 	free(row);
 	map->height++;
-	row = get_next_line(fd);
+	row = get_next_line(fd, false);
 	while (row)
 	{
 		if (map->height > MAP_MAX_ROWS)
@@ -59,7 +59,7 @@ static void	parsing(int fd, t_map *map)
 			error_exit(ERRMSG_SIZE_MAX, fd, row);
 		check_rows(row, map, fd);
 		free(row);
-		row = get_next_line(fd);
+		row = get_next_line(fd, false);
 	}
 	if (!check_first_last_rows(map->data[map->height - 1], NULL))
 		error_exit(ERRMSG_INVALID_SURROUNDING, fd, NULL);

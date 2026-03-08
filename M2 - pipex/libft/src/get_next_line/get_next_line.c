@@ -13,10 +13,10 @@
 #include "get_next_line.h"
 
 static int		fill_stash(char **stash, char *buf);
-static char		*extract_line(char **stash, int fd);
+static char		*extract_line(char **stash, int fd, bool free_stash);
 static ssize_t	read_and_set_buf(char **buf, int fd);
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, bool free_stash)
 {
 	static char	*stash[1024];
 	char		*buf;
@@ -39,8 +39,8 @@ char	*get_next_line(int fd)
 			break ;
 	}
 	free(buf);
-	if (size_read >= 0)
-		line = extract_line(&stash[fd], fd);
+	if (size_read > 0)
+		line = extract_line(&stash[fd], fd, free_stash);
 	return (line);
 }
 
@@ -60,7 +60,7 @@ static int	fill_stash(char **stash, char *buf)
 	return (1);
 }
 
-static char	*extract_line(char **stash, int fd)
+static char	*extract_line(char **stash, int fd, bool free_stash)
 {
 	char	*old_stash;
 	char	*line;
@@ -70,7 +70,7 @@ static char	*extract_line(char **stash, int fd)
 		return (NULL);
 	line = NULL;
 	end_of_line = ft_strchr(*stash, '\n');
-	if (!end_of_line || fd == 0)
+	if (!end_of_line || fd == 0 || free_stash)
 	{
 		if (**stash)
 			line = ft_substr(*stash, 0, ft_strlen(*stash));

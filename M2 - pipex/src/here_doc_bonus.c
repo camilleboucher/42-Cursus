@@ -32,7 +32,7 @@ int	get_fd_heredoc(char *limiter, int size)
 	while (1)
 	{
 		ft_printf("> ");
-		line = get_next_line(STDIN_FILENO);
+		line = get_next_line(STDIN_FILENO, true);
 		if ((int)ft_strlen(line) == size && !ft_strncmp(line, limiter, size))
 		{
 			free(line);
