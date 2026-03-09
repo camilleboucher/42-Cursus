@@ -18,7 +18,7 @@
 #include "pipex.h"
 #include "fds.h"
 
-static int	skip_iofiles_or_not(t_cmd **cmds, int *i, int size);
+static int	skip_iofiles_or_not(t_cmd **cmds, int size, int *i, int *nb_child);
 static void	exit_child(t_cmd **cmds, int size, int i);
 static void	wait_children(t_cmd **cmds, int nb_children, int *wstatus);
 static int	get_exit_code(int wstatus);
@@ -26,11 +26,12 @@ static int	get_exit_code(int wstatus);
 int	make_love(t_cmd **cmds, int size, char *envp[])
 {
 	int	i;
+	int	nb_child;
 	int	nb_children;
 	int	wstatus;
 
-	nb_children = skip_iofiles_or_not(cmds, &i, size);
-	while (i < nb_children)
+	nb_children = skip_iofiles_or_not(cmds, size, &i, &nb_child);
+	while (nb_child < nb_children)
 	{
 		cmds[i]->pid = fork();
 		if (cmds[i]->pid == -1)
@@ -43,20 +44,26 @@ int	make_love(t_cmd **cmds, int size, char *envp[])
 				exit_child(cmds, size, i);
 		}
 		close_fds(&cmds[i]->fds);
+		close_fds(&cmds[i]->fds_errmsg);
 		i++;
+		nb_child++;
 	}
 	wait_children(cmds, nb_children, &wstatus);
 	return (get_exit_code(wstatus));
 }
 
-static int	skip_iofiles_or_not(t_cmd **cmds, int *i, int size)
+static int	skip_iofiles_or_not(t_cmd **cmds, int size, int *i, int *nb_child)
 {
 	int	nb_children;
 
 	*i = 0;
+	*nb_child = 0;
 	nb_children = size;
 	if (cmds[0]->fds[IN] == -1)
+	{
 		*i = 1;
+		nb_children--;
+	}
 	if (cmds[size - 1]->fds[OUT] == -1)
 		nb_children--;
 	return (nb_children);
@@ -81,9 +88,6 @@ static void	exit_child(t_cmd **cmds, int size, int i)
 		exit_code = 126;
 	}
 	clean_pipex(cmds, size);
-	close(STDIN_FILENO);//TODO:a voir a lecole
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);//TODO:jusquici
 	exit(exit_code);
 }
 
