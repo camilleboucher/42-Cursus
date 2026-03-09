@@ -87,11 +87,14 @@ void	clean_pipex(t_cmd **cmds, int size)
 		while (i)
 		{
 			i--;
-			free(cmds[i]->path);
-			ft_free_strs(cmds[i]->argv);
-			close_fds(&cmds[i]->fds);
-			close_fds(&cmds[i]->fds_errmsg);
-			free(cmds[i]);
+			if (cmds[i])
+			{
+				free(cmds[i]->path);
+				ft_free_strs(cmds[i]->argv);
+				close_fds(&cmds[i]->fds);
+				close_fds(&cmds[i]->fds_errmsg);
+				free(cmds[i]);
+			}
 		}
 		free(cmds);
 	}

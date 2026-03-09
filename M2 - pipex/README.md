@@ -33,7 +33,6 @@ Example : `./so_long maps/1.ber`
 TODO:
 
 9h a 11h et 13h20 a 22h20
+- gerer 1024 fds : refactoring necessaire
+- tester le 42 pipex tester dont le sleep https://github.com/bastienkody/pipex_tester
 - faire norme + readme
-- TEST ECOLE : voir TODO create_children.c
-- TEST CA A LECOLE sqns infile et avec pas de perm outfile : valgrind --trace-children=yes --track-fds=yes ./pipex infile "touch bra" "touch bre" "tougfzfzefch bro" "touch bru" outfile
-- TEST CA A LECOLE avec pipex2 sans perm dexec : valgrind --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all ./pipex infile "touch a" "./pipex2" "touch c" outfile
