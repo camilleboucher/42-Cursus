@@ -34,5 +34,5 @@ TODO:
 
 9h a 11h et 13h20 a 22h20
 - gerer 1024 fds : refactoring necessaire
-- tester le 42 pipex tester dont le sleep https://github.com/bastienkody/pipex_tester
+- tester le 42 pipex tester dont le sleep : https://github.com/michmos/42_pipex_tester et https://github.com/bastienkody/pipex_tester
 - faire norme + readme
