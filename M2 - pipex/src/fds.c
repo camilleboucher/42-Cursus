@@ -39,8 +39,8 @@ void	get_fds(t_cmd **cmds, int size, int i, t_io_data *io)
 		wait_children(cmds, size, io, &wstatus);
 		error_exit(cmds, size);
 	}
-	cmds[i - 1]->fds[OUT] = fds[OUT];
-	cmds[i]->fds[IN] = fds[IN];
+	cmds[i]->fds[OUT] = fds[OUT];
+	cmds[i + 1]->fds[IN] = fds[IN];
 }
 
 void	duplicate_fds(t_cmd *cmd)

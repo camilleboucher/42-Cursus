@@ -40,28 +40,38 @@ int	make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io)
 		{
 			duplicate_fds(cmds[i]);
 			close_all(cmds, size);
+			if (!cmds[i]->argv[0])//TODO:TESTER fsanitize sans ca voir si ca marche avec execve qui recupe un truc bad
+			{
+				if (execve(cmds[i]->path, (char *const []){ "", NULL }, envp) == -1)
+					exit_child(cmds, size, i);//TODO: non necessaire plus tard car error access plus tard
+			}
 			if (execve(cmds[i]->path, cmds[i]->argv, envp) == -1)
 				exit_child(cmds, size, i);//TODO: non necessaire plus tard car error access plus tard
 		}
-close_all(cmds, size);
 
-		if (i)
+
+		if (i && cmds[i - 1]->fds[OUT] != -1)
 		{
-			if (cmds[i - 1]->fds[OUT] != -1)
-				close(cmds[i - 1]->fds[OUT]);
+			close(cmds[i - 1]->fds[OUT]);
 			cmds[i - 1]->fds[OUT] = -1;
-			if (cmds[i]->fds[IN] != -1)
-				close(cmds[i]->fds[IN]);
-			cmds[i]->fds[IN] = -1;
 		}
+		if (cmds[i]->fds[IN] != -1)
+			close(cmds[i]->fds[IN]);
+		cmds[i]->fds[IN] = -1;
 		if (i == size -1)
 			close_fds(&cmds[i]->fds);
 
 
 
 
+
 		i++;
 	}
+
+
+
+
+
 	//TODO: fork pour afficher les erreurs access
 	wait_children(cmds, size, io, &wstatus);
 	//TODO: wait pour le fork des erreurs
@@ -71,24 +81,29 @@ close_all(cmds, size);
 static bool	skip_iofiles_or_get_fds(t_cmd **cmds, int size,
 									int *i, t_io_data *io)
 {
-	if (*i == 0)
-	{
-		if (io->skip_infile)
-		{
-			(*i)++;
-			return (true);
-		}
-	}
-	else if (*i == size - 1)
+	if (*i == size - 1)
 	{
 		if (io->skip_outfile)
 		{
 			(*i)++;
 			return (true);
 		}
+		else
+			return (false);
 	}
-	else if (cmds[*i]->pid == -1)
-		get_fds(cmds, size, *i, io);
+	else
+	{
+		if (cmds[*i]->pid == -1)
+			get_fds(cmds, size, *i, io);
+		if (*i == 0)
+		{
+			if (io->skip_infile)
+			{
+				(*i)++;
+				return (true);
+			}
+		}
+	}
 	return (false);
 }
 
