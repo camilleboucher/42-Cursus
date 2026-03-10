@@ -13,6 +13,7 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# include <stdbool.h>
 # include "commands.h"
 
 typedef struct s_io_data
@@ -20,6 +21,8 @@ typedef struct s_io_data
 	int		fd_infile;
 	char	*outfile_path;
 	int		outfile_flags;
+	bool	skip_infile;
+	bool	skip_outfile;
 }	t_io_data;
 
 void	clean_pipex(t_cmd **cmds, int size);

@@ -22,8 +22,8 @@
 #include "fds.h"
 #include "create_children.h"
 
-static t_cmd	**init_pipex(int size);
-static int		get_fd_infile(char *infile_path);
+static t_cmd	**init_pipex(int size, t_io_data *io);
+static int		get_fd_infile(char *infile_path, t_io_data *io);
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -38,18 +38,18 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	}
 	size = argc - 3;
-	cmds = init_pipex(size);
-	io.fd_infile = get_fd_infile(argv[1]);
+	cmds = init_pipex(size, &io);
+	io.fd_infile = get_fd_infile(argv[1], &io);
 	io.outfile_path = argv[argc - 1];
 	io.outfile_flags = O_CREAT | O_TRUNC | O_WRONLY;
 	get_fds(cmds, size, &io);
 	get_cmds(cmds, size, argv, envp);
-	exit_code = make_love(cmds, size, envp);
+	exit_code = make_love(cmds, size, envp, &io);
 	clean_pipex(cmds, size);
 	return (exit_code);
 }
 
-static t_cmd	**init_pipex(int size)
+static t_cmd	**init_pipex(int size, t_io_data *io)
 {
 	t_cmd	**cmds;
 	int		i;
@@ -65,9 +65,9 @@ static t_cmd	**init_pipex(int size)
 		if (!cmds[i])
 			error_exit(cmds, size);
 		cmds[i]->pid = -1;
-		cmds[i]->fds_errmsg[OUT] = -1;
-		cmds[i]->fds_errmsg[IN] = -1;
 	}
+	io->skip_infile = false;
+	io->skip_outfile = false;
 	return (cmds);
 }
 
@@ -86,7 +86,6 @@ void	clean_pipex(t_cmd **cmds, int size)
 				free(cmds[i]->path);
 				ft_free_strs(cmds[i]->argv);
 				close_fds(&cmds[i]->fds);
-				close_fds(&cmds[i]->fds_errmsg);
 				free(cmds[i]);
 			}
 		}
@@ -101,12 +100,15 @@ void	error_exit(t_cmd **cmds, int size)
 	exit(EXIT_FAILURE);
 }
 
-static int	get_fd_infile(char *infile_path)
+static int	get_fd_infile(char *infile_path, t_io_data *io)
 {
 	int	fd_infile;
 
 	fd_infile = open(infile_path, O_RDONLY);
 	if (fd_infile == -1)
+	{
 		ft_dprintf(2, "pipex: %s: %s\n", infile_path, strerror(errno));
+		io->skip_infile = true;
+	}
 	return (fd_infile);
 }

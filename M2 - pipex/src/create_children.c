@@ -14,25 +14,24 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include "ft_stdio.h"
-#include "get_next_line.h"
 #include "pipex.h"
 #include "fds.h"
 
-static int	skip_iofiles_or_not(t_cmd **cmds, int size, int *i, int *nb_child);
+static bool	skip_iofiles(int size, int *i, t_io_data *io);
 static void	exit_child(t_cmd **cmds, int size, int i);
-static void	wait_children(t_cmd **cmds, int nb_children, int *wstatus);
+static void	wait_children(t_cmd **cmds, int size, t_io_data *io, int *wstatus);
 static int	get_exit_code(int wstatus);
 
-int	make_love(t_cmd **cmds, int size, char *envp[])
+int	make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io)
 {
 	int	i;
-	int	nb_child;
-	int	nb_children;
 	int	wstatus;
 
-	nb_children = skip_iofiles_or_not(cmds, size, &i, &nb_child);
-	while (nb_child < nb_children)
+	i = 0;
+	while (i < size)
 	{
+		if (skip_iofiles(size, &i, io))
+			continue ;
 		cmds[i]->pid = fork();
 		if (cmds[i]->pid == -1)
 			error_exit(cmds, size);
@@ -44,29 +43,27 @@ int	make_love(t_cmd **cmds, int size, char *envp[])
 				exit_child(cmds, size, i);
 		}
 		close_fds(&cmds[i]->fds);
-		close_fds(&cmds[i]->fds_errmsg);
 		i++;
-		nb_child++;
 	}
-	wait_children(cmds, nb_children, &wstatus);
+	//TODO: fork pour afficher les erreurs access
+	wait_children(cmds, size, io, &wstatus);
+	//TODO: wait pour le fork des erreurs
 	return (get_exit_code(wstatus));
 }
 
-static int	skip_iofiles_or_not(t_cmd **cmds, int size, int *i, int *nb_child)
+static bool	skip_iofiles(int size, int *i, t_io_data *io)
 {
-	int	nb_children;
-
-	*i = 0;
-	*nb_child = 0;
-	nb_children = size;
-	if (cmds[0]->fds[IN] == -1)
+	if (*i == 0 && io->skip_infile)
 	{
-		*i = 1;
-		nb_children--;
+		(*i)++;
+		return (true);
 	}
-	if (cmds[size - 1]->fds[OUT] == -1)
-		nb_children--;
-	return (nb_children);
+	else if (*i == size - 1 && io->skip_outfile)
+	{
+		(*i)++;
+		return (true);
+	}
+	return (false);
 }
 
 static void	exit_child(t_cmd **cmds, int size, int i)
@@ -91,28 +88,16 @@ static void	exit_child(t_cmd **cmds, int size, int i)
 	exit(exit_code);
 }
 
-static void	wait_children(t_cmd **cmds, int nb_children, int *wstatus)
+static void	wait_children(t_cmd **cmds, int size, t_io_data *io, int *wstatus)
 {
 	int		i;
-	char	*err_line;
 
 	i = 0;
-	if (cmds[0]->fds[IN] == -1)
-		i = 1;
-	while (i < nb_children)
-	{
-		err_line = get_next_line(cmds[i]->fds_errmsg[IN], true);
-		ft_dprintf(2, err_line);
-		free(err_line);
-		close_fds(&cmds[i]->fds_errmsg);
-		i++;
-	}
-	i = 0;
-	if (cmds[0]->fds[IN] == -1)
-		i = 1;
 	*wstatus = EXIT_SUCCESS;
-	while (i < nb_children)
+	while (i < size)
 	{
+		if (skip_iofiles(size, &i, io))
+			continue ;
 		waitpid(cmds[i]->pid, wstatus, 0);
 		i++;
 	}

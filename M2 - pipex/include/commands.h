@@ -24,7 +24,6 @@ typedef struct s_cmd
 	char	**argv;
 	int		fds[2];
 	pid_t	pid;
-	int		fds_errmsg[2];
 }	t_cmd;
 
 void	get_cmds(t_cmd **cmds, int size, char *argv[], char *envp[]);

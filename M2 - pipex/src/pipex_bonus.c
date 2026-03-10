@@ -50,7 +50,7 @@ int	main(int argc, char *argv[], char *envp[])
 		get_cmds(cmds, size, argv + 1, envp);
 	else
 		get_cmds(cmds, size, argv, envp);
-	exit_code = make_love(cmds, size, envp);
+	exit_code = make_love(cmds, size, envp, &io);
 	clean_pipex(cmds, size);
 	return (exit_code);
 }
@@ -71,8 +71,6 @@ static t_cmd	**init_pipex(int size)
 		if (!cmds[i])
 			error_exit(cmds, size);
 		cmds[i]->pid = -1;
-		cmds[i]->fds_errmsg[OUT] = -1;
-		cmds[i]->fds_errmsg[IN] = -1;
 	}
 	return (cmds);
 }
@@ -92,7 +90,6 @@ void	clean_pipex(t_cmd **cmds, int size)
 				free(cmds[i]->path);
 				ft_free_strs(cmds[i]->argv);
 				close_fds(&cmds[i]->fds);
-				close_fds(&cmds[i]->fds_errmsg);
 				free(cmds[i]);
 			}
 		}
@@ -109,6 +106,8 @@ void	error_exit(t_cmd **cmds, int size)
 
 static void	get_io_files_data(int argc, char *argv[], t_io_data *io)
 {
+	io->skip_infile = false;
+	io->skip_outfile = false;
 	io->outfile_path = argv[argc - 1];
 	if ((ft_strlen(argv[1]) == 8) && !ft_strncmp(argv[1], "here_doc", 8))
 	{
@@ -126,6 +125,9 @@ takes at least 5 arguments with the uses of a here document\n");
 		io->outfile_flags = O_CREAT | O_TRUNC | O_WRONLY;
 		io->fd_infile = open(argv[1], O_RDONLY);
 		if (io->fd_infile == -1)
+		{
 			ft_dprintf(2, "pipex: %s: %s\n", argv[1], strerror(errno));
+			io->skip_infile = true;
+		}
 	}
 }

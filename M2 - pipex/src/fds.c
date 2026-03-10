@@ -20,13 +20,15 @@
 void	get_fds(t_cmd **cmds, int size, t_io_data *io)
 {
 	int	fds[2];
-	//int	fds_errmsg[2];
 	int	nb_pipes;
 
 	cmds[0]->fds[IN] = io->fd_infile;
 	cmds[size - 1]->fds[OUT] = open(io->outfile_path, io->outfile_flags, 0644);
 	if (cmds[size - 1]->fds[OUT] == -1)
+	{
 		ft_dprintf(2, "pipex: %s: %s\n", io->outfile_path, strerror(errno));
+		io->skip_outfile = true;
+	}
 	nb_pipes = 1;
 	while (nb_pipes < size)
 	{
@@ -34,10 +36,6 @@ void	get_fds(t_cmd **cmds, int size, t_io_data *io)
 			error_exit(cmds, size);
 		cmds[nb_pipes - 1]->fds[OUT] = fds[OUT];
 		cmds[nb_pipes]->fds[IN] = fds[IN];
-		/*if (pipe(fds_errmsg) == -1)
-			error_exit(cmds, size);
-		cmds[nb_pipes]->fds_errmsg[OUT] = fds_errmsg[OUT];
-		cmds[nb_pipes]->fds_errmsg[IN] = fds_errmsg[IN];*/
 		nb_pipes++;
 	}
 }
@@ -48,8 +46,6 @@ void	duplicate_fds(t_cmd *cmd)
 		dup2(cmd->fds[IN], STDIN_FILENO);
 	if (cmd->fds[OUT] != -1)
 		dup2(cmd->fds[OUT], STDOUT_FILENO);
-	//if (cmd->fds_errmsg[OUT] != -1)
-	//	dup2(cmd->fds_errmsg[OUT], STDERR_FILENO);
 }
 
 void	close_fds(int (*fds)[2])
@@ -68,6 +64,5 @@ void	close_all(t_cmd **cmds, int size)
 	{
 		size--;
 		close_fds(&cmds[size]->fds);
-		close_fds(&cmds[size]->fds_errmsg);
 	}
 }

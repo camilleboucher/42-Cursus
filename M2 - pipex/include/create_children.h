@@ -13,8 +13,8 @@
 #ifndef CREATE_CHILDREN_H
 # define CREATE_CHILDREN_H
 
-# include "commands.h"
+# include "pipex.h"
 
-int	make_love(t_cmd **cmds, int size, char *envp[]);
+int	make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io);
 
 #endif
