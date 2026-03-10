@@ -15,6 +15,7 @@
 
 # include "pipex.h"
 
-int	make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io);
+int		make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io);
+void	wait_children(t_cmd **cmds, int size, t_io_data *io, int *wstatus);
 
 #endif

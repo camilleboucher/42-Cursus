@@ -16,12 +16,10 @@
 #include <fcntl.h>
 #include "ft_stdio.h"
 #include "pipex.h"
+#include "create_children.h"
 
-void	get_fds(t_cmd **cmds, int size, t_io_data *io)
+void	get_fds_io(t_cmd **cmds, int size, t_io_data *io)
 {
-	int	fds[2];
-	int	nb_pipes;
-
 	cmds[0]->fds[IN] = io->fd_infile;
 	cmds[size - 1]->fds[OUT] = open(io->outfile_path, io->outfile_flags, 0644);
 	if (cmds[size - 1]->fds[OUT] == -1)
@@ -29,15 +27,20 @@ void	get_fds(t_cmd **cmds, int size, t_io_data *io)
 		ft_dprintf(2, "pipex: %s: %s\n", io->outfile_path, strerror(errno));
 		io->skip_outfile = true;
 	}
-	nb_pipes = 1;
-	while (nb_pipes < size)
+}
+
+void	get_fds(t_cmd **cmds, int size, int i, t_io_data *io)
+{
+	int	fds[2];
+	int	wstatus;
+
+	if (pipe(fds) == -1)
 	{
-		if (pipe(fds) == -1)
-			error_exit(cmds, size);
-		cmds[nb_pipes - 1]->fds[OUT] = fds[OUT];
-		cmds[nb_pipes]->fds[IN] = fds[IN];
-		nb_pipes++;
+		wait_children(cmds, size, io, &wstatus);
+		error_exit(cmds, size);
 	}
+	cmds[i - 1]->fds[OUT] = fds[OUT];
+	cmds[i]->fds[IN] = fds[IN];
 }
 
 void	duplicate_fds(t_cmd *cmd)

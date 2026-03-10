@@ -45,7 +45,7 @@ int	main(int argc, char *argv[], char *envp[])
 	if (io.outfile_flags == (O_CREAT | O_APPEND | O_WRONLY))
 		size--;
 	cmds = init_pipex(size);
-	get_fds(cmds, size, &io);
+	get_fds_io(cmds, size, &io);
 	if (io.outfile_flags == (O_CREAT | O_APPEND | O_WRONLY))
 		get_cmds(cmds, size, argv + 1, envp);
 	else
@@ -71,6 +71,8 @@ static t_cmd	**init_pipex(int size)
 		if (!cmds[i])
 			error_exit(cmds, size);
 		cmds[i]->pid = -1;
+		cmds[i]->fds[IN] = -1;
+		cmds[i]->fds[OUT] = -1;
 	}
 	return (cmds);
 }

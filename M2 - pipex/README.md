@@ -41,8 +41,13 @@ Example : `./so_long maps/1.ber`
 
 TODO:
 3h20
+-fsanitize=address
 - gerer 1024 fds : refactoring necessaire
 - tester le 42 pipex tester dont le sleep : https://github.com/michmos/42_pipex_tester et https://github.com/bastienkody/pipex_tester
 - LEAK here_doc valgrind --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes ./pipex here_doc EOF ./pipex2 ./pipex iehii ./pipex2 ./pipex2 "" "" zfiohi "" outfile
 - tester NULL aux malloc
 - faire norme + readme
+- lexer = parser + executer en meme tmp
+cat /dev/urandom pour des generations aleatoire
+echo -e "\a" pour une alerte sonore
+pgrep pipex

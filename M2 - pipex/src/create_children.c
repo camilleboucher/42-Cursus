@@ -15,11 +15,12 @@
 #include <unistd.h>
 #include "ft_stdio.h"
 #include "pipex.h"
+#include "create_children.h"
 #include "fds.h"
 
-static bool	skip_iofiles(int size, int *i, t_io_data *io);
+static bool	skip_iofiles_or_get_fds(t_cmd **cmds, int size,
+									int *i, t_io_data *io);
 static void	exit_child(t_cmd **cmds, int size, int i);
-static void	wait_children(t_cmd **cmds, int size, t_io_data *io, int *wstatus);
 static int	get_exit_code(int wstatus);
 
 int	make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io)
@@ -30,7 +31,7 @@ int	make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io)
 	i = 0;
 	while (i < size)
 	{
-		if (skip_iofiles(size, &i, io))
+		if (skip_iofiles_or_get_fds(cmds, size, &i, io))
 			continue ;
 		cmds[i]->pid = fork();
 		if (cmds[i]->pid == -1)
@@ -40,9 +41,25 @@ int	make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io)
 			duplicate_fds(cmds[i]);
 			close_all(cmds, size);
 			if (execve(cmds[i]->path, cmds[i]->argv, envp) == -1)
-				exit_child(cmds, size, i);
+				exit_child(cmds, size, i);//TODO: non necessaire plus tard car error access plus tard
 		}
-		close_fds(&cmds[i]->fds);
+close_all(cmds, size);
+
+		if (i)
+		{
+			if (cmds[i - 1]->fds[OUT] != -1)
+				close(cmds[i - 1]->fds[OUT]);
+			cmds[i - 1]->fds[OUT] = -1;
+			if (cmds[i]->fds[IN] != -1)
+				close(cmds[i]->fds[IN]);
+			cmds[i]->fds[IN] = -1;
+		}
+		if (i == size -1)
+			close_fds(&cmds[i]->fds);
+
+
+
+
 		i++;
 	}
 	//TODO: fork pour afficher les erreurs access
@@ -51,18 +68,27 @@ int	make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io)
 	return (get_exit_code(wstatus));
 }
 
-static bool	skip_iofiles(int size, int *i, t_io_data *io)
+static bool	skip_iofiles_or_get_fds(t_cmd **cmds, int size,
+									int *i, t_io_data *io)
 {
-	if (*i == 0 && io->skip_infile)
+	if (*i == 0)
 	{
-		(*i)++;
-		return (true);
+		if (io->skip_infile)
+		{
+			(*i)++;
+			return (true);
+		}
 	}
-	else if (*i == size - 1 && io->skip_outfile)
+	else if (*i == size - 1)
 	{
-		(*i)++;
-		return (true);
+		if (io->skip_outfile)
+		{
+			(*i)++;
+			return (true);
+		}
 	}
+	else if (cmds[*i]->pid == -1)
+		get_fds(cmds, size, *i, io);
 	return (false);
 }
 
@@ -88,7 +114,7 @@ static void	exit_child(t_cmd **cmds, int size, int i)
 	exit(exit_code);
 }
 
-static void	wait_children(t_cmd **cmds, int size, t_io_data *io, int *wstatus)
+void	wait_children(t_cmd **cmds, int size, t_io_data *io, int *wstatus)
 {
 	int		i;
 
@@ -96,9 +122,10 @@ static void	wait_children(t_cmd **cmds, int size, t_io_data *io, int *wstatus)
 	*wstatus = EXIT_SUCCESS;
 	while (i < size)
 	{
-		if (skip_iofiles(size, &i, io))
+		if (skip_iofiles_or_get_fds(cmds, size, &i, io))
 			continue ;
-		waitpid(cmds[i]->pid, wstatus, 0);
+		if (cmds[i]->pid != -1)
+			waitpid(cmds[i]->pid, wstatus, 0);
 		i++;
 	}
 }

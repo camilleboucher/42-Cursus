@@ -42,7 +42,7 @@ int	main(int argc, char *argv[], char *envp[])
 	io.fd_infile = get_fd_infile(argv[1], &io);
 	io.outfile_path = argv[argc - 1];
 	io.outfile_flags = O_CREAT | O_TRUNC | O_WRONLY;
-	get_fds(cmds, size, &io);
+	get_fds_io(cmds, size, &io);
 	get_cmds(cmds, size, argv, envp);
 	exit_code = make_love(cmds, size, envp, &io);
 	clean_pipex(cmds, size);
