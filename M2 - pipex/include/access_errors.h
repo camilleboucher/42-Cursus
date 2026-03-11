@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   access_errors.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/11 23:07:36 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/11 23:09:18 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef ACCESS_ERRORS_H
+# define ACCESS_ERRORS_H
 
-# include <stdbool.h>
-# include "commands.h"
+# include "pipex.h"
 
-typedef struct s_io_data
-{
-	int		fd_infile;
-	char	*outfile_path;
-	int		outfile_flags;
-	bool	skip_infile;
-	bool	skip_outfile;
-}	t_io_data;
-
-void	clean_pipex(t_cmd **cmds, int size);
-void	error_exit(t_cmd **cmds, int size);
+int		access_and_wait_children(t_cmd **cmds, int size, t_io_data *io);
+void	wait_and_print_errors_access(t_io_data *io, int fd_errors_access);
 
 #endif

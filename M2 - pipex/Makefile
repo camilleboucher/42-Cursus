@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2026/03/07 16:00:26 by cboucher         ###   ########.fr        #
+#    Updated: 2026/03/11 11:25:25 by cboucher         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ endif
 
 SRC_DIR := src/
 
-SRC_BASENAMES := pipex commands fds paths create_children
+SRC_BASENAMES := pipex commands fds paths create_children create_children_utils access_errors
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES)))
 
 OBJ_DIR := .build/
@@ -64,7 +64,7 @@ fclean: clean
 
 re: fclean all
 
-BONUS_SRC_BASENAMES := pipex_bonus here_doc_bonus commands fds paths create_children
+BONUS_SRC_BASENAMES := pipex_bonus here_doc_bonus commands fds paths create_children create_children_utils access_errors
 BONUS_SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(BONUS_SRC_BASENAMES)))
 
 BONUS_OBJS := $(BONUS_SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

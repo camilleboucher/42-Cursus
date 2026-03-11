@@ -9,6 +9,7 @@ certains tests peuvent etre fait en limitant le nombre de processus dans une ses
 echo $? dans bash pour recuperer le code de sortie de la derniere commande
 2> error_log.txt pour demander a bash de redirigier la sortie derreur par exemple
 dossier /proc pour les processus et fds associés
+pgrep pipex
 
 ## Technical Choices
 
@@ -40,18 +41,10 @@ Example : `./so_long maps/1.ber`
 5.	Web research and AI chat for some notions.
 
 TODO:
-3h20
--  tester " cat -e" par exemple avec des espaces avant nom de cmd
-- creer fonction close fd pipe parent 
-- faire fonctions erreurs + faire les TODOs 
+- revoir TODOs de create_children.c
 - tester NULL aux malloc ET -fsanitize=address avec le cas des chaines vides
-- tester le 42 pipex tester dont le sleep : https://github.com/michmos/42_pipex_tester et https://github.com/bastienkody/pipex_tester
+- tester eventuellement le 42 pipex tester dont le sleep : https://github.com/michmos/42_pipex_tester et https://github.com/bastienkody/pipex_tester
 - faire norme + readme
 
-
-
-lexer = parser + executer en meme tmp
-cat /dev/urandom pour des generations aleatoire
-echo -e "\a" pour une alerte sonore
-pgrep pipex
-comment generer de la doc auto sur lazyvim lazyvim (plugin ?)
+./pipex README.md "ls -ù" "sleep 3" ./pipex2" "touch AHURI" 999 777 outfile
+< README.md ls -ù | sleep 3 | ./pipex2 | touch AHURI | 999 | 777 > outfile

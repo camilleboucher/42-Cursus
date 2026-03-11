@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   create_children_utils.h                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/11 23:07:36 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/11 12:16:41 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef CREATE_CHILDREN_UTILS_H
+# define CREATE_CHILDREN_UTILS_H
 
-# include <stdbool.h>
-# include "commands.h"
+# include "pipex.h"
 
-typedef struct s_io_data
-{
-	int		fd_infile;
-	char	*outfile_path;
-	int		outfile_flags;
-	bool	skip_infile;
-	bool	skip_outfile;
-}	t_io_data;
-
-void	clean_pipex(t_cmd **cmds, int size);
-void	error_exit(t_cmd **cmds, int size);
+bool	skip_iofiles(int size, int *i, t_io_data *io);
+void	close_pipe(t_cmd **cmds, int size, int i);
+int		get_exit_code(int wstatus);
 
 #endif

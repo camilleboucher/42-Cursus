@@ -6,7 +6,7 @@
 /*   By: Camille <private_mail>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 16:52:10 by Camille           #+#    #+#             */
-/*   Updated: 2026/03/07 11:48:25 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/03/11 23:10:04 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,68 +14,39 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include "ft_stdio.h"
+#include "access_errors.h"
 #include "pipex.h"
 #include "create_children.h"
+#include "create_children_utils.h"
 #include "fds.h"
 
 static bool	skip_iofiles_or_get_fds(t_cmd **cmds, int size,
 									int *i, t_io_data *io);
-static void	exit_child(t_cmd **cmds, int size, int i);
-static int	get_exit_code(int wstatus);
+static bool	make_child_logic(t_cmd **cmds, int size, int i, char *envp[]);
+static void	exit_child(t_cmd **cmds, int size);
 
 int	make_love(t_cmd **cmds, int size, char *envp[], t_io_data *io)
 {
 	int	i;
 	int	wstatus;
+	int	exit_code;
 
 	i = 0;
 	while (i < size)
 	{
 		if (skip_iofiles_or_get_fds(cmds, size, &i, io))
 			continue ;
-		cmds[i]->pid = fork();
-		if (cmds[i]->pid == -1)
+		if (!make_child_logic(cmds, size, i, envp))
+		{
+			ft_dprintf(2, "pipex: fork: Resource temporarily unavailable\n");
+			wait_children(cmds, size, io, &wstatus);
 			error_exit(cmds, size);
-		if (!cmds[i]->pid)
-		{
-			duplicate_fds(cmds[i]);
-			close_all(cmds, size);
-			if (!cmds[i]->argv[0])//TODO:TESTER fsanitize sans ca voir si ca marche avec execve qui recupe un truc bad
-			{
-				if (execve(cmds[i]->path, (char *const []){ "", NULL }, envp) == -1)
-					exit_child(cmds, size, i);//TODO: non necessaire plus tard car error access plus tard
-			}
-			if (execve(cmds[i]->path, cmds[i]->argv, envp) == -1)
-				exit_child(cmds, size, i);//TODO: non necessaire plus tard car error access plus tard
 		}
-
-
-		if (i && cmds[i - 1]->fds[OUT] != -1)
-		{
-			close(cmds[i - 1]->fds[OUT]);
-			cmds[i - 1]->fds[OUT] = -1;
-		}
-		if (cmds[i]->fds[IN] != -1)
-			close(cmds[i]->fds[IN]);
-		cmds[i]->fds[IN] = -1;
-		if (i == size -1)
-			close_fds(&cmds[i]->fds);
-
-
-
-
-
+		close_pipe(cmds, size, i);
 		i++;
 	}
-
-
-
-
-
-	//TODO: fork pour afficher les erreurs access
-	wait_children(cmds, size, io, &wstatus);
-	//TODO: wait pour le fork des erreurs
-	return (get_exit_code(wstatus));
+	exit_code = access_and_wait_children(cmds, size, io);
+	return (exit_code);
 }
 
 static bool	skip_iofiles_or_get_fds(t_cmd **cmds, int size,
@@ -107,26 +78,30 @@ static bool	skip_iofiles_or_get_fds(t_cmd **cmds, int size,
 	return (false);
 }
 
-static void	exit_child(t_cmd **cmds, int size, int i)
+static bool	make_child_logic(t_cmd **cmds, int size, int i, char *envp[])
 {
-	int	exit_code;
+	cmds[i]->pid = fork();
+	if (cmds[i]->pid == -1)
+		return (false);
+	if (!cmds[i]->pid)
+	{
+		duplicate_fds(cmds[i]);
+		close_all(cmds, size);
+		if (!cmds[i]->argv[0])//TODO:TESTER fsanitize sans ca voir si ca marche avec execve qui recupe un truc bad
+		{
+			if (execve(cmds[i]->path, (char *const []){ "", NULL }, envp) == -1)
+				exit_child(cmds, size);
+		}
+		if (execve(cmds[i]->path, cmds[i]->argv, envp) == -1)
+			exit_child(cmds, size);
+	}
+	return (true);
+}
 
-	exit_code = EXIT_FAILURE;
-	if (access(cmds[i]->path, F_OK) == -1)
-	{
-		if (!cmds[i]->argv[0])
-			ft_dprintf(2, "pipex: : command not found\n");
-		else
-			ft_dprintf(2, "pipex: %s: command not found\n", cmds[i]->argv[0]);
-		exit_code = 127;
-	}
-	else if (access(cmds[i]->path, X_OK) == -1)
-	{
-		ft_dprintf(2, "pipex: %s: permission denied\n", cmds[i]->argv[0]);
-		exit_code = 126;
-	}
+static void	exit_child(t_cmd **cmds, int size)
+{
 	clean_pipex(cmds, size);
-	exit(exit_code);
+	exit(EXIT_FAILURE);
 }
 
 void	wait_children(t_cmd **cmds, int size, t_io_data *io, int *wstatus)
@@ -137,19 +112,10 @@ void	wait_children(t_cmd **cmds, int size, t_io_data *io, int *wstatus)
 	*wstatus = EXIT_SUCCESS;
 	while (i < size)
 	{
-		if (skip_iofiles_or_get_fds(cmds, size, &i, io))
+		if (skip_iofiles(size, &i, io))
 			continue ;
 		if (cmds[i]->pid != -1)
 			waitpid(cmds[i]->pid, wstatus, 0);
 		i++;
 	}
-}
-
-static int	get_exit_code(int wstatus)
-{
-	if (WIFEXITED(wstatus))
-		return (WEXITSTATUS(wstatus));
-	else if (WIFSIGNALED(wstatus))
-		return (WTERMSIG(wstatus) + 128);
-	return (EXIT_FAILURE);
 }
