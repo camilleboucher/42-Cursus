@@ -52,8 +52,7 @@ static char	*find_executable(char *bin, char **paths)
 
 	if (!bin)
 		path = ft_strdup("");
-	else if (!ft_strncmp(bin, "./", 2) || !ft_strncmp(bin, "../", 3)
-		|| !ft_strncmp(bin, "/", 1))
+	else if (ft_strchr(bin, '/'))
 		path = ft_strdup(bin);
 	else if (!*paths)
 		path = ft_strdup("");

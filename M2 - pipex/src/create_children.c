@@ -21,7 +21,7 @@
 #include "fds.h"
 
 static bool	skip_iofiles_or_get_fds(t_cmd **cmds, int size,
-									int *i, t_io_data *io);
+				int *i, t_io_data *io);
 static bool	make_child_logic(t_cmd **cmds, int size, int i, char *envp[]);
 static void	exit_child(t_cmd **cmds, int size);
 
@@ -87,9 +87,9 @@ static bool	make_child_logic(t_cmd **cmds, int size, int i, char *envp[])
 	{
 		duplicate_fds(cmds[i]);
 		close_all(cmds, size);
-		if (!cmds[i]->argv[0])//TODO:TESTER fsanitize sans ca voir si ca marche avec execve qui recupe un truc bad
+		if (!cmds[i]->argv[0])
 		{
-			if (execve(cmds[i]->path, (char *const []){ "", NULL }, envp) == -1)
+			if (execve(cmds[i]->path, (char *[]){"", NULL}, envp) == -1)
 				exit_child(cmds, size);
 		}
 		if (execve(cmds[i]->path, cmds[i]->argv, envp) == -1)

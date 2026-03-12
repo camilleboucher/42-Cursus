@@ -22,10 +22,9 @@
 #include "pipex.h"
 #include "strutils.h"
 
-
 static char	**init_errors(t_cmd **cmds, int size, t_io_data *io);
 static void	get_access_errors(t_cmd **cmds, int size,
-							t_io_data *io, char **errors);
+				t_io_data *io, char **errors);
 static bool	malloc_access_error(t_cmd *cmd, char **errors, int *j, int errmsg);
 static void	print_errors(char **errors);
 
@@ -46,12 +45,12 @@ static char	**init_errors(t_cmd **cmds, int size, t_io_data *io)
 {
 	char	**errors;
 	int		wstatus;
-	
+
 	if (io->skip_infile)
 		size--;
 	if (io->skip_outfile)
 		size--;
-	errors = ft_calloc(sizeof(char *), size);
+	errors = ft_calloc(sizeof(char *), size + 1);
 	if (!errors)
 	{
 		wait_children(cmds, size, io, &wstatus);
@@ -76,15 +75,9 @@ static void	get_access_errors(t_cmd **cmds, int size,
 		if (skip_iofiles(size, &i, io))
 			continue ;
 		if (access(cmds[i]->path, F_OK) == -1)
-		{
 			failed_malloc = malloc_access_error(cmds[i], errors, &j, 1);
-			j++;
-		}
 		else if (access(cmds[i]->path, X_OK) == -1)
-		{
 			failed_malloc = malloc_access_error(cmds[i], errors, &j, 2);
-			j++;
-		}
 		if (failed_malloc)
 			return ;
 		i++;
@@ -99,21 +92,16 @@ static bool	malloc_access_error(t_cmd *cmd, char **errors, int *j, int errmsg)
 		errors[*j] = ft_strdup("pipex: : command not found\n");
 	if (errmsg == 2 || (errmsg == 1 && cmd->argv[0]))
 		errors[*j] = ft_strjoin("pipex: ", cmd->argv[0]);
-	if (!errors[*j])
-		return (true);
-	if (errmsg == 1 && cmd->argv[0])
+	if (errors[*j] && ((errmsg == 1 && cmd->argv[0]) || errmsg == 2))
 	{
 		old = errors[*j];
-		errors[*j] = ft_strjoin(errors[*j], ": command not found\n");
+		if (errmsg == 1)
+			errors[*j] = ft_strjoin(errors[*j], ": command not found\n");
+		if (errmsg == 2)
+			errors[*j] = ft_strjoin(errors[*j], ": permission denied\n");
 		free(old);
 	}
-	if (errmsg == 2)
-	{
-		old = errors[*j];
-		errors[*j] = ft_strjoin(errors[*j], ": permission denied\n");
-		free(old);
-	}
-	if (!errors[*j])
+	if (errors[(*j)++])
 		return (true);
 	return (false);
 }
