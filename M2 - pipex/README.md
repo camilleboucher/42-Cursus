@@ -22,6 +22,14 @@ I discovered that C natively supports octal bases, which is a practical and conv
 - `pgrep pipex` permet de recuperer le pid correspondant au nom de programme pipex
 - `-fsanitize=address` dans les regles de compilation permet de voir les fuites de memoires a l'execution du programme sans avoir a utiliser valgrind par exemple
 
+In a bash session, we can limit the number of processes with ulimit -u 547, useful for certain tests.
+In bash, using echo $? retrieves the exit code of the last command executed.
+In bash, command 2> errors.log allows us to redirect the error output to errors.log, for example.
+In bash, using unset PATH clears the PATH environment variable.
+The /proc folder contains currently running processes, where we can find the open fds associated with each process.
+pgrep pipex retrieves the pid corresponding to the pipex program name.
+-fsanitize=address in the compilation rules helps identify memory leaks during program execution without needing to use tools like Valgrind.
+
 ## Instructions
 
 ### Compilation
@@ -57,3 +65,15 @@ One potential improvement could be to check if a folder (relative or absolute) h
 3.	Peer-to-peer learning.
 4.	man (umask, pipe, fork, dup2, execve, wait, waitpid)
 5.	Web research and AI chat for some notions.
+
+TODO:
+francais dans README
+revoir prise de notes
+./pipex a cat "wc -l" c           > (avec permissions 000 a a) wc bad fd : normal ??
+env -i ./pipex a cat "wc -l" b     > si PATH unset (et vide aussi ? ou si ya des trucs qd mm mais pas la ou se trouve ls ???) : bash va chercher dans le dossier courant
+										cp /usr/bin/ls .
+
+revoir ca ./pipex a yes "head -5" b
+./pipex here_doc "'eo'f" "cat -e" "cat -e" b  			> simples quotes comportement bash
+./pipex here_doc "eo   f" cat cat b							> gere espaces
+ ctrl + v + j pour ajouter un \n dans le limiter here_doc ???
