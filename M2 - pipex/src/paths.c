@@ -22,9 +22,9 @@ char	**extract_paths(t_cmd **cmds, int size, char *envp[])
 	char	**paths;
 
 	i = 0;
-	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
+	while (envp && envp[i] && ft_strncmp(envp[i], "PATH=", 5))
 		i++;
-	if (!envp[i])
+	if (!envp || !envp[i])
 		env_path = ft_strdup("");
 	else
 		env_path = ft_strdup(envp[i] + 5);

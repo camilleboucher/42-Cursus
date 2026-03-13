@@ -14,21 +14,13 @@ I discovered that C natively supports octal bases, which is a practical and conv
 
 ### Other Concepts Covered
 
-- Dans une session bash nous pouvons limiter le nombre de processus avec `ulimit -u 547` par exemple, utile pour certains tests
-- Dans bash, faire `echo $?` permet de recuperer le code de sortie de la derniere commande utilise
-- Dans bash, `command 2> errors.log` permet de rediriger la sortie d'erreur par exemple dans errors.log par exemple
-- Dans bash, utiliser `unset PATH` permet de mettre la variable d'environnement PATH a vide.
-- Le dossier /proc contient les processus de l'ordinateur en cours et on y retrouve les fds ouverts associés aux processus
-- `pgrep pipex` permet de recuperer le pid correspondant au nom de programme pipex
-- `-fsanitize=address` dans les regles de compilation permet de voir les fuites de memoires a l'execution du programme sans avoir a utiliser valgrind par exemple
-
-In a bash session, we can limit the number of processes with ulimit -u 547, useful for certain tests.
-In bash, using echo $? retrieves the exit code of the last command executed.
-In bash, command 2> errors.log allows us to redirect the error output to errors.log, for example.
-In bash, using unset PATH clears the PATH environment variable.
-The /proc folder contains currently running processes, where we can find the open fds associated with each process.
-pgrep pipex retrieves the pid corresponding to the pipex program name.
--fsanitize=address in the compilation rules helps identify memory leaks during program execution without needing to use tools like Valgrind.
+- In a bash session, we can limit the number of processes with `ulimit -u 547`, useful for certain tests.
+- In bash, using `echo $?` retrieves the exit code of the last command executed.
+- In bash, `command 2> errors.log` allows us to redirect the error output to errors.log, for example.
+- For a bash session, using `unset PATH` clears the PATH environment variable and `export PATH="foe"` sets the PATH environment variable to foe.
+- The /proc folder contains currently running processes, where we can find the open fds associated with each process.
+- `pgrep pipex` retrieves the pid corresponding to the pipex program name.
+- `-fsanitize=address` in the compilation rules helps identify memory leaks during program execution without needing to use tools like Valgrind.
 
 ## Instructions
 
@@ -58,6 +50,7 @@ To manage a significant number of children, I open and close my pipes as needed 
 
 One potential improvement could be to check if a folder (relative or absolute) has the permissions to display "no such file or directory" instead of "command not found."
 
+
 ## Resources
 
 1.	[Article by Roslyn Michelle](https://www.rozmichelle.com/pipes-forks-dups/)
@@ -67,13 +60,15 @@ One potential improvement could be to check if a folder (relative or absolute) h
 5.	Web research and AI chat for some notions.
 
 TODO:
-francais dans README
-revoir prise de notes
-./pipex a cat "wc -l" c           > (avec permissions 000 a a) wc bad fd : normal ??
-env -i ./pipex a cat "wc -l" b     > si PATH unset (et vide aussi ? ou si ya des trucs qd mm mais pas la ou se trouve ls ???) : bash va chercher dans le dossier courant
-										cp /usr/bin/ls .
+8h50 a 11h50 = 3h
 
-revoir ca ./pipex a yes "head -5" b
-./pipex here_doc "'eo'f" "cat -e" "cat -e" b  			> simples quotes comportement bash
-./pipex here_doc "eo   f" cat cat b							> gere espaces
- ctrl + v + j pour ajouter un \n dans le limiter here_doc ???
+VOIR ECOLE : ./pipex a cat "wc -l" c           > (avec permissions 000 a a) wc bad fd : normal ??
+VOIR ECOLE : revoir ca ./pipex a yes "head -5" b				SIGPIPE
+
+AJOUTER rubrique README comportements bash avec les autres truc et notamment lexemple de :
+env -i ./pipex a cat "wc -l" b     > si PATH n'existe pas ou est vide bash va chercher dans le dossier courant
+										cp /usr/bin/ls .
+AJOUTER notion : CTRL + D (pas un signal) envoi un fin de fichier (la maniere dont jimplemente gnl ne marche pas du coup car il attend un \0 qui nexiste pas)
+AJOUTER notion : env -i command pour remove toutes les variables d'environnements pour la commande qui suit
+AJOUTER IMPROVEMENT potentiel : ./pipex here_doc "'eo'f" "cat -e" "cat -e" b  			> LIMITER ne contient pas  2 simples quotes si pas de doubles quotes potentiellement comme dans minishell par rapport a des versions spécifiques de bash (exemple bash de lecole)
+AJOUTER IMPROVEMENT potentiel : ne pas use gnl pour ajouter un \n dans le limiter here_doc si on utilise ctrl + v + j, jai choisi de proteger a la place ici le \n

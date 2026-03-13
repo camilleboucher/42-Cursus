@@ -20,11 +20,11 @@
 int	get_fd_heredoc(char *limiter, int size)
 {
 	int		fds[2];
-	char	*line;
+	char	*s;
 
 	if (pipe(fds) == -1)
 		error_exit(NULL, 0);
-	line = NULL;
+	s = NULL;
 	limiter = ft_strjoin(limiter, "\n");
 	if (!limiter)
 		error_exit(NULL, 0);
@@ -32,14 +32,14 @@ int	get_fd_heredoc(char *limiter, int size)
 	while (1)
 	{
 		ft_printf("> ");
-		line = get_next_line(STDIN_FILENO, true);
-		if ((int)ft_strlen(line) == size && !ft_strncmp(line, limiter, size))
+		s = get_next_line(STDIN_FILENO, true);
+		if (!s || ((int)ft_strlen(s) == size && !ft_strncmp(s, limiter, size)))
 		{
-			free(line);
+			free(s);
 			break ;
 		}
-		ft_dprintf(fds[1], line);
-		free(line);
+		ft_dprintf(fds[OUT], s);
+		free(s);
 	}
 	free(limiter);
 	close(fds[OUT]);

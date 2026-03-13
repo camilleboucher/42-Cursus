@@ -101,7 +101,7 @@ static bool	malloc_access_error(t_cmd *cmd, char **errors, int *j, int errmsg)
 			errors[*j] = ft_strjoin(errors[*j], ": permission denied\n");
 		free(old);
 	}
-	if (errors[(*j)++])
+	if (!errors[(*j)++])
 		return (true);
 	return (false);
 }

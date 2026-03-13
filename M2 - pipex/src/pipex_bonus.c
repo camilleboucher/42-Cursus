@@ -25,7 +25,8 @@
 #include "here_doc_bonus.h"
 
 static t_cmd	**init_pipex(int size);
-static void		get_io_files_data(int argc, char *argv[], t_io_data *io);
+static void		get_io_files_data(int argc, char *argv[],
+					t_io_data *io, int eol);
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -41,7 +42,7 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	}
 	size = argc - 3;
-	get_io_files_data(argc, argv, &io);
+	get_io_files_data(argc, argv, &io, ft_strchr(argv[2], '\n') - argv[2]);
 	if (io.outfile_flags == (O_CREAT | O_APPEND | O_WRONLY))
 		size--;
 	cmds = init_pipex(size);
@@ -106,10 +107,8 @@ void	error_exit(t_cmd **cmds, int size)
 	exit(EXIT_FAILURE);
 }
 
-static void	get_io_files_data(int argc, char *argv[], t_io_data *io)
+static void	get_io_files_data(int argc, char *argv[], t_io_data *io, int eol)
 {
-	io->skip_infile = false;
-	io->skip_outfile = false;
 	io->outfile_path = argv[argc - 1];
 	if ((ft_strlen(argv[1]) == 8) && !ft_strncmp(argv[1], "here_doc", 8))
 	{
@@ -120,7 +119,10 @@ takes at least 5 arguments with the uses of a here document\n");
 			exit(EXIT_FAILURE);
 		}
 		io->outfile_flags = O_CREAT | O_APPEND | O_WRONLY;
-		io->fd_infile = get_fd_heredoc(argv[2], ft_strlen(argv[2]));
+		if (eol >= 0 && eol < (int)ft_strlen(argv[2]))
+			io->fd_infile = get_fd_heredoc(argv[2], eol);
+		else
+			io->fd_infile = get_fd_heredoc(argv[2], ft_strlen(argv[2]));
 	}
 	else
 	{
