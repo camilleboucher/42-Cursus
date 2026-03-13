@@ -42,6 +42,7 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	}
 	size = argc - 3;
+	io = (t_io_data){0};
 	get_io_files_data(argc, argv, &io, ft_strchr(argv[2], '\n') - argv[2]);
 	if (io.outfile_flags == (O_CREAT | O_APPEND | O_WRONLY))
 		size--;
