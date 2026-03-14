@@ -65,6 +65,8 @@ static t_cmd	**init_pipex(int size, t_io_data *io)
 		if (!cmds[i])
 			error_exit(cmds, size);
 		cmds[i]->pid = -1;
+		cmds[i]->fds[IN] = -1;
+		cmds[i]->fds[OUT] = -1;
 	}
 	io->skip_infile = false;
 	io->skip_outfile = false;
