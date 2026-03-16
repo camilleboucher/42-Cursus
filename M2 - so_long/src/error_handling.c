@@ -24,7 +24,7 @@ void	error_exit(char *errmsg, int fd, char *row)
 	while (row)
 	{
 		free(row);
-		row = get_next_line(fd, false);
+		row = get_next_line(fd);
 	}
 	if (fd >= 0)
 		close(fd);

@@ -2,12 +2,6 @@ _This project has been created as part of the 42 curriculum by cboucher._
 
 # So Long
 
-<div align=center>
-
-https://github.com/user-attachments/assets/2405245d-4d92-4b15-9e88-7f060cafa506
-	
-</div>
-
 ## Description
 
 This is a 2D game development project from scratch with only the help of a graphic library. The project aims to provide a hands-on experience in game development, allowing participants to create a functional game where players navigate a map, collect items, and reach an exit.
