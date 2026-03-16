@@ -25,11 +25,21 @@ This project is already a greater obstacle to overcome. Here, we learn to use fi
 
 In this project, we need to create a Linux server in the form of a virtual machine. This is an opportunity for me to validate skills I already possess out of passion after more than 20 years of using Linux. We will set up an SSH server, a web server, and system administration skills.
 
+### pipex
+
+One of my favorite projects so far. We need to simulate bash pipes, meaning we must redirect the output of one command to another. This pipex and its bonus exercises manage pipes, redirection operators for replacement and appending, as well as here documents.
+
 ## Milestone 2
 
 ### Push_swap
 
 Here we have to sort a stack of numbers with the help of another stack with the least amount of moves. This project is quite complex because it requires many functions and an efficient algorithm. I chose to use a doubly linked list, which allowed me to understand this new concept better and to gain a clearer grasp of linked lists, which I thought I already understood. It was also a great project for me to better assimilate pointers and structures (struct).
+
+### So Long
+
+This is a 2D game development project from scratch with only the help of a graphic library. The project aims to provide a hands-on experience in game development, allowing participants to create a functional game where players navigate a map, collect items, and reach an exit.
+
+We do that by implementing a parser for checking the map's files, a map rendering, we are listening keyboard events for the movement of the player, we are checking conditions for wall collisions, collecting items, etc...
 
 ## My Best Ressources
 
