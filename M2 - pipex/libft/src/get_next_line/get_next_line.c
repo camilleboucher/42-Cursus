@@ -15,6 +15,7 @@
 static int		fill_stash(char **stash, char *buf);
 static char		*extract_line(char **stash, int fd, bool free_stash);
 static ssize_t	read_and_set_buf(char **buf, int fd);
+static char		*have_to_free_line(char *line);
 
 char	*get_next_line(int fd, bool free_stash)
 {
@@ -39,7 +40,7 @@ char	*get_next_line(int fd, bool free_stash)
 			break ;
 	}
 	free(buf);
-	if (size_read > 0)
+	if (stash[fd])
 		line = extract_line(&stash[fd], fd, free_stash);
 	return (line);
 }
@@ -70,7 +71,7 @@ static char	*extract_line(char **stash, int fd, bool free_stash)
 		return (NULL);
 	line = NULL;
 	end_of_line = ft_strchr(*stash, '\n');
-	if (!end_of_line || fd == 0 || free_stash)
+	if (!end_of_line || fd < 3 || free_stash)
 	{
 		if (**stash)
 			line = ft_substr(*stash, 0, ft_strlen(*stash));
@@ -84,6 +85,8 @@ static char	*extract_line(char **stash, int fd, bool free_stash)
 		*stash = ft_substr(end_of_line, 1, ft_strlen(*stash));
 		free(old_stash);
 	}
+	if (line)
+		line = have_to_free_line(line);
 	return (line);
 }
 
@@ -100,4 +103,12 @@ static ssize_t	read_and_set_buf(char **buf, int fd)
 	else
 		(*buf)[size_read] = '\0';
 	return (size_read);
+}
+
+static char	*have_to_free_line(char *line)
+{
+	if (line[0])
+		return (line);
+	free(line);
+	return (NULL);
 }
