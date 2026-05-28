@@ -11,7 +11,7 @@ The projects are organized in concentric circles called Milestone. The further y
 
 This first project is the spiritual successor to the famous C piscine at 42. We must recreate parts of the C standard library (`glibc`). We gain an initial understanding of UNIX/POSIX system calls, memory management, and fundamental basic concepts in C programming.
 
-## Milestone 1
+## Milestone 1 (Language C)
 
 ### ft_printf
 
@@ -25,7 +25,7 @@ This project is already a greater obstacle to overcome. Here, we learn to use fi
 
 In this project, we need to create a Linux server in the form of a virtual machine. This is an opportunity for me to validate skills I already possess out of passion after more than 20 years of using Linux. We will set up an SSH server, a web server, and system administration skills.
 
-## Milestone 2
+## Milestone 2 (Language C)
 
 ### Push_swap
 
@@ -40,6 +40,13 @@ We do that by implementing a parser for checking the map's files, a map renderin
 ### pipex
 
 One of my favorite projects so far. We need to simulate bash pipes, meaning we must redirect the output of one command to another. This pipex and its bonus exercises manage pipes, redirection operators for replacement and appending, as well as here documents.
+
+## Milestone 3 (Language C)
+
+### minishell
+
+This is the first major project in the common core curriculum that we have to complete in pairs. It lasts about a month, maybe more. This project consists of writing a mini-equivalent to a shell similar to bash. The code is still in C, using the syscalls we've seen so far plus a few new ones.
+We also strengthen soft skills even more with this project, such as communication, teamwork, task distribution, mutual support, and organization.
 
 ## My Best Ressources
 
