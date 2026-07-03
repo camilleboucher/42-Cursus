@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 16:39:18 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/02 20:01:34 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/03 13:44:05 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static bool	start_philo(int argc, char **argv)
 	if (!create_philos_threads(philos, nb_philos))
 	{
 		destroy_philos(philos, nb_philos);
+		printf("Error: Something went wrong in the system\n");
 		return (false);
 	}
 	destroy_philos(philos, nb_philos);
@@ -62,6 +63,7 @@ static bool	init_ctx(t_ctx *ctx, int argc, char **argv)
 		printf("%s", USAGE_MAX_LIMIT_MSG);
 		return (false);
 	}
+	ctx->sysfail = false;
 	return (true);
 }
 

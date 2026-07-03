@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 16:27:29 by cboucher          #+#    #+#             */
-/*   Updated: 2026/06/29 12:26:22 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/03 13:44:16 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_ctx
 	int		time_to_sleep;
 	int		nb_times_must_eat;
 	t_philo	*philos;
+	bool	sysfail;
 }	t_ctx;
 
 #endif
