@@ -31,3 +31,8 @@ You can also use a 5th optional argument for the number of times each philosophe
 2.	Peer-to-peer learning.
 3.	man
 4.	Web research and AI chat for some notions.
+
+
+# TODO
+
+ajouter du delai voir les conseils

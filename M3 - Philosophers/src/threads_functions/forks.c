@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 13:50:39 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/05 17:31:05 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/05 20:47:04 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,7 @@ static void	print_fork_message(t_ctx *ctx, t_philo *philo)
 
 	time = gettimeofday_in_ms(ctx->started_timestamp);
 	philo->state++;
-	while (1)
-	{
-		pthread_mutex_lock(&ctx->m_stdout);
-		printf("%zu %d has taken a fork\n", time, philo->id + 1);
-		break ;
-		pthread_mutex_unlock(&ctx->m_stdout);
-	}
+	pthread_mutex_lock(&ctx->m_stdout);
+	printf("%zu %d has taken a fork\n", time, philo->id + 1);
 	pthread_mutex_unlock(&ctx->m_stdout);
 }

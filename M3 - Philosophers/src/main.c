@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 16:39:18 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/05 16:56:55 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/05 21:06:57 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static bool	start_philo(int argc, char **argv)
 
 	if (!init_ctx(&ctx, argc, argv))
 		return (false);
-	philos = ctx.philos;
 	nb_philos = ctx.nb_philos;
 	if (!init_philos(&ctx, &philos, nb_philos))
 		return (false);
@@ -76,6 +75,7 @@ static bool	init_philos(t_ctx *ctx, t_philo **philos, int n)
 	*philos = malloc(sizeof(t_philo) * n);
 	if (!*philos)
 		return (false);
+	ctx->philos = *philos;
 	while (n)
 	{
 		n--;

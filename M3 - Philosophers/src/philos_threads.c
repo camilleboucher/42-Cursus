@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 11:48:18 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/05 20:30:54 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/05 21:20:01 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,19 @@ static void	*routine(void *arg)
 	philo = (t_philo *) arg;
 	ctx = philo->ctx;
 	wait_for_synchro_start(ctx);
-	while (1)
+	while (!end_simulation(ctx, philo))
 	{
-		if (!end_simulation(ctx, philo)
-			&& ((philo->state == THINKING && thinking(ctx, philo))
-			|| (philo->state == WAIT_FORK_1
-			&& try_taking_first_fork(ctx, philo->id, philo))
-			|| (philo->state == WAIT_FORK_2
-			&& try_taking_second_fork(ctx, philo->id, philo))
-			|| (philo->state == EATING && eating(ctx, philo))
-			|| (philo->state == SLEEPING && sleeping(ctx, philo))
-			|| (philo->state == DIED)))
+		if (philo->state == THINKING && !thinking(ctx, philo))
+			break ;
+		else if (philo->state == WAIT_FORK_1 && !try_taking_first_fork(ctx, philo->id, philo))
+			break ;
+		else if (philo->state == WAIT_FORK_2 && !try_taking_second_fork(ctx, philo->id, philo))
+			break ;
+		else if (philo->state == EATING && !eating(ctx, philo))
+			break ;
+		else if (philo->state == SLEEPING && !sleeping(ctx, philo))
+			break ;
+		else if (philo->state == DIED)
 			break;
 	}
 	return (NULL);
