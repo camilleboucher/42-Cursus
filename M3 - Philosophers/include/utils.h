@@ -22,6 +22,7 @@ int			ft_isdigit(int c);
 int			ft_aredigits(char *s);
 
 void		add_milliseconds(struct timeval *tv, int ms_to_add);
-uint64_t	get_timestamp_in_ms(struct timeval *tv);
+uint64_t	get_timestamp_in_ms(struct timeval *tv, uint64_t delta);
+uint64_t	gettimeofday_in_ms(uint64_t delta);
 
 #endif

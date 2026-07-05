@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 16:39:18 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/03 13:44:05 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/05 16:56:55 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static bool	start_philo(int agrc, char **argv);
 static bool	init_ctx(t_ctx *ctx, int argc, char **argv);
-static bool	init_philos(t_ctx *ctx, t_philo **philos, int n, int time_to_die);
-static void	destroy_philos(t_philo *philos, int n);
+static bool	init_philos(t_ctx *ctx, t_philo **philos, int n);
+static void	destroy_philos(t_ctx *ctx, t_philo *philos, int n);
 
 int	main(int argc, char **argv)
 {
@@ -36,15 +36,15 @@ static bool	start_philo(int argc, char **argv)
 		return (false);
 	philos = ctx.philos;
 	nb_philos = ctx.nb_philos;
-	if (!init_philos(&ctx, &philos, nb_philos, ctx.time_to_die))
+	if (!init_philos(&ctx, &philos, nb_philos))
 		return (false);
-	if (!create_philos_threads(philos, nb_philos))
+	if (!create_philos_threads(&ctx, philos, nb_philos))
 	{
-		destroy_philos(philos, nb_philos);
+		destroy_philos(&ctx, philos, nb_philos);
 		printf("Error: Something went wrong in the system\n");
 		return (false);
 	}
-	destroy_philos(philos, nb_philos);
+	destroy_philos(&ctx, philos, nb_philos);
 	return (true);
 }
 
@@ -63,11 +63,13 @@ static bool	init_ctx(t_ctx *ctx, int argc, char **argv)
 		printf("%s", USAGE_MAX_LIMIT_MSG);
 		return (false);
 	}
-	ctx->sysfail = false;
+	pthread_mutex_init(&ctx->m_stdout, NULL);
+	pthread_mutex_init(&ctx->m_start_end, NULL);
+	ctx->start_end = true;
 	return (true);
 }
 
-static bool	init_philos(t_ctx *ctx, t_philo **philos, int n, int time_to_die)
+static bool	init_philos(t_ctx *ctx, t_philo **philos, int n)
 {
 	t_philo	*philo;
 
@@ -79,9 +81,7 @@ static bool	init_philos(t_ctx *ctx, t_philo **philos, int n, int time_to_die)
 		n--;
 		philo = *philos + n;
 		philo->id = n;
-		if (gettimeofday(&philo->hunger_death, NULL) == -1)
-			return (false);
-		add_milliseconds(&philo->hunger_death, time_to_die);
+		philo->state = THINKING;
 		philo->total_meals = 0;
 		pthread_mutex_init(&philo->m_fork, NULL);
 		philo->fork = false;
@@ -90,7 +90,7 @@ static bool	init_philos(t_ctx *ctx, t_philo **philos, int n, int time_to_die)
 	return (true);
 }
 
-static void	destroy_philos(t_philo *philos, int n)
+static void	destroy_philos(t_ctx *ctx, t_philo *philos, int n)
 {
 	while (n)
 	{
@@ -98,4 +98,6 @@ static void	destroy_philos(t_philo *philos, int n)
 		pthread_mutex_destroy(&philos[n].m_fork);
 	}
 	free(philos);
+	pthread_mutex_destroy(&ctx->m_stdout);
+	pthread_mutex_destroy(&ctx->m_start_end);
 }

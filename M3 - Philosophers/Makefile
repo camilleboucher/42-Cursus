@@ -6,7 +6,7 @@
 #    By: Camille <private_mail>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 10:13:22 by Camille           #+#    #+#              #
-#    Updated: 2026/07/03 13:50:19 by cboucher         ###   ########.fr        #
+#    Updated: 2026/07/05 16:55:59 by cboucher         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ THREADS_FNS_DIR := threads_functions/
 
 SRC_BASENAMES := main parsing philos_threads
 UTILS_BASENAMES := ft_atoi ft_isdigit time_tools
-THREADS_FNS_BASENAMES := forks
+THREADS_FNS_BASENAMES := forks states
 SRCS := $(addprefix $(SRC_DIR), $(addsuffix .c,$(SRC_BASENAMES))) \
 		$(addprefix $(SRC_DIR)$(UTILS_DIR), $(addsuffix .c,$(UTILS_BASENAMES))) \
 		$(addprefix $(SRC_DIR)$(THREADS_FNS_DIR), $(addsuffix .c,$(THREADS_FNS_BASENAMES)))

@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+#include <stdlib.h>
 #include "utils.h"
 
 void	add_milliseconds(struct timeval *tv, int ms_to_add)
@@ -23,7 +25,16 @@ void	add_milliseconds(struct timeval *tv, int ms_to_add)
 	tv->tv_usec = (suseconds_t)(us_total % 1000000LL);
 }
 
-uint64_t	get_timestamp_in_ms(struct timeval *tv)
+uint64_t	get_timestamp_in_ms(struct timeval *tv, uint64_t delta)
 {
-	return ((uint64_t)tv->tv_sec * 1000LL + (uint64_t)tv->tv_usec / 1000LL);
+	return ((uint64_t)tv->tv_sec * 1000LL + (uint64_t)tv->tv_usec / 1000LL
+	- delta);
+}
+
+uint64_t	gettimeofday_in_ms(uint64_t delta)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (get_timestamp_in_ms(&tv, delta));
 }
