@@ -35,4 +35,21 @@ You can also use a 5th optional argument for the number of times each philosophe
 
 # TODO
 
-ajouter du delai voir les conseils
+1 ) surveiller la mort si timetodie < time to eat
+
+2 ) si impair mickael dit quil fait un 3seme groupe avec un seul philo
+
+si nb philo est pair et que cest la premiere boucle
+	usleep de timeeat pour le 2eme groupe (impair)
+
+si nb philo est impair :
+		if timetoeat >= timetosleep :
+			if philo est impair
+					usleep eat*1000
+			if philo = dernier	
+				usleep eat 1000 (+1 utile ou pas??)
+			if	boucle nest pas la premiere et que philo est  pair
+				usleep eat 1000
+		else	
+			if boucle est la premiere et philo est impair
+				usleep eat 1000
