@@ -16,12 +16,12 @@
 bool	create_philos_threads(t_ctx *ctx, t_philo *philos, int n);
 
 bool	is_dead(t_ctx *ctx, t_philo *philo);
-bool	thinking(t_ctx *ctx, t_philo *philo);
-bool	eating(t_ctx *ctx, t_philo *philo);
+void	thinking(t_ctx *ctx, t_philo *philo);
+void	eating(t_ctx *ctx, t_philo *philo);
 bool	sleeping(t_ctx *ctx, t_philo *philo);
 
-bool	try_taking_first_fork(t_ctx *ctx, int current, t_philo *philo);
-bool	try_taking_second_fork(t_ctx *ctx, int current, t_philo *philo);
+void	try_taking_first_fork(t_ctx *ctx, int current, t_philo *philo);
+void	try_taking_second_fork(t_ctx *ctx, int current, t_philo *philo);
 void	put_forks_on_the_table(t_ctx *ctx, t_philo *philo);
 
 #endif

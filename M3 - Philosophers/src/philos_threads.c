@@ -55,18 +55,19 @@ static void	*routine(void *arg)
 	wait_for_synchro_start(ctx);
 	while (!end_simulation(ctx, philo))
 	{
-		if (philo->state == THINKING && !thinking(ctx, philo))
+		if (is_dead(ctx, philo))
 			break ;
-		else if (philo->state == WAIT_FORK_1 && !try_taking_first_fork(ctx, philo->id, philo))
-			break ;
-		else if (philo->state == WAIT_FORK_2 && !try_taking_second_fork(ctx, philo->id, philo))
-			break ;
-		else if (philo->state == EATING && !eating(ctx, philo))
-			break ;
+		else if (philo->state == THINKING)
+			thinking(ctx, philo);
+		else if (philo->state == WAIT_FORK_1)
+			try_taking_first_fork(ctx, philo->id, philo);
+		else if (philo->state == WAIT_FORK_2)
+			try_taking_second_fork(ctx, philo->id, philo);
+		else if (philo->state == EATING)
+			eating(ctx, philo);
 		else if (philo->state == SLEEPING && !sleeping(ctx, philo))
 			break ;
-		else if (philo->state == DIED)
-			break;
+		usleep(10);
 	}
 	return (NULL);
 }
@@ -82,6 +83,7 @@ static void	wait_for_synchro_start(t_ctx *ctx)
 			break ;
 		}
 		pthread_mutex_unlock(&ctx->m_start_end);
+		usleep(10);
 	}
 }
 

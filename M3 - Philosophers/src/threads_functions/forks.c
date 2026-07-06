@@ -15,12 +15,10 @@
 static bool	try_taking_fork(pthread_mutex_t *m_fork, bool *fork);
 static void	print_fork_message(t_ctx *ctx, t_philo *philo);
 
-bool	try_taking_first_fork(t_ctx *ctx, int current, t_philo *philo)
+void	try_taking_first_fork(t_ctx *ctx, int current, t_philo *philo)
 {
 	int	i;
 
-	if (is_dead(ctx, philo))
-		return (false);
 	if (philo->id % 2 == 0)
 	{
 		if (try_taking_fork(&philo->m_fork, &philo->fork))
@@ -34,15 +32,12 @@ bool	try_taking_first_fork(t_ctx *ctx, int current, t_philo *philo)
 		if (try_taking_fork(&ctx->philos[i].m_fork, &ctx->philos[i].fork))
 			print_fork_message(ctx, philo);
 	}
-	return (true);
 }
 
-bool	try_taking_second_fork(t_ctx *ctx, int current, t_philo *philo)
+void	try_taking_second_fork(t_ctx *ctx, int current, t_philo *philo)
 {
 	int	i;
 
-	if (is_dead(ctx, philo))
-		return (false);
 	if (philo->id % 2 == 0)
 	{
 		i = current + 1;
@@ -56,7 +51,6 @@ bool	try_taking_second_fork(t_ctx *ctx, int current, t_philo *philo)
 		if (try_taking_fork(&philo->m_fork, &philo->fork))
 			print_fork_message(ctx, philo);
 	}
-	return (true);
 }
 
 void	put_forks_on_the_table(t_ctx *ctx, t_philo *philo)

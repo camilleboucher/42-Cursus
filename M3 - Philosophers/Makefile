@@ -27,7 +27,7 @@ ifeq ($(DEBUG),true)
     CFLAGS += -g
 endif
 ifeq ($(FSANITIZE), true)
-    CFLAGS += -fsanitize=address
+    CFLAGS += -fsanitize=thread
 endif
 
 SRC_DIR := src/
