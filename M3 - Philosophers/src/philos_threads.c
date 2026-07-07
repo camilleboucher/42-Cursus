@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 11:48:18 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/05 21:20:01 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/07 14:42:33 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,26 @@ static void	*routine(void *arg)
 {
 	t_philo	*philo;
 	t_ctx	*ctx;
+	bool	first_loop;
 
 	philo = (t_philo *) arg;
 	ctx = philo->ctx;
+	first_loop = true;
 	wait_for_synchro_start(ctx);
 	while (!end_simulation(ctx, philo))
 	{
 		if (is_dead(ctx, philo))
 			break ;
 		else if (philo->state == THINKING)
-			thinking(ctx, philo);
+			thinking(ctx, philo, &first_loop);
 		else if (philo->state == WAIT_FORK_1)
-			try_taking_first_fork(ctx, philo->id, philo);
+			try_taking_first_fork(ctx, philo, philo->n);
 		else if (philo->state == WAIT_FORK_2)
-			try_taking_second_fork(ctx, philo->id, philo);
-		else if (philo->state == EATING)
-			eating(ctx, philo);
+			try_taking_second_fork(ctx, philo, philo->n);
+		else if (philo->state == EATING && !eating(ctx, philo))
+			break ;
 		else if (philo->state == SLEEPING && !sleeping(ctx, philo))
 			break ;
-		usleep(10);
 	}
 	return (NULL);
 }

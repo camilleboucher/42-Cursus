@@ -35,7 +35,9 @@ You can also use a 5th optional argument for the number of times each philosophe
 
 # TODO
 
-1 ) surveiller la mort si timetodie < time to eat
+2h de boulot + 3h30 + (18h30)
+
+1) revoir rules de mickael et mettre le waitingrules dans le thinking
 
 2 ) si impair mickael dit quil fait un 3seme groupe avec un seul philo
 
@@ -43,7 +45,7 @@ si nb philo est pair et que cest la premiere boucle
 	usleep de timeeat pour le 2eme groupe (impair)
 
 si nb philo est impair :
-		if timetoeat >= timetosleep :
+		if timetoeat >= timetosleep : > seulement plutot que >= !!?
 			if philo est impair
 					usleep eat*1000
 			if philo = dernier	
@@ -53,3 +55,6 @@ si nb philo est impair :
 		else	
 			if boucle est la premiere et philo est impair
 				usleep eat 1000
+
+test quand timetoeat = 2x timetoslep
+3 610 200 100

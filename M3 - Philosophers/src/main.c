@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 16:39:18 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/05 21:06:57 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/07 16:48:04 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static bool	start_philo(int argc, char **argv)
 static bool	init_ctx(t_ctx *ctx, int argc, char **argv)
 {
 	ctx->nb_philos = atoi(argv[1]);
+	ctx->nb_philos_is_even = ((ctx->nb_philos & 1) == 0);
 	ctx->time_to_die = atoi(argv[2]);
 	ctx->time_to_eat = atoi(argv[3]);
 	ctx->time_to_sleep = atoi(argv[4]);
@@ -81,6 +82,9 @@ static bool	init_philos(t_ctx *ctx, t_philo **philos, int n)
 		n--;
 		philo = *philos + n;
 		philo->id = n;
+		philo->n = n + 1;
+		philo->is_even = ((n + 1 & 1) == 0);
+		philo->is_last = (n + 1 == ctx->nb_philos);
 		philo->state = THINKING;
 		philo->total_meals = 0;
 		pthread_mutex_init(&philo->m_fork, NULL);

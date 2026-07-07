@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/28 16:27:29 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/05 19:32:01 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/07 14:06:12 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ enum e_state
 typedef struct s_philo
 {
 	int				id;
+	int				n;
+	bool			is_even;
+	bool			is_last;
 	enum e_state	state;
 	struct timeval	hunger_death;
 	int				total_meals;
@@ -38,6 +41,7 @@ typedef struct s_philo
 typedef struct s_ctx
 {
 	int				nb_philos;
+	bool			nb_philos_is_even;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
