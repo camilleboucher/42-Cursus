@@ -22,4 +22,10 @@
 
 # define EXIT_BAD_ARGS 2
 
+# define THINKING_MSG "\x1b[38:5:82m%zu %d is thinking\x1b[0m\n"
+# define FORK_MSG "\x1b[38:5:214m%zu %d has taken a fork\x1b[0m\n"
+# define EATING_MSG "\x1b[38:5:213m%zu %d is eating\x1b[0m\n"
+# define SLEEPING_MSG "\x1b[38:5:50m%zu %d is sleeping\x1b[0m\n"
+# define DYING_MSG "\x1b[38:5:196m%zu %d died\x1b[0m\n"
+
 #endif

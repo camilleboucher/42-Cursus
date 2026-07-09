@@ -49,13 +49,13 @@ static bool	start_philo(int argc, char **argv)
 
 static bool	init_ctx(t_ctx *ctx, int argc, char **argv)
 {
-	ctx->nb_philos = atoi(argv[1]);
+	ctx->nb_philos = ft_atoi(argv[1]);
 	ctx->nb_philos_is_even = ((ctx->nb_philos & 1) == 0);
-	ctx->time_to_die = atoi(argv[2]);
-	ctx->time_to_eat = atoi(argv[3]);
-	ctx->time_to_sleep = atoi(argv[4]);
+	ctx->time_to_die = ft_atoi(argv[2]);
+	ctx->time_to_eat = ft_atoi(argv[3]);
+	ctx->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
-		ctx->nb_times_must_eat = atoi(argv[5]);
+		ctx->nb_times_must_eat = ft_atoi(argv[5]);
 	else
 		ctx->nb_times_must_eat = -1;
 	if (!check_limit_val(ctx, argc))
@@ -84,7 +84,6 @@ static bool	init_philos(t_ctx *ctx, t_philo **philos, int n)
 		philo->id = n;
 		philo->n = n + 1;
 		philo->is_even = ((n + 1 & 1) == 0);
-		philo->is_last = (n + 1 == ctx->nb_philos);
 		philo->state = THINKING;
 		philo->total_meals = 0;
 		pthread_mutex_init(&philo->m_fork, NULL);

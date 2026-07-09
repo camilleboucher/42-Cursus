@@ -4,7 +4,22 @@ _This project has been created as part of the 42 curriculum by cboucher._
 
 ## Description
 
+In this C project, we need to implement the Dining Philosophers problem using multithreading and mutexes. It is a problem introduced by Edsger Dijkstra in 1965. It depicts a table of philosophers who share forks to eat spaghetti. Its purpose is to illustrate the phenomenon of deadlock that can occur in a computer system when resources are shared, here represented by forks. It helps illustrate the conditions for deadlock, then find solutions to prevent it.
+
+This problem is mainly used in the study of process scheduling and resource allocation.
+
+Here, to represent this problem, the philo program will display in the terminal each change in a philosopher’s state, accompanied by a timestamp.
+
 ### Fundamental Concepts
+
+Through the functions provided by the pthread library, we learn how to manage thread synchronization to minimize concurrency issues and take advantage of parallelism. We also use resource management techniques via mutexes that help protect us against data races and deadlocks.
+It also requires careful handling of thread lifecycle, timing, and monitoring to ensure the simulation runs correctly and stops when needed.
+
+### Basic rules
+
+- Each philosopher is a thread.
+- Each philosopher has one fork protected by a mutex.
+- A philosopher can only take the forks to their left and right.
 
 ## Instructions
 
@@ -14,7 +29,7 @@ Use `make` or `make re` to compile the program. To clean generated files use `ma
 
 ### Usage
 
-To use the mandatory philo program, run philo with at least 4 numbers.
+To use the mandatory philo program, run philo with at least 4 numbers :
 number_of_philosophers time_to_die time_to_eat time_to_sleep
 
 Example : `./philo 5 800 200 200`
@@ -23,7 +38,11 @@ You can also use a 5th optional argument for the number of times each philosophe
 
 ## Technical Choices
 
-## Improvement Suggestions
+I chose to use a state machine for this project because I found it well suited to the task. Indeed, philosophers change states regularly, and this makes it possible to check their death quickly.
+
+I set a numerical limit of 120,000 for all program launch parameters because it represents 2 minutes and far exceeds the number of threads available on the system.
+
+To avoid congestion, I used a waiting system and an even/odd parity logic. In fact, odd philosophers eat first, then even philosophers.
 
 ## Resources
 
@@ -31,39 +50,3 @@ You can also use a 5th optional argument for the number of times each philosophe
 2.	Peer-to-peer learning.
 3.	man
 4.	Web research and AI chat for some notions.
-
-
-# TODO
-
-0 ) supprimer philo last de la struct puis des fichiers c
-
-1 ) retest sanitizer et helgrind
-
-2 ) readme
-
-3 ) norminette
-
-
-algo mickael:
-==============
-si nb philo est pair et que cest la premiere boucle
-	usleep de timeeat pour le 2eme groupe (impair)
-
-si nb philo est impair :
-		if timetoeat >= timetosleep : > seulement plutot que >= !!?
-			if philo est impair
-					usleep eat*1000
-			if philo = dernier	
-				usleep eat 1000 (+1 utile ou pas??)
-			if	boucle nest pas la premiere et que philo est  pair
-				usleep eat 1000
-		else	
-			if boucle est la premiere et philo est impair
-				usleep eat 1000
-
-test quand timetoeat = 2x timetoslep
-./philo 3 610 200 100
-
-./philo 5 800 200 200
-./philo 4 410 200 200
-./philo 2 610 200 100

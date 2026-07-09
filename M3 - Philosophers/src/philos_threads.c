@@ -104,7 +104,7 @@ static void	set_timestamps(t_ctx *ctx, t_philo *philos, int n)
 {
 	int	i;
 
-	ctx->started_timestamp = gettimeofday_in_ms(0);
+	ctx->start_timestamp = gettimeofday_in_ms(0);
 	i = 0;
 	while (i < n)
 	{
@@ -113,4 +113,3 @@ static void	set_timestamps(t_ctx *ctx, t_philo *philos, int n)
 		i++;
 	}
 }
-

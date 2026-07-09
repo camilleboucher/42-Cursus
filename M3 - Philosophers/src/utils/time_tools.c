@@ -28,7 +28,7 @@ void	add_milliseconds(struct timeval *tv, int ms_to_add)
 uint64_t	get_timestamp_in_ms(struct timeval *tv, uint64_t delta)
 {
 	return ((uint64_t)tv->tv_sec * 1000LL + (uint64_t)tv->tv_usec / 1000LL
-	- delta);
+		- delta);
 }
 
 uint64_t	gettimeofday_in_ms(uint64_t delta)

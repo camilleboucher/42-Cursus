@@ -28,7 +28,6 @@ typedef struct s_philo
 	int				id;
 	int				n;
 	bool			is_even;
-	bool			is_last;
 	enum e_state	state;
 	struct timeval	hunger_death;
 	int				total_meals;
@@ -46,7 +45,7 @@ typedef struct s_ctx
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nb_times_must_eat;
-	uint64_t		started_timestamp;
+	uint64_t		start_timestamp;
 	t_philo			*philos;
 	pthread_mutex_t	m_stdout;
 	pthread_mutex_t	m_start_end;

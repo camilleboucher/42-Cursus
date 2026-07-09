@@ -21,7 +21,7 @@ bool	is_dead(t_ctx *ctx, t_philo *philo)
 	hunger_death = get_timestamp_in_ms(&philo->hunger_death, 0);
 	if (gettimeofday_in_ms(0) > hunger_death)
 	{
-		hunger_death -= ctx->started_timestamp;
+		hunger_death -= ctx->start_timestamp;
 		philo->state = DIED;
 		pthread_mutex_lock(&ctx->m_start_end);
 		if (ctx->start_end)
@@ -32,7 +32,7 @@ bool	is_dead(t_ctx *ctx, t_philo *philo)
 		ctx->start_end = true;
 		pthread_mutex_unlock(&ctx->m_start_end);
 		pthread_mutex_lock(&ctx->m_stdout);
-		printf("%zu %d died\n", hunger_death, philo->n);//TODO:attention au 10ms de decallage ?
+		printf(DYING_MSG, hunger_death, philo->n);
 		pthread_mutex_unlock(&ctx->m_stdout);
 		return (true);
 	}
@@ -43,7 +43,7 @@ void	thinking(t_ctx *ctx, t_philo *philo, bool *first_loop)
 {
 	uint64_t	time;
 
-	time = gettimeofday_in_ms(ctx->started_timestamp);
+	time = gettimeofday_in_ms(ctx->start_timestamp);
 	philo->state = WAIT_FORK_1;
 	pthread_mutex_lock(&ctx->m_start_end);
 	if (ctx->start_end)
@@ -53,7 +53,7 @@ void	thinking(t_ctx *ctx, t_philo *philo, bool *first_loop)
 	}
 	pthread_mutex_unlock(&ctx->m_start_end);
 	pthread_mutex_lock(&ctx->m_stdout);
-	printf("%zu %d is thinking\n", time, philo->n);
+	printf(THINKING_MSG, time, philo->n);
 	pthread_mutex_unlock(&ctx->m_stdout);
 	waiting_rules(ctx, philo, first_loop);
 }
@@ -65,9 +65,9 @@ bool	eating(t_ctx *ctx, t_philo *philo)
 	gettimeofday(&philo->hunger_death, NULL);
 	add_milliseconds(&philo->hunger_death, ctx->time_to_die);
 	philo->total_meals++;
-	time = gettimeofday_in_ms(ctx->started_timestamp);
+	time = gettimeofday_in_ms(ctx->start_timestamp);
 	if (time + ctx->time_to_eat
-		> get_timestamp_in_ms(&philo->hunger_death, ctx->started_timestamp))
+		> get_timestamp_in_ms(&philo->hunger_death, ctx->start_timestamp))
 		philo->state = DIED;
 	else
 		philo->state = SLEEPING;
@@ -79,7 +79,7 @@ bool	eating(t_ctx *ctx, t_philo *philo)
 	}
 	pthread_mutex_unlock(&ctx->m_start_end);
 	pthread_mutex_lock(&ctx->m_stdout);
-	printf("%zu %d is eating\n", time, philo->n);
+	printf(EATING_MSG, time, philo->n);
 	pthread_mutex_unlock(&ctx->m_stdout);
 	if (isdead_and_manage_usleep(ctx, philo))
 		return (false);
@@ -91,9 +91,9 @@ bool	sleeping(t_ctx *ctx, t_philo *philo)
 {
 	uint64_t	time;
 
-	time = gettimeofday_in_ms(ctx->started_timestamp);
+	time = gettimeofday_in_ms(ctx->start_timestamp);
 	if (time + ctx->time_to_sleep
-		> get_timestamp_in_ms(&philo->hunger_death, ctx->started_timestamp))
+		> get_timestamp_in_ms(&philo->hunger_death, ctx->start_timestamp))
 		philo->state = DIED;
 	else
 		philo->state = THINKING;
@@ -105,7 +105,7 @@ bool	sleeping(t_ctx *ctx, t_philo *philo)
 	}
 	pthread_mutex_unlock(&ctx->m_start_end);
 	pthread_mutex_lock(&ctx->m_stdout);
-	printf("%zu %d is sleeping\n", time, philo->n);
+	printf(SLEEPING_MSG, time, philo->n);
 	pthread_mutex_unlock(&ctx->m_stdout);
 	if (isdead_and_manage_usleep(ctx, philo))
 		return (false);
@@ -118,9 +118,9 @@ static bool	isdead_and_manage_usleep(t_ctx *ctx, t_philo *philo)
 
 	if (philo->state == DIED)
 	{
-		time = get_timestamp_in_ms(&philo->hunger_death, ctx->started_timestamp);
-		while (gettimeofday_in_ms(ctx->started_timestamp) < time)
-			usleep(10);//WARN: usleep necessaire pour eviter surchage CPU ?
+		time = get_timestamp_in_ms(&philo->hunger_death, ctx->start_timestamp);
+		while (gettimeofday_in_ms(ctx->start_timestamp) < time)
+			usleep(10);
 		pthread_mutex_lock(&ctx->m_start_end);
 		if (ctx->start_end)
 		{
@@ -130,7 +130,7 @@ static bool	isdead_and_manage_usleep(t_ctx *ctx, t_philo *philo)
 		ctx->start_end = true;
 		pthread_mutex_unlock(&ctx->m_start_end);
 		pthread_mutex_lock(&ctx->m_stdout);
-		printf("%zu %d died\n", time, philo->n);//TODO:attention au 10ms de decallage ?
+		printf(DYING_MSG, time, philo->n);
 		pthread_mutex_unlock(&ctx->m_stdout);
 		return (true);
 	}

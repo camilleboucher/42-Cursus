@@ -15,13 +15,11 @@
 void	waiting_rules(t_ctx *ctx, t_philo *philo, bool *first_loop)
 {
 	if (*first_loop && ctx->nb_philos_is_even && philo->is_even)
-		usleep(ctx->time_to_eat * 1000);
+		usleep(30000);
 	else if (!ctx->nb_philos_is_even)
 	{
 		if (ctx->time_to_eat >= ctx->time_to_sleep)
 		{
-			//if (*first_loop && philo->is_last)
-				//usleep(ctx->time_to_eat * 1000 + 1);
 			if (philo->is_even)
 				usleep(ctx->time_to_eat * 1000);
 			else if (!*first_loop)

@@ -26,7 +26,8 @@ void	try_taking_first_fork(t_ctx *ctx, t_philo *philo, int next_n)
 	{
 		if (next_n == ctx->nb_philos)
 			next_n = 0;
-		if (try_taking_fork(&ctx->philos[next_n].m_fork, &ctx->philos[next_n].fork))
+		if (try_taking_fork(&ctx->philos[next_n].m_fork,
+				&ctx->philos[next_n].fork))
 			print_fork_message(ctx, philo);
 	}
 }
@@ -37,7 +38,8 @@ void	try_taking_second_fork(t_ctx *ctx, t_philo *philo, int next_n)
 	{
 		if (next_n == ctx->nb_philos)
 			next_n = 0;
-		if (try_taking_fork(&ctx->philos[next_n].m_fork, &ctx->philos[next_n].fork))
+		if (try_taking_fork(&ctx->philos[next_n].m_fork,
+				&ctx->philos[next_n].fork))
 			print_fork_message(ctx, philo);
 	}
 	else
@@ -81,7 +83,7 @@ static void	print_fork_message(t_ctx *ctx, t_philo *philo)
 {
 	uint64_t	time;
 
-	time = gettimeofday_in_ms(ctx->started_timestamp);
+	time = gettimeofday_in_ms(ctx->start_timestamp);
 	philo->state++;
 	pthread_mutex_lock(&ctx->m_start_end);
 	if (ctx->start_end)
@@ -91,6 +93,6 @@ static void	print_fork_message(t_ctx *ctx, t_philo *philo)
 	}
 	pthread_mutex_unlock(&ctx->m_start_end);
 	pthread_mutex_lock(&ctx->m_stdout);
-	printf("%zu %d has taken a fork\n", time, philo->n);
+	printf(FORK_MSG, time, philo->n);
 	pthread_mutex_unlock(&ctx->m_stdout);
 }
