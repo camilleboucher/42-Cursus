@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/07 10:41:27 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/07 17:48:27 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/07 21:07:00 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	waiting_rules(t_ctx *ctx, t_philo *philo, bool *first_loop)
 	{
 		if (ctx->time_to_eat >= ctx->time_to_sleep)
 		{
-			if (*first_loop && philo->is_last)
-				usleep(ctx->time_to_eat * 1000 + 1);
+			//if (*first_loop && philo->is_last)
+				//usleep(ctx->time_to_eat * 1000 + 1);
 			if (philo->is_even)
 				usleep(ctx->time_to_eat * 1000);
 			else if (!*first_loop)

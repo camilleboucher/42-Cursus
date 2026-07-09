@@ -35,12 +35,17 @@ You can also use a 5th optional argument for the number of times each philosophe
 
 # TODO
 
-2h de boulot + 3h30 + (18h30)
+0 ) supprimer philo last de la struct puis des fichiers c
 
-1) revoir rules de mickael et mettre le waitingrules dans le thinking
+1 ) retest sanitizer et helgrind
 
-2 ) si impair mickael dit quil fait un 3seme groupe avec un seul philo
+2 ) readme
 
+3 ) norminette
+
+
+algo mickael:
+==============
 si nb philo est pair et que cest la premiere boucle
 	usleep de timeeat pour le 2eme groupe (impair)
 
@@ -57,4 +62,8 @@ si nb philo est impair :
 				usleep eat 1000
 
 test quand timetoeat = 2x timetoslep
-3 610 200 100
+./philo 3 610 200 100
+
+./philo 5 800 200 200
+./philo 4 410 200 200
+./philo 2 610 200 100
