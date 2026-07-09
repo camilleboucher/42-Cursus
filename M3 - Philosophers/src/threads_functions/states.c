@@ -6,7 +6,7 @@
 /*   By: cboucher <private_mail>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 14:47:57 by cboucher          #+#    #+#             */
-/*   Updated: 2026/07/07 21:20:51 by cboucher         ###   ########.fr       */
+/*   Updated: 2026/07/09 18:51:02 by cboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,16 @@ bool	is_dead(t_ctx *ctx, t_philo *philo)
 	{
 		hunger_death -= ctx->start_timestamp;
 		philo->state = DIED;
+		pthread_mutex_lock(&ctx->m_stdout);
 		pthread_mutex_lock(&ctx->m_start_end);
 		if (ctx->start_end)
 		{
 			pthread_mutex_unlock(&ctx->m_start_end);
+			pthread_mutex_unlock(&ctx->m_stdout);
 			return (false);
 		}
 		ctx->start_end = true;
 		pthread_mutex_unlock(&ctx->m_start_end);
-		pthread_mutex_lock(&ctx->m_stdout);
 		printf(DYING_MSG, hunger_death, philo->n);
 		pthread_mutex_unlock(&ctx->m_stdout);
 		return (true);
@@ -45,14 +46,15 @@ void	thinking(t_ctx *ctx, t_philo *philo, bool *first_loop)
 
 	time = gettimeofday_in_ms(ctx->start_timestamp);
 	philo->state = WAIT_FORK_1;
+	pthread_mutex_lock(&ctx->m_stdout);
 	pthread_mutex_lock(&ctx->m_start_end);
 	if (ctx->start_end)
 	{
 		pthread_mutex_unlock(&ctx->m_start_end);
+		pthread_mutex_unlock(&ctx->m_stdout);
 		return ;
 	}
 	pthread_mutex_unlock(&ctx->m_start_end);
-	pthread_mutex_lock(&ctx->m_stdout);
 	printf(THINKING_MSG, time, philo->n);
 	pthread_mutex_unlock(&ctx->m_stdout);
 	waiting_rules(ctx, philo, first_loop);
@@ -71,14 +73,13 @@ bool	eating(t_ctx *ctx, t_philo *philo)
 		philo->state = DIED;
 	else
 		philo->state = SLEEPING;
-	pthread_mutex_lock(&ctx->m_start_end);
+	lock_stdout_and_startend(ctx);
 	if (ctx->start_end)
 	{
-		pthread_mutex_unlock(&ctx->m_start_end);
+		unlock_stdout_and_startend(ctx);
 		return (false);
 	}
 	pthread_mutex_unlock(&ctx->m_start_end);
-	pthread_mutex_lock(&ctx->m_stdout);
 	printf(EATING_MSG, time, philo->n);
 	pthread_mutex_unlock(&ctx->m_stdout);
 	if (isdead_and_manage_usleep(ctx, philo))
@@ -97,14 +98,15 @@ bool	sleeping(t_ctx *ctx, t_philo *philo)
 		philo->state = DIED;
 	else
 		philo->state = THINKING;
+	pthread_mutex_lock(&ctx->m_stdout);
 	pthread_mutex_lock(&ctx->m_start_end);
 	if (ctx->start_end)
 	{
 		pthread_mutex_unlock(&ctx->m_start_end);
+		pthread_mutex_unlock(&ctx->m_stdout);
 		return (false);
 	}
 	pthread_mutex_unlock(&ctx->m_start_end);
-	pthread_mutex_lock(&ctx->m_stdout);
 	printf(SLEEPING_MSG, time, philo->n);
 	pthread_mutex_unlock(&ctx->m_stdout);
 	if (isdead_and_manage_usleep(ctx, philo))
@@ -121,15 +123,14 @@ static bool	isdead_and_manage_usleep(t_ctx *ctx, t_philo *philo)
 		time = get_timestamp_in_ms(&philo->hunger_death, ctx->start_timestamp);
 		while (gettimeofday_in_ms(ctx->start_timestamp) < time)
 			usleep(10);
-		pthread_mutex_lock(&ctx->m_start_end);
+		lock_stdout_and_startend(ctx);
 		if (ctx->start_end)
 		{
-			pthread_mutex_unlock(&ctx->m_start_end);
+			unlock_stdout_and_startend(ctx);
 			return (true);
 		}
 		ctx->start_end = true;
 		pthread_mutex_unlock(&ctx->m_start_end);
-		pthread_mutex_lock(&ctx->m_stdout);
 		printf(DYING_MSG, time, philo->n);
 		pthread_mutex_unlock(&ctx->m_stdout);
 		return (true);

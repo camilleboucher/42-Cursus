@@ -85,14 +85,15 @@ static void	print_fork_message(t_ctx *ctx, t_philo *philo)
 
 	time = gettimeofday_in_ms(ctx->start_timestamp);
 	philo->state++;
+	pthread_mutex_lock(&ctx->m_stdout);
 	pthread_mutex_lock(&ctx->m_start_end);
 	if (ctx->start_end)
 	{
 		pthread_mutex_unlock(&ctx->m_start_end);
+		pthread_mutex_unlock(&ctx->m_stdout);
 		return ;
 	}
 	pthread_mutex_unlock(&ctx->m_start_end);
-	pthread_mutex_lock(&ctx->m_stdout);
 	printf(FORK_MSG, time, philo->n);
 	pthread_mutex_unlock(&ctx->m_stdout);
 }
