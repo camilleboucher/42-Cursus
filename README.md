@@ -7,7 +7,7 @@ Most projects at 42 require working with the fewest possible libraries to minimi
 
 The projects are organized in concentric circles called Milestone. The further you progress into the milestones, the greater the difficulty and the more advanced the concepts required.
 
-## Libft (The Core)
+## Libft (The Core, C lang)
 
 This first project is the spiritual successor to the famous C piscine at 42. We must recreate parts of the C standard library (`glibc`). We gain an initial understanding of UNIX/POSIX system calls, memory management, and fundamental basic concepts in C programming.
 
@@ -47,6 +47,10 @@ One of my favorite projects so far. We need to simulate bash pipes, meaning we m
 
 This is the first major project in the common core curriculum that we have to complete in pairs. It lasts about a month, maybe more. This project consists of writing a mini-equivalent to a shell similar to bash. The code is still in C, using the syscalls we've seen so far plus a few new ones.
 We also strengthen soft skills even more with this project, such as communication, teamwork, task distribution, mutual support, and organization.
+
+### Philosophers
+
+In this project, we need to implement the Dining Philosophers problem using multithreading and mutexes. This problem is mainly used in the study of process scheduling and resource allocation.
 
 ## My Best Ressources
 
